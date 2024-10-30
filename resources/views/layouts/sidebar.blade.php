@@ -121,11 +121,16 @@
                             <a href="{{url('/report-deliveryday')}}" key="t-vertical">การจัดส่ง</a>
                         </li>
                     </ul>
-                    {{-- <ul class="sub-menu" aria-expanded="true">
+                    <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="#" key="t-vertical">สต็อคคงเหลือ</a>                           
+                            <a href="#" key="t-vertical">การรับเข้า</a>                           
                         </li>
-                    </ul> --}}
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('/report-warehouse')}}" key="t-vertical">การเบิก</a>                           
+                        </li>
+                    </ul>
                 </li>                                             
                 <li class="menu-title" key="t-pages">Setting</li>   
                 <li>

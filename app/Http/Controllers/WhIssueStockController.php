@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -177,5 +178,17 @@ class WhIssueStockController extends Controller
         $result = file_get_contents(LINE_API, FALSE, $context);
         $res = json_decode($result);
         return $res;
+    }
+    public function ReportWarehouse(Request $request)
+    {
+        $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-3 month", strtotime($dateend)));
+        $hd = DB::table('vw_whissuestock_report')
+        ->whereBetween('wh_issuestock_hd_date', [$datestart, $dateend])
+        ->get();
+        $groupedByMonthYear = $hd->groupBy(function($item) {
+            return Carbon::parse($item->wh_issuestock_hd_date)->format('Y-m');
+        })->toArray();
+        return view('report.form-warehouse-report', compact('hd','dateend','datestart','groupedByMonthYear'));
     }
 }

@@ -208,7 +208,16 @@ class PurchaseRequestController extends Controller
             );
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
-        }           
+        }  
+        else {
+            $up = DB::table('pur_purchaserequest_hd')
+            ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
+            ->update([
+                'pur_purchaserequest_status_id' => $request->approved_status,
+            ]);
+            DB::commit();
+            return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
+        }         
         }catch(\Exception $e){
             Log::error($e->getMessage());
             dd($e->getMessage());

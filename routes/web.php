@@ -49,6 +49,7 @@ Route::post('/confirmDelAse' , [App\Http\Controllers\ExpensesOrderController::cl
 // PUR //
 // STOCK RM //
 Route::resource('/wh-issue' , App\Http\Controllers\WhIssueStockController::class);
+Route::get('/report-warehouse' , [App\Http\Controllers\WhIssueStockController::class , 'ReportWarehouse']);
 Route::resource('/wh-adjust' , App\Http\Controllers\WhAjustStockController::class);
 // STOCK RM //
 // REPORT //

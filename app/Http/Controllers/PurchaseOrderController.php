@@ -149,8 +149,8 @@ class PurchaseOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "เลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-                . "วันที่ดำเนินการ : " . Carbon::now() ."\n"
-                . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
+                . "วันที่ตรวจสอบ : " . Carbon::now() ."\n"
+                . "ผู้ตรวจสอบ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
                 . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaseorder_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
@@ -176,8 +176,8 @@ class PurchaseOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "เลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-                . "วันที่ดำเนินการ : " . Carbon::now() ."\n"
-                . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
+                . "วันที่อนุมัติ : " . Carbon::now() ."\n"
+                . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
                 . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaseorder_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
@@ -204,8 +204,8 @@ class PurchaseOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "เลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-                . "วันที่ดำเนินการ : " . Carbon::now() ."\n"
-                . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
+                . "วันที่รับทราบ : " . Carbon::now() ."\n"
+                . "ผู้รับทราบ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
                 . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaseorder_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
@@ -215,6 +215,15 @@ class PurchaseOrderController extends Controller
                 // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
                 );
                 $res = $this->notify_message($params, $token);
+                return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
+            }
+            else{
+                $up = DB::table('pur_purchaseorder_hd')
+                ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
+                ->update([
+                    'pur_purchaseorder_status_id' => $request->approved_status
+                ]);
+                DB::commit();
                 return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
         }catch(\Exception $e){

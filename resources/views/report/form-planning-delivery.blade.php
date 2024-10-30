@@ -77,8 +77,7 @@
     </form>
     <br>
         <h4 class="card-title">แผนจัดส่งประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h4>   
-        <div style="overflow-x:auto;">
-           
+        <div style="overflow-x:auto;">         
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -129,6 +128,8 @@
                    @endforeach
                 </tbody>
             </table>
+        </div>
+        <div style="overflow-x:auto;">      
         <h5>กำลังการผลิตประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h5>
         <table class="table table-bordered">
            <thead>
@@ -430,6 +431,8 @@
             @endforeach
            </tbody>
         </table>
+        </div>
+        <div style="overflow-x:auto;">      
         <h5>แผนการผลิตประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h5>
         <table class="table table-bordered">
             <thead>

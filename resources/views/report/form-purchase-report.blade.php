@@ -38,18 +38,18 @@
         </form>
         <br>
         <div class="row">
-            <canvas id="myDonutChart" width="400" height="400"></canvas>
+            <canvas id="myDonutChart" width="400" height="400"></canvas>         
             <table id="tb_job1" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>แผนก</th>
+                        <th>จัดสรร</th>
                         <th>ยอดเงิน</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php
                         $totalAmount = 0;
-                        $groupedHd = $hd->groupBy('emp_department_name');
+                        $groupedHd = $hd->groupBy('ms_allocate_name');
                     @endphp
             
                     @foreach ($groupedHd as $departmentName => $items)
@@ -74,6 +74,7 @@
         <h3 class="card-title text-center">แยกตามประเภทสินค้า</h3>
         <div class="row">            
             <canvas id="myColumnChart"></canvas>
+            <div style="overflow-x:auto;">   
             <table id="tb_job2" class="table table-bordered">
                 <thead>
                     <tr>
@@ -114,14 +115,16 @@
                     </tr>
                 </tfoot>
             </table>
+            </div>
         </div>
         <hr>
-        <h3 class="card-title text-center">แยกตามจัดสรร</h3>
+        <h3 class="card-title text-center">แยกตามแผนก</h3>
         <div class="row">
+            <div style="overflow-x:auto;">   
             <table id="tb_job3" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>จัดสรร</th>
+                        <th>แผนก</th>
                         @foreach ($groupedByMonthYear as $monthYear => $monthItems)
                             <th>{{ $monthYear }}</th>
                         @endforeach
@@ -130,7 +133,7 @@
                 <tbody>
                     @php
                         $totalAmount = 0;
-                        $groupedAllocate = $hd->groupBy('ms_allocate_name');
+                        $groupedAllocate = $hd->groupBy('emp_department_name');
                     @endphp
             
                     @foreach ($groupedAllocate as $AllocateName => $items)
@@ -158,10 +161,12 @@
                     </tr>
                 </tfoot>
             </table>
+            </div>
         </div>
         <hr>
         <h3 class="card-title text-center">แยกตามผู้จำหน่าย</h3>
         <div class="row">
+            <div style="overflow-x:auto;">   
             <table id="tb_job4" class="table table-bordered">
                 <thead>
                     <tr>
@@ -202,10 +207,12 @@
                     </tr>
                 </tfoot>
             </table>
+            </div>
         </div>
         <hr>
         <h3 class="card-title text-center">แยกตามสินค้า</h3>
         <div class="row">
+            <div style="overflow-x:auto;">   
             <table id="tb_job5" class="table table-bordered">
                 <thead>
                     <tr>
@@ -246,6 +253,7 @@
                     </tr>
                 </tfoot>
             </table>
+            </div>
         </div>
     </div>
 </div>
