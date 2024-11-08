@@ -59,5 +59,6 @@ Route::get('/report-planningpdmonth' , [App\Http\Controllers\DashboardController
 Route::get('/report-planningpdyear' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdYear']);
 Route::get('/report-planningpdday' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdDay']);
 Route::get('/report-deliveryday' , [App\Http\Controllers\DashboardController::class , 'ReportDeliveryDay']);
+Route::get('/report-receiveday' , [App\Http\Controllers\DashboardController::class , 'ReportReceiveDay']);
 // REPORT //
 

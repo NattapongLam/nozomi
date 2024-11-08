@@ -64,6 +64,10 @@
                             <span class="badge bg-warning"> {{$item->pur_purchaserequest_status_name}}</span>
                             @elseif($item->pur_purchaserequest_status_id == 7)
                             <span class="badge bg-success"> {{$item->pur_purchaserequest_status_name}}</span>
+                            @elseif($item->pur_purchaserequest_status_id == 8)
+                            <span class="badge bg-success"> {{$item->pur_purchaserequest_status_name}}</span>
+                            @elseif($item->pur_purchaserequest_status_id == 9)
+                            <span class="badge bg-success"> {{$item->pur_purchaserequest_status_name}}</span>
                             @endif                        
                         </td>
                         <td>{{$item->pur_purchaserequest_hd_docuno}}</td>

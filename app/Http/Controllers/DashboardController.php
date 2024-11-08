@@ -229,4 +229,19 @@ class DashboardController extends Controller
         return view('report.form-delivery-day', compact('dateend','datestart','hd','groupedByDay'));
 
     }
+    public function ReportReceiveDay(Request $request)
+    {
+        $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-7 day", strtotime($dateend)));
+        $hd = DB::table('vw_fgreceive_report')
+        ->whereBetween('fg_receiveproduct_hd_date', [$datestart, $dateend])
+        ->get();
+        $groupedByDay = $hd->groupBy('fg_receiveproduct_hd_date')->toArray();
+        $hd1 = DB::table('vw_pureceive_report')
+        ->whereBetween('wh_receivepu_hd_date', [$datestart, $dateend])
+        ->get();
+        $groupedByDay1 = $hd1->groupBy('wh_receivepu_hd_date')->toArray();
+        return view('report.form-receive-report', compact('dateend','datestart','hd','groupedByDay','hd1','groupedByDay1'));
+
+    }
 }

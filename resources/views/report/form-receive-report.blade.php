@@ -20,7 +20,7 @@
             @csrf
         <div class="row">            
             <div class="col-12 col-md-3">
-                <h3 class="card-title">การส่งสินค้าประจำวัน</h3>
+                <h3 class="card-title">รายงานการรับเข้า</h3>
             </div>
             <div class="col-12 col-md-3">
                 วันที่ :<input type="date" class="form-control" id="datestart" name="datestart" value="{{ $datestart }}">
@@ -36,9 +36,10 @@
             </div>
         </div>
         </form>
-        <br>
+        <hr>
         <div style="overflow-x:auto;">
-           <table id="tb_job" class="table table-bordered">
+            <h3 class="card-title text-center">รับเข้าสินค้าจากการผลิต</h3>
+            <table id="tb_job1" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Model/Product</th>
@@ -46,7 +47,7 @@
                     <th>{{ $Days }}</th>
                 @endforeach
                 </tr>
-            </thead>            
+            </thead>          
             <tbody>
                 @php
                     $totalAmount = 0;
@@ -58,8 +59,40 @@
                         <td>{{ $MpdName }}</td>
                         @foreach ($groupedByDay as $Days => $dayItems)
                             @php
-                                $dayTotal = $items->whereIn('date', collect($dayItems)->pluck('date'))
-                                                     ->sum('qty');
+                                $dayTotal = $items->whereIn('fg_receiveproduct_hd_date', collect($dayItems)->pluck('fg_receiveproduct_hd_date'))
+                                                     ->sum('fg_receiveproduct_dt_qty');
+                            @endphp
+                            <td>{{ number_format($dayTotal, 2) }}</td>
+                        @endforeach
+                    </tr>
+                @endforeach
+            </tbody>
+           </table>
+        </div>
+        <div style="overflow-x:auto;">
+            <h3 class="card-title text-center">รับเข้า PU</h3>
+            <table id="tb_job2" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    @foreach ($groupedByDay1 as $Days => $dayItems)
+                    <th>{{ $Days }}</th>
+                @endforeach
+                </tr>
+            </thead>          
+            <tbody>
+                @php
+                    $totalAmount = 0;
+                    $groupedMpd = $hd1->groupBy('productcode');
+                @endphp
+        
+                @foreach ($groupedMpd as $MpdName => $items)
+                    <tr>
+                        <td>{{ $MpdName }}</td>
+                        @foreach ($groupedByDay1 as $Days => $dayItems)
+                            @php
+                                $dayTotal = $items->whereIn('wh_receivepu_hd_date', collect($dayItems)->pluck('wh_receivepu_hd_date'))
+                                                     ->sum('wh_receivepu_dt_qty');
                             @endphp
                             <td>{{ number_format($dayTotal, 2) }}</td>
                         @endforeach
@@ -75,7 +108,20 @@
 @push('scriptjs')
 <script>
 $(document).ready(function() {
-    $('#tb_job').DataTable({
+    $('#tb_job1').DataTable({
+        "pageLength": 20,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+    ],
+    "order": [[ 0, "asc" ]],        
+    })
+});
+$(document).ready(function() {
+    $('#tb_job2').DataTable({
         "pageLength": 20,
         "lengthMenu": [
             [10, 25, 50, -1],

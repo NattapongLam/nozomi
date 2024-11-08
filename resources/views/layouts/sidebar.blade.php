@@ -123,7 +123,7 @@
                     </ul>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="#" key="t-vertical">การรับเข้า</a>                           
+                            <a href="{{url('/report-receiveday')}}" key="t-vertical">การรับเข้า</a>                           
                         </li>
                     </ul>
                     <ul class="sub-menu" aria-expanded="true">

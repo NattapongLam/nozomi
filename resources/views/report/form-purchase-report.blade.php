@@ -216,7 +216,7 @@
             <table id="tb_job5" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>ผู้จำหน่าย</th>
+                        <th>สินค้า</th>
                         @foreach ($groupedByMonthYear as $monthYear => $monthItems)
                             <th>{{ $monthYear }}</th>
                         @endforeach
