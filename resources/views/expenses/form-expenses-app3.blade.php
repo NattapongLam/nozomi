@@ -68,6 +68,12 @@
                             <span class="badge bg-warning"> {{$item->pur_expenses_status_name}}</span>
                             @elseif($item->pur_expenses_status_id == 7)
                             <span class="badge bg-success"> {{$item->pur_expenses_status_name}}</span>
+                            @elseif($item->pur_expenses_status_id == 8)
+                            <span class="badge bg-success"> {{$item->pur_expenses_status_name}}</span>
+                            @elseif($item->pur_expenses_status_id == 9)
+                            <span class="badge bg-success"> {{$item->pur_expenses_status_name}}</span>
+                            @elseif($item->pur_expenses_status_id == 3 || $item->pur_expenses_status_id == 4)
+                            <span class="badge bg-secondary"> {{$item->pur_expenses_status_name}}</span>
                             @endif         
                         </td>
                         <td>{{$item->pur_expenses_hd_docuno}}</td>
@@ -148,7 +154,15 @@ $(document).ready(function() {
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
+        ],
+        columnDefs: [{
+                targets: 1,
+                type: 'time-date-sort'
+            }],
+        order: [
+            [1, "asc"],
+            [0, "desc"],           
+        ],
     })
 });
 getDataAse = (id) => {
