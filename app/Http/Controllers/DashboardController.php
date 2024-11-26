@@ -241,7 +241,11 @@ class DashboardController extends Controller
         ->whereBetween('wh_receivepu_hd_date', [$datestart, $dateend])
         ->get();
         $groupedByDay1 = $hd1->groupBy('wh_receivepu_hd_date')->toArray();
-        return view('report.form-receive-report', compact('dateend','datestart','hd','groupedByDay','hd1','groupedByDay1'));
+        $hd2 = DB::table('vw_whreceive_report')
+        ->whereBetween('wh_receiveproduct_hd_date', [$datestart, $dateend])
+        ->get();
+        $groupedByDay2 = $hd2->groupBy('wh_receiveproduct_hd_date')->toArray();
+        return view('report.form-receive-report', compact('dateend','datestart','hd','groupedByDay','hd1','groupedByDay1','hd2','groupedByDay2'));
 
     }
 }

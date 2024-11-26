@@ -101,6 +101,38 @@
             </tbody>
            </table>
         </div>
+        <div style="overflow-x:auto;">
+            <h3 class="card-title text-center">รับเข้าสินค้า</h3>
+            <table id="tb_job2" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    @foreach ($groupedByDay2 as $Days => $dayItems)
+                    <th>{{ $Days }}</th>
+                @endforeach
+                </tr>
+            </thead>          
+            <tbody>
+                @php
+                    $totalAmount = 0;
+                    $groupedMpd = $hd2->groupBy('pd_product_name1');
+                @endphp
+        
+                @foreach ($groupedMpd as $MpdName => $items)
+                    <tr>
+                        <td>{{ $MpdName }}</td>
+                        @foreach ($groupedByDay2 as $Days => $dayItems)
+                            @php
+                                $dayTotal = $items->whereIn('wh_receiveproduct_hd_date', collect($dayItems)->pluck('wh_receiveproduct_hd_date'))
+                                                     ->sum('wh_receiveproduct_dt_qty');
+                            @endphp
+                            <td>{{ number_format($dayTotal, 2) }}</td>
+                        @endforeach
+                    </tr>
+                @endforeach
+            </tbody>
+           </table>
+        </div>
     </div>
 </div>
 </div>

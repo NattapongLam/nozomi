@@ -55,7 +55,7 @@
                         <tbody>
                             @php
                                 $totalAmount = 0;
-                                $groupedProduct = $hd->groupBy('productcode');
+                                $groupedProduct = $hd->groupBy('pd_product_name1');
                             @endphp
                     
                             @foreach ($groupedProduct as $productName => $items)
@@ -86,7 +86,6 @@
                 </div>               
             </div>
             <div class="col-12">
-                <canvas id="myBarChart" width="800" height="400"></canvas>
                 <h3 class="card-title text-center">แยกตามประเภท (มูลค่า)</h3>
                 <div style="overflow-x:auto;">   
                     <table id="tb_job2" class="table table-bordered">
@@ -232,66 +231,6 @@ $(document).ready(function() {
                 'excel',
         ]
     })
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const ctx = document.getElementById('myBarChart').getContext('2d');
-
-    // ข้อมูลประเภทสินค้าและยอดรวมตามเดือนจาก PHP
-    const productTypeNames = @json($groupedType->keys());  // รายชื่อประเภทสินค้า
-    const monthLabels = @json($groupedByMonthYear->keys());  // รายชื่อเดือน-ปี
-
-    // จัดเตรียมข้อมูลยอดเงินรวมของแต่ละประเภทในแต่ละเดือน
-    const datasetData = productTypeNames.map((typeName) => {
-        return {
-            label: typeName,
-            data: monthLabels.map((monthYear) => {
-                const monthItems = $groupedByMonthYear[monthYear] || [];
-                return $groupedType[typeName].whereIn('wh_issuestock_hd_date', monthItems.map(item => item.wh_issuestock_hd_date)).sum('totalcost');
-            }),
-            backgroundColor: `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, 0.5)`,
-            borderColor: `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, 1)`,
-            borderWidth: 1
-        };
-    });
-
-    // สร้างกราฟ Bar Chart
-    const myBarChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: monthLabels,  // เดือน-ปี
-            datasets: datasetData  // ข้อมูลยอดเงินตามประเภทและเดือน
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'เดือน-ปี'
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'ยอดเงินรวม (บาท)'
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'top'
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return `${context.dataset.label}: ${context.raw.toLocaleString()} บาท`;
-                        }
-                    }
-                }
-            }
-        }
-    });
 });
 </script>
 @endpush
