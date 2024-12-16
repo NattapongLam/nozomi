@@ -40,6 +40,15 @@
                             </ul>
                         </li>
                     </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow" key="t-vertical">อนุมัติปิดเอกสารสั่งซื้อ</a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('/po-approvedclose1') }}" key="t-default">ผู้ตรวจสอบ</a></li> 
+                                <li><a href="{{ url('/po-approvedclose2') }}" key="t-default">ผู้อนุมัติ</a></li> 
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">

@@ -36,6 +36,8 @@ Route::resource('/pur-po' , App\Http\Controllers\PurchaseOrderController::class)
 Route::get('/po-approved1' , [App\Http\Controllers\PurchaseOrderController::class , 'ApprovedPo1']);
 Route::get('/po-approved2' , [App\Http\Controllers\PurchaseOrderController::class , 'ApprovedPo2']);
 Route::get('/po-approved3' , [App\Http\Controllers\PurchaseOrderController::class , 'ApprovedPo3']);
+Route::get('/po-approvedclose1' , [App\Http\Controllers\PurchaseOrderController::class , 'ApprovedPoClose1']);
+Route::get('/po-approvedclose2' , [App\Http\Controllers\PurchaseOrderController::class , 'ApprovedPoClose2']);
 Route::post('/getDataPo' , [App\Http\Controllers\PurchaseOrderController::class , 'getDataPo']);
 Route::post('/confirmDelPo' , [App\Http\Controllers\PurchaseOrderController::class , 'confirmDelPo']);
 Route::get('/report-pooutstanding' , [App\Http\Controllers\PurchaseOrderController::class , 'ReportPoOutstanding']);

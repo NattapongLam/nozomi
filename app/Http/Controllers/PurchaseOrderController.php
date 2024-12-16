@@ -219,6 +219,58 @@ class PurchaseOrderController extends Controller
                     return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
                 }               
             }
+            elseif ($hd->pur_purchaseorder_status_id == 10 && $hd->approvedclose1_code == null) {
+                $up = DB::table('pur_purchaseorder_hd')
+                ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
+                ->update([
+                    'approvedclose1_date' => Carbon::now(),
+                    'approvedclose1_code' => Auth::user()->emp_person_code,
+                    'approvedclose1_note' => $request->approved_remark,
+                ]);
+                DB::commit();
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+                $params = array(
+                "message"        => "ปิดเลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
+                . "วันที่อนุมัติ : " . Carbon::now() ."\n"
+                . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
+                . "หมายเหตุ : " . $request->approved_remark ."\n"
+                . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
+                . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaseorder_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+                "stickerPkg"     => 8522, //stickerPackageId
+                "stickerId"      => 16581281, //stickerId
+                // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+                // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+                );
+                $res = $this->notify_message($params, $token);
+                return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
+            }
+            elseif ($hd->pur_purchaseorder_status_id == 10 && $hd->approvedclose1_code <> null && $hd->approvedclose2_code == null) {
+                $up = DB::table('pur_purchaseorder_hd')
+                ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
+                ->update([
+                    'approvedclose2_date' => Carbon::now(),
+                    'approvedclose2_code' => Auth::user()->emp_person_code,
+                    'approvedclose2_note' => $request->approved_remark,
+                ]);
+                DB::commit();
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+                $params = array(
+                "message"        => "ปิดเลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
+                . "วันที่อนุมัติ : " . Carbon::now() ."\n"
+                . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
+                . "หมายเหตุ : " . $request->approved_remark ."\n"
+                . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
+                . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaseorder_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+                "stickerPkg"     => 8522, //stickerPackageId
+                "stickerId"      => 16581281, //stickerId
+                // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+                // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+                );
+                $res = $this->notify_message($params, $token);
+                return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
+            }
             else{
                 $up = DB::table('pur_purchaseorder_hd')
                 ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
@@ -372,5 +424,24 @@ class PurchaseOrderController extends Controller
             return Carbon::parse($item->pur_purchaseorder_hd_date)->format('Y-m');
         })->toArray();
         return view('report.form-purchase-report', compact('hd','dateend','datestart','groupedByMonthYear'));
+    }
+    public function ApprovedPoClose1(Request $request)
+    {
+        $hd = DB::table('pur_purchaseorder_hd')
+        ->where('pur_purchaseorder_status_id',10)
+        ->where('approved2_save',Auth::user()->name)
+        ->where('approvedclose1_code',null)
+        ->get();
+        return view('purchaseorder.form-purchaseorder-appclose1', compact('hd'));
+    }
+    public function ApprovedPoClose2(Request $request)
+    {
+        $hd = DB::table('pur_purchaseorder_hd')
+        ->where('pur_purchaseorder_status_id',10)
+        ->where('approved3_save',Auth::user()->name)
+        ->where('approvedclose1_code','<>',null)
+        ->where('approvedclose2_code',null)
+        ->get();
+        return view('purchaseorder.form-purchaseorder-appclose2', compact('hd'));
     }
 }

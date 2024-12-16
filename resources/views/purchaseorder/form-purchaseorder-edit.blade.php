@@ -219,7 +219,7 @@
         </div>
         <hr>
         <div class="row">
-            @if ($hd->pur_purchaseorder_status_id == 6)
+            @if($hd->pur_purchaseorder_status_id == 6)
             <div class="col-12 col-md-12">               
                 <div class="input-group">
                     <div class="d-flex">
@@ -233,7 +233,8 @@
                     </div>
                 </div>           
             </div>
-            @endif            
+            @endif       
+            @if($hd->pur_purchaseorder_status_id <> 10)     
             <div class="col-12 col-md-12">
                 สถานะ :
                 <select class="form-control" name="approved_status" id="approved_status">
@@ -243,6 +244,7 @@
                     @endforeach
                 </select>
             </div>
+            @endif
             <div class="col-12 col-md-12">
                 หมายเหตุอนุมัติ : <textarea class="form-control" name="approved_remark" id="approved_remark"></textarea>
             </div>                               
