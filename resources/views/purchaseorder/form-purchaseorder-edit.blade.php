@@ -233,8 +233,7 @@
                     </div>
                 </div>           
             </div>
-            @endif       
-            @if($hd->pur_purchaseorder_status_id <> 10)     
+            @endif        
             <div class="col-12 col-md-12">
                 สถานะ :
                 <select class="form-control" name="approved_status" id="approved_status">
@@ -244,7 +243,6 @@
                     @endforeach
                 </select>
             </div>
-            @endif
             <div class="col-12 col-md-12">
                 หมายเหตุอนุมัติ : <textarea class="form-control" name="approved_remark" id="approved_remark"></textarea>
             </div>                               

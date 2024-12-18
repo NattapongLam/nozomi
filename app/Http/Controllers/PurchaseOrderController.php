@@ -87,6 +87,16 @@ class PurchaseOrderController extends Controller
             ->whereIn('pur_purchaseorder_status_id',[3,2,7])
             ->get();
         }
+        elseif($hd->pur_purchaseorder_status_id == 10){
+            $sta = DB::table('pur_purchaseorder_status')
+            ->whereIn('pur_purchaseorder_status_id',[10,11])
+            ->get();
+        }
+        elseif($hd->pur_purchaseorder_status_id == 11){
+            $sta = DB::table('pur_purchaseorder_status')
+            ->whereIn('pur_purchaseorder_status_id',[10,11,12])
+            ->get();
+        }
         $groupedByDaywh = $wh->groupBy('pur_purchaseorder_wh_duedate')->toArray();
         ksort($groupedByDaywh);
         $groupedByDayfc = $fc->groupBy('pur_purchaseorder_fc_duedate')->toArray();
@@ -219,13 +229,14 @@ class PurchaseOrderController extends Controller
                     return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
                 }               
             }
-            elseif ($hd->pur_purchaseorder_status_id == 10 && $hd->approvedclose1_code == null) {
+            elseif ($hd->pur_purchaseorder_status_id == 10) {
                 $up = DB::table('pur_purchaseorder_hd')
                 ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
                 ->update([
                     'approvedclose1_date' => Carbon::now(),
                     'approvedclose1_code' => Auth::user()->emp_person_code,
                     'approvedclose1_note' => $request->approved_remark,
+                    'pur_purchaseorder_status_id' => $request->approved_status
                 ]);
                 DB::commit();
                 define('LINE_API', "https://notify-api.line.me/api/notify");
@@ -245,13 +256,14 @@ class PurchaseOrderController extends Controller
                 $res = $this->notify_message($params, $token);
                 return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
-            elseif ($hd->pur_purchaseorder_status_id == 10 && $hd->approvedclose1_code <> null && $hd->approvedclose2_code == null) {
+            elseif ($hd->pur_purchaseorder_status_id == 11) {
                 $up = DB::table('pur_purchaseorder_hd')
                 ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
                 ->update([
                     'approvedclose2_date' => Carbon::now(),
                     'approvedclose2_code' => Auth::user()->emp_person_code,
                     'approvedclose2_note' => $request->approved_remark,
+                    'pur_purchaseorder_status_id' => $request->approved_status
                 ]);
                 DB::commit();
                 define('LINE_API', "https://notify-api.line.me/api/notify");
@@ -430,17 +442,14 @@ class PurchaseOrderController extends Controller
         $hd = DB::table('pur_purchaseorder_hd')
         ->where('pur_purchaseorder_status_id',10)
         ->where('approved2_save',Auth::user()->name)
-        ->where('approvedclose1_code',null)
         ->get();
         return view('purchaseorder.form-purchaseorder-appclose1', compact('hd'));
     }
     public function ApprovedPoClose2(Request $request)
     {
         $hd = DB::table('pur_purchaseorder_hd')
-        ->where('pur_purchaseorder_status_id',10)
+        ->where('pur_purchaseorder_status_id',11)
         ->where('approved3_save',Auth::user()->name)
-        ->where('approvedclose1_code','<>',null)
-        ->where('approvedclose2_code',null)
         ->get();
         return view('purchaseorder.form-purchaseorder-appclose2', compact('hd'));
     }
