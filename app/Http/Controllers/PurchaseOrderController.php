@@ -229,7 +229,7 @@ class PurchaseOrderController extends Controller
                     return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
                 }               
             }
-            elseif ($hd->pur_purchaseorder_status_id == 10) {
+            elseif ($hd->pur_purchaseorder_status_id == 11) {
                 $up = DB::table('pur_purchaseorder_hd')
                 ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
                 ->update([
@@ -256,7 +256,7 @@ class PurchaseOrderController extends Controller
                 $res = $this->notify_message($params, $token);
                 return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
-            elseif ($hd->pur_purchaseorder_status_id == 11) {
+            elseif ($hd->pur_purchaseorder_status_id == 12) {
                 $up = DB::table('pur_purchaseorder_hd')
                 ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
                 ->update([
@@ -290,6 +290,25 @@ class PurchaseOrderController extends Controller
                     'pur_purchaseorder_status_id' => $request->approved_status
                 ]);
                 DB::commit();
+                $sta = DB::table('pur_purchaseorder_status')
+                ->where('pur_purchaseorder_status_id',$request->approved_status)
+                ->first();
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+                $params = array(
+                "message"        => "เลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
+                . "วันที่ : " . Carbon::now() ."\n"
+                . "ผู้ดำเนินการ: " . Auth::user()->name ."\n"
+                . "หมายเหตุ : " . $request->approved_remark ."\n"
+                . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
+                . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaseorder_hd_save ."\n"
+                . "สถานะ : " . $sta->pur_purchaseorder_status_name, //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+                "stickerPkg"     => 8522, //stickerPackageId
+                "stickerId"      => 16581281, //stickerId
+                // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+                // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+                );
+                $res = $this->notify_message($params, $token);
                 return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
         }catch(\Exception $e){
