@@ -118,7 +118,7 @@ class PurchaseOrderController extends Controller
         ->first();
         try{
             DB::beginTransaction();
-            if($hd->pur_purchaseorder_status_id == 1){
+            if($request->approved_status == 1){
             $up = DB::table('pur_purchaseorder_hd')
             ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
             ->update([
@@ -145,7 +145,7 @@ class PurchaseOrderController extends Controller
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
-            elseif ($hd->pur_purchaseorder_status_id == 5) {
+            elseif ($request->approved_status == 5) {
                 $up = DB::table('pur_purchaseorder_hd')
                 ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
                 ->update([
@@ -172,7 +172,7 @@ class PurchaseOrderController extends Controller
                 $res = $this->notify_message($params, $token);
                 return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
-            elseif ($hd->pur_purchaseorder_status_id == 6) {
+            elseif ($request->approved_status == 6) {
                 $up = DB::table('pur_purchaseorder_hd')
                 ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
                 ->update([
@@ -199,7 +199,7 @@ class PurchaseOrderController extends Controller
                 $res = $this->notify_message($params, $token);
                 return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
-            elseif ($hd->pur_purchaseorder_status_id == 7) {
+            elseif ($request->approved_status == 7) {
                 if($hd->check_approved4){
                     $up = DB::table('pur_purchaseorder_hd')
                     ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
@@ -229,7 +229,7 @@ class PurchaseOrderController extends Controller
                     return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
                 }               
             }
-            elseif ($hd->pur_purchaseorder_status_id == 11) {
+            elseif ($request->approved_status == 11) {
                 $up = DB::table('pur_purchaseorder_hd')
                 ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
                 ->update([
@@ -256,7 +256,7 @@ class PurchaseOrderController extends Controller
                 $res = $this->notify_message($params, $token);
                 return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
-            elseif ($hd->pur_purchaseorder_status_id == 12) {
+            elseif ($request->approved_status == 12) {
                 $up = DB::table('pur_purchaseorder_hd')
                 ->where('pur_purchaseorder_hd_id',$hd->pur_purchaseorder_hd_id)
                 ->update([

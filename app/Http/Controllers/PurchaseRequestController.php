@@ -82,6 +82,9 @@ class PurchaseRequestController extends Controller
             ->whereIn('pur_purchaserequest_status_id',[3,2,7])
             ->get();
         }
+        else{
+            return view('dashboard');
+        }
         return view('purchaserequest.form-purchaserequest-edit', compact('hd','dt','sta'));
     }
 
@@ -99,7 +102,7 @@ class PurchaseRequestController extends Controller
         ->first();
         try{
             DB::beginTransaction();
-        if($hd->pur_purchaserequest_status_id == 1){
+        if($request->approved_status == 1){
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
             ->update([
@@ -126,7 +129,7 @@ class PurchaseRequestController extends Controller
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }
-        elseif ($hd->pur_purchaserequest_status_id == 5) {
+        elseif ($request->approved_status == 5) {
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
             ->update([
@@ -153,7 +156,7 @@ class PurchaseRequestController extends Controller
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }
-        elseif ($hd->pur_purchaserequest_status_id == 6) {
+        elseif ($request->approved_status == 6) {
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
             ->update([
@@ -181,7 +184,7 @@ class PurchaseRequestController extends Controller
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         } 
-        elseif ($hd->pur_purchaserequest_status_id == 7) {
+        elseif ($request->approved_status == 7) {
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
             ->update([
@@ -208,17 +211,15 @@ class PurchaseRequestController extends Controller
             );
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
-        }  
-        else {
+        } 
+        elseif ($request->approved_status == 3) 
+        {
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
             ->update([
                 'pur_purchaserequest_status_id' => $request->approved_status,
             ]);
             DB::commit();
-            $sta = DB::table('pur_purchaserequest_status')
-                ->where('pur_purchaserequest_status_id',$request->approved_status)
-                ->first();
             define('LINE_API', "https://notify-api.line.me/api/notify");
             $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
             $params = array(
@@ -228,7 +229,7 @@ class PurchaseRequestController extends Controller
             . "หมายเหตุ : " . $request->approved_remark ."\n"
             . "แผนก : " . $hd->emp_department_name ."\n"
             . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n"
-            . "สถานะ : " . $sta->pur_purchaserequest_status_name ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            . "สถานะ : ส่งกลับแก้ไข", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
             "stickerPkg"     => 8522, //stickerPackageId
             "stickerId"      => 16581281, //stickerId
             // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
@@ -236,7 +237,33 @@ class PurchaseRequestController extends Controller
             );
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
-        }         
+        }   
+        elseif ($request->approved_status == 4) 
+        {
+            $up = DB::table('pur_purchaserequest_hd')
+            ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
+            ->update([
+                'pur_purchaserequest_status_id' => $request->approved_status,
+            ]);
+            DB::commit();
+            define('LINE_API', "https://notify-api.line.me/api/notify");
+            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            $params = array(
+            "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
+            . "วันที่ : " . Carbon::now() ."\n"
+            . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
+            . "หมายเหตุ : " . $request->approved_remark ."\n"
+            . "แผนก : " . $hd->emp_department_name ."\n"
+            . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n"
+            . "สถานะ : ไม่อนุมัติ", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            "stickerPkg"     => 8522, //stickerPackageId
+            "stickerId"      => 16581281, //stickerId
+            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            );
+            $res = $this->notify_message($params, $token);
+            return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
+        }             
         }catch(\Exception $e){
             Log::error($e->getMessage());
             dd($e->getMessage());
