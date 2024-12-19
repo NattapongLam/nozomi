@@ -359,6 +359,24 @@ class PurchaseRequestController extends Controller
                     'pur_purchaserequest_status_id' => 2
                 ]);           
             DB::commit();
+            $hd = DB::table('pur_purchaserequest_hd')
+            ->where('pur_purchaserequest_hd_id',$id)
+            ->first();
+            define('LINE_API', "https://notify-api.line.me/api/notify");
+            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            $params = array(
+            "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
+            . "วันที่ยกเลิก : " . Carbon::now() ."\n"
+            . "ผู้ยกเลิก : " . Auth::user()->name ."\n"
+            . "หมายเหตุ : " . $request->approved_remark ."\n"
+            . "แผนก : " . $hd->emp_department_name ."\n"
+            . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            "stickerPkg"     => 8522, //stickerPackageId
+            "stickerId"      => 16581281, //stickerId
+            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            );
+            $res = $this->notify_message($params, $token);
             return response()->json([
                 'status' => true,
                 'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
