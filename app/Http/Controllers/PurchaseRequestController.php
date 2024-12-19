@@ -379,16 +379,7 @@ class PurchaseRequestController extends Controller
     {
         $id = $request->refid;
         try {
-            DB::beginTransaction();
-            $update_hd = DB::table('pur_purchaserequest_hd')
-            ->where('pur_purchaserequest_hd_id', $id)
-                ->update([
-                    'pur_purchaserequest_status_id' => 2
-                ]);           
-            DB::commit();
-            $hd = DB::table('pur_purchaserequest_hd')
-            ->where('pur_purchaserequest_hd_id',$id)
-            ->first();
+            $hd = DB::table('pur_purchaserequest_hd')->where('pur_purchaserequest_hd_id',$id)->first();
             define('LINE_API', "https://notify-api.line.me/api/notify");
             $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
             $params = array(
@@ -403,6 +394,13 @@ class PurchaseRequestController extends Controller
             // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
             );
             $res = $this->notify_message($params, $token);
+            DB::beginTransaction();
+            $update_hd = DB::table('pur_purchaserequest_hd')
+            ->where('pur_purchaserequest_hd_id', $id)
+                ->update([
+                    'pur_purchaserequest_status_id' => 2
+                ]);           
+            DB::commit();           
             return response()->json([
                 'status' => true,
                 'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'

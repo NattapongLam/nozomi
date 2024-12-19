@@ -421,13 +421,6 @@ class PurchaseOrderController extends Controller
     {
         $id = $request->refid;
         try {
-            DB::beginTransaction();
-            $update_hd = DB::table('pur_purchaseorder_hd')
-            ->where('pur_purchaseorder_hd_id', $id)
-                ->update([
-                    'pur_purchaseorder_status_id' => 2
-                ]);           
-            DB::commit();
             $hd = DB::table('pur_purchaseorder_hd')
             ->where('pur_purchaseorder_hd_id',$id)
             ->first();
@@ -445,6 +438,13 @@ class PurchaseOrderController extends Controller
             // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
             );
             $res = $this->notify_message($params, $token);
+            DB::beginTransaction();
+            $update_hd = DB::table('pur_purchaseorder_hd')
+            ->where('pur_purchaseorder_hd_id', $id)
+                ->update([
+                    'pur_purchaseorder_status_id' => 2
+                ]);           
+            DB::commit();          
             return response()->json([
                 'status' => true,
                 'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
