@@ -368,7 +368,6 @@ class PurchaseRequestController extends Controller
             "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
             . "วันที่ยกเลิก : " . Carbon::now() ."\n"
             . "ผู้ยกเลิก : " . Auth::user()->name ."\n"
-            . "หมายเหตุ : " . $request->approved_remark ."\n"
             . "แผนก : " . $hd->emp_department_name ."\n"
             . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
             "stickerPkg"     => 8522, //stickerPackageId

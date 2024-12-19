@@ -434,7 +434,6 @@ class PurchaseOrderController extends Controller
             "message"        => "ปิดเลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
             . "วันที่ยกเลิก : " . Carbon::now() ."\n"
             . "ผู้ยกเลิก : " . Auth::user()->name ."\n"
-            . "หมายเหตุ : " . $request->approved_remark ."\n"
             . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
             . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaseorder_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
             "stickerPkg"     => 8522, //stickerPackageId
