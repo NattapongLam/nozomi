@@ -97,6 +97,9 @@ class PurchaseOrderController extends Controller
             ->whereIn('pur_purchaseorder_status_id',[10,11,12])
             ->get();
         }
+        else{
+            return view('dashboard');
+        }
         $groupedByDaywh = $wh->groupBy('pur_purchaseorder_wh_duedate')->toArray();
         ksort($groupedByDaywh);
         $groupedByDayfc = $fc->groupBy('pur_purchaseorder_fc_duedate')->toArray();
