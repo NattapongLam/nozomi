@@ -102,7 +102,7 @@ class PurchaseRequestController extends Controller
         ->first();
         try{
             DB::beginTransaction();
-        if($request->approved_status == 1){
+        if($hd->pur_purchaserequest_status_id == 1){
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
             ->update([
@@ -129,7 +129,7 @@ class PurchaseRequestController extends Controller
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }
-        elseif ($request->approved_status == 5) {
+        elseif ($hd->pur_purchaserequest_status_id == 5) {
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
             ->update([
@@ -156,7 +156,7 @@ class PurchaseRequestController extends Controller
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }
-        elseif ($request->approved_status == 6) {
+        elseif ($hd->pur_purchaserequest_status_id == 6) {
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
             ->update([
@@ -184,7 +184,7 @@ class PurchaseRequestController extends Controller
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         } 
-        elseif ($request->approved_status == 7) {
+        elseif ($hd->pur_purchaserequest_status_id == 7) {
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
             ->update([
@@ -212,7 +212,7 @@ class PurchaseRequestController extends Controller
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         } 
-        elseif ($request->approved_status == 3) 
+        elseif ($hd->pur_purchaserequest_status_id == 3) 
         {
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
@@ -238,7 +238,7 @@ class PurchaseRequestController extends Controller
             $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }   
-        elseif ($request->approved_status == 4) 
+        elseif ($hd->pur_purchaserequest_status_id == 4) 
         {
             $up = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id',$hd->pur_purchaserequest_hd_id)
