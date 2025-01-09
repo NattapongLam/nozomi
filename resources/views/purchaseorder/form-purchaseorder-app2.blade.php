@@ -62,11 +62,11 @@
                             <tr>
                                 <td>{{ Carbon\Carbon::parse($item->pur_purchaseorder_hd_date)->format('d/m/Y')}}</td>
                                 <td>
-                                    @if($item->pur_purchaseorder_status_id == 1)
+                                    @if($item->pur_purchaseorder_status_id == 1 || $item->pur_purchaseorder_status_id == 10)
                                     <span class="badge bg-danger"> {{$item->pur_purchaseorder_status_name}}</span>
-                                    @elseif($item->pur_purchaseorder_status_id == 6)
+                                    @elseif($item->pur_purchaseorder_status_id == 6 || $item->pur_purchaseorder_status_id == 11)
                                     <span class="badge bg-warning"> {{$item->pur_purchaseorder_status_name}}</span>
-                                    @elseif($item->pur_purchaseorder_status_id == 7)
+                                    @elseif($item->pur_purchaseorder_status_id == 7 || $item->pur_purchaseorder_status_id == 12)
                                     <span class="badge bg-success"> {{$item->pur_purchaseorder_status_name}}</span>
                                     @elseif($item->pur_purchaseorder_status_id == 8)
                                     <span class="badge bg-success"> {{$item->pur_purchaseorder_status_name}}</span>
