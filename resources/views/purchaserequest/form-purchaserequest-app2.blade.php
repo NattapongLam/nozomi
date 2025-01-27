@@ -68,7 +68,7 @@
                             <span class="badge bg-success"> {{$item->pur_purchaserequest_status_name}}</span>
                             @elseif($item->pur_purchaserequest_status_id == 9)
                             <span class="badge bg-success"> {{$item->pur_purchaserequest_status_name}}</span>
-                            @elseif($item->pur_purchaserequest_status_id == 9)
+                            @elseif($item->pur_purchaserequest_status_id == 10)
                             <span class="badge bg-success"> {{$item->pur_purchaserequest_status_name}}</span>
                             @elseif($item->pur_purchaserequest_status_id == 3 || $item->pur_purchaserequest_status_id == 4)
                             <span class="badge bg-secondary"> {{$item->pur_purchaserequest_status_name}}</span>

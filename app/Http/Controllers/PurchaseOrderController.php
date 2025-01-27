@@ -135,7 +135,7 @@ class PurchaseOrderController extends Controller
             $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
             $params = array(
             "message"        => "เลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-            . "วันที่ดำเนินการ : " . Carbon::now() ."\n"
+            . "วันที่ดำเนินการ : " .  Carbon::now()->format('d/m/y H:i') ."\n"
             . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
             . "หมายเหตุ : " . $request->approved_remark ."\n"
             . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
@@ -162,7 +162,7 @@ class PurchaseOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "เลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-                . "วันที่ตรวจสอบ : " . Carbon::now() ."\n"
+                . "วันที่ตรวจสอบ : " . Carbon::now()->format('d/m/y H:i') ."\n"
                 . "ผู้ตรวจสอบ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
@@ -190,7 +190,7 @@ class PurchaseOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "เลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-                . "วันที่อนุมัติ : " . Carbon::now() ."\n"
+                . "วันที่อนุมัติ : " .  Carbon::now()->format('d/m/y H:i') ."\n"
                 . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
@@ -219,7 +219,7 @@ class PurchaseOrderController extends Controller
                     $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                     $params = array(
                     "message"        => "เลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-                    . "วันที่รับทราบ : " . Carbon::now() ."\n"
+                    . "วันที่รับทราบ : " .  Carbon::now()->format('d/m/y H:i') ."\n"
                     . "ผู้รับทราบ : " . Auth::user()->name ."\n"
                     . "หมายเหตุ : " . $request->approved_remark ."\n"
                     . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
@@ -247,7 +247,7 @@ class PurchaseOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "ปิดเลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-                . "วันที่อนุมัติ : " . Carbon::now() ."\n"
+                . "วันที่อนุมัติ : " . Carbon::now()->format('d/m/y H:i') ."\n"
                 . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
@@ -274,7 +274,7 @@ class PurchaseOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "ปิดเลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-                . "วันที่อนุมัติ : " . Carbon::now() ."\n"
+                . "วันที่อนุมัติ : " . Carbon::now()->format('d/m/y H:i') ."\n"
                 . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
@@ -311,7 +311,7 @@ class PurchaseOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "เลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-                . "วันที่ : " . Carbon::now() ."\n"
+                . "วันที่ : " .  Carbon::now()->format('d/m/y H:i') ."\n"
                 . "ผู้ดำเนินการ: " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
