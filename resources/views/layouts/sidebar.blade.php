@@ -66,6 +66,27 @@
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-layout"></i>
+                        <span key="t-layouts">ซ่อมบำรุง</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="#" key="t-vertical">ตรวจเช็คประจำเดือน</a>
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="#" key="t-vertical">แจ้งซ่อมเครื่องจักร</a>
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="#" key="t-vertical">แจ้งซ่อมบำรุง</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="menu-title" key="t-apps">Report</li>   
                 <li>
                 <a href="{{ url('/report-planningdl') }}">

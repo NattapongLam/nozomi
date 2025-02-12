@@ -295,7 +295,6 @@ class PurchaseRequestController extends Controller
             $hd = DB::table('pur_purchaserequest_hd')
             ->leftjoin('pur_purchaserequest_status','pur_purchaserequest_hd.pur_purchaserequest_status_id','=','pur_purchaserequest_status.pur_purchaserequest_status_id')
             ->leftjoin('ms_allocate','pur_purchaserequest_hd.ms_allocate_id','=','ms_allocate.ms_allocate_id')
-            ->where('pur_purchaserequest_hd.pur_purchaserequest_status_id','<>',2)
             ->whereBetween('pur_purchaserequest_hd_date', [$datestart, $dateend])
             ->get();
         }
@@ -304,7 +303,6 @@ class PurchaseRequestController extends Controller
             $hd = DB::table('pur_purchaserequest_hd')
             ->leftjoin('pur_purchaserequest_status','pur_purchaserequest_hd.pur_purchaserequest_status_id','=','pur_purchaserequest_status.pur_purchaserequest_status_id')
             ->leftjoin('ms_allocate','pur_purchaserequest_hd.ms_allocate_id','=','ms_allocate.ms_allocate_id')
-            ->where('pur_purchaserequest_hd.pur_purchaserequest_status_id','<>',2)
             ->where('pur_purchaserequest_hd.approved2_save',Auth::user()->name)
             ->whereBetween('pur_purchaserequest_hd.pur_purchaserequest_hd_date', [$datestart, $dateend])
             ->get();
@@ -321,7 +319,6 @@ class PurchaseRequestController extends Controller
             $hd = DB::table('pur_purchaserequest_hd')
             ->leftjoin('pur_purchaserequest_status','pur_purchaserequest_hd.pur_purchaserequest_status_id','=','pur_purchaserequest_status.pur_purchaserequest_status_id')
             ->leftjoin('ms_allocate','pur_purchaserequest_hd.ms_allocate_id','=','ms_allocate.ms_allocate_id')
-            ->where('pur_purchaserequest_hd.pur_purchaserequest_status_id','<>',2)
             ->whereBetween('pur_purchaserequest_hd.pur_purchaserequest_hd_date', [$datestart, $dateend])
             ->get();
         }
@@ -329,7 +326,6 @@ class PurchaseRequestController extends Controller
             $hd = DB::table('pur_purchaserequest_hd')
             ->leftjoin('pur_purchaserequest_status','pur_purchaserequest_hd.pur_purchaserequest_status_id','=','pur_purchaserequest_status.pur_purchaserequest_status_id')
             ->leftjoin('ms_allocate','pur_purchaserequest_hd.ms_allocate_id','=','ms_allocate.ms_allocate_id')
-            ->where('pur_purchaserequest_hd.pur_purchaserequest_status_id','<>',2)
             ->where('pur_purchaserequest_hd.approved3_save',Auth::user()->name)
             ->whereBetween('pur_purchaserequest_hd.pur_purchaserequest_hd_date', [$datestart, $dateend])
             ->get();
@@ -384,7 +380,7 @@ class PurchaseRequestController extends Controller
             $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
             $params = array(
             "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            . "วันที่ยกเลิก : " . Carbon::now() ."\n"
+            . "วันที่ยกเลิก : " . Carbon::now()->format('d/m/y h:i') ."\n"
             . "ผู้ยกเลิก : " . Auth::user()->name ."\n"
             . "แผนก : " . $hd->emp_department_name ."\n"
             . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร

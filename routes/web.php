@@ -54,6 +54,9 @@ Route::resource('/wh-issue' , App\Http\Controllers\WhIssueStockController::class
 Route::get('/report-warehouse' , [App\Http\Controllers\WhIssueStockController::class , 'ReportWarehouse']);
 Route::resource('/wh-adjust' , App\Http\Controllers\WhAjustStockController::class);
 // STOCK RM //
+// Maintenance //
+Route::resource('/mt-checklist' , App\Http\Controllers\MaintenanceCheckList::class);
+// Maintenance //
 // REPORT //
 Route::get('/report-planningpd' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPd']);
 Route::get('/report-planningdl' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningDl']);

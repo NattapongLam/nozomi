@@ -354,14 +354,12 @@ class PurchaseOrderController extends Controller
         if(Auth::user()->id == 1 || Auth::user()->id == 9){
             $hd = DB::table('pur_purchaseorder_hd')
             ->leftjoin('pur_purchaseorder_status','pur_purchaseorder_hd.pur_purchaseorder_status_id','=','pur_purchaseorder_status.pur_purchaseorder_status_id')
-            ->where('pur_purchaseorder_hd.pur_purchaseorder_status_id','<>',2)
             ->whereBetween('pur_purchaseorder_hd.pur_purchaseorder_hd_date', [$datestart, $dateend])
             ->get();
         }else{
             $hd = DB::table('pur_purchaseorder_hd')
             ->leftjoin('pur_purchaseorder_status','pur_purchaseorder_hd.pur_purchaseorder_status_id','=','pur_purchaseorder_status.pur_purchaseorder_status_id')
             ->where('pur_purchaseorder_hd.approved2_save',Auth::user()->name)
-            ->where('pur_purchaseorder_hd.pur_purchaseorder_status_id','<>',2)
             ->whereBetween('pur_purchaseorder_hd.pur_purchaseorder_hd_date', [$datestart, $dateend])
             ->get();
         }
@@ -375,14 +373,12 @@ class PurchaseOrderController extends Controller
         if(Auth::user()->id == 1 || Auth::user()->id == 9){
             $hd = DB::table('pur_purchaseorder_hd')
             ->leftjoin('pur_purchaseorder_status','pur_purchaseorder_hd.pur_purchaseorder_status_id','=','pur_purchaseorder_status.pur_purchaseorder_status_id')
-            ->where('pur_purchaseorder_hd.pur_purchaseorder_status_id','<>',2)
             ->whereBetween('pur_purchaseorder_hd.pur_purchaseorder_hd_date', [$datestart, $dateend])
             ->get();
         }else{
             $hd = DB::table('pur_purchaseorder_hd')
             ->leftjoin('pur_purchaseorder_status','pur_purchaseorder_hd.pur_purchaseorder_status_id','=','pur_purchaseorder_status.pur_purchaseorder_status_id')
             ->where('pur_purchaseorder_hd.approved3_save',Auth::user()->name)
-            ->where('pur_purchaseorder_hd.pur_purchaseorder_status_id','<>',2)
             ->whereBetween('pur_purchaseorder_hd.pur_purchaseorder_hd_date', [$datestart, $dateend])
             ->get();
         }     
@@ -439,7 +435,7 @@ class PurchaseOrderController extends Controller
             $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
             $params = array(
             "message"        => "ปิดเลขที่ PO : " . $hd->pur_purchaseorder_hd_docuno ."\n"
-            . "วันที่ยกเลิก : " . Carbon::now() ."\n"
+            . "วันที่ยกเลิก : " . Carbon::now()->format('d/m/y h:i') ."\n"
             . "ผู้ยกเลิก : " . Auth::user()->name ."\n"
             . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
             . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaseorder_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร

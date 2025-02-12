@@ -126,7 +126,7 @@ class WhIssueStockController extends Controller
             $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
             $params = array(
             "message"        => "เลขที่ใบเบิก : " . $hd->wh_issuestock_hd_docuno ."\n"
-            . "วันที่ดำเนินการ : " . Carbon::now() ."\n"
+            . "วันที่ดำเนินการ : " . Carbon::now()->format('d/m/y h:i') ."\n"
             . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
             . "หมายเหตุ : " . $request->approved_remark ."\n"
             . "สถานะ : " . $hd->wh_issuestock_status_name ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร

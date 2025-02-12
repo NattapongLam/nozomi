@@ -90,7 +90,7 @@ class DashboardController extends Controller
 
     public function ReportPlanningPd(Request $request)
     {
-        $datestart = $request->datestart ? $request->datestart : date("Y-m-d");
+        $datestart = $request->datestart ? date("Y-m-d", strtotime($request->datestart . ' -1 day')) : date("Y-m-d", strtotime('-1 day'));
         $hd = DB::table('vw_productresult_daily')
         ->where('date',$request->datestart)
         ->get();

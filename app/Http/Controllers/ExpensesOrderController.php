@@ -110,7 +110,7 @@ class ExpensesOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "เลขที่ ASE : " . $hd->pur_expenses_hd_docuno ."\n"
-                . "วันที่ดำเนินการ : " . Carbon::now() ."\n"
+                . "วันที่ดำเนินการ : " . Carbon::now()->format('d/m/y h:i') ."\n"
                 . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
@@ -137,7 +137,7 @@ class ExpensesOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "เลขที่ ASE : " . $hd->pur_expenses_hd_docuno ."\n"
-                . "วันที่ตรวจสอบ : " . Carbon::now() ."\n"
+                . "วันที่ตรวจสอบ : " . Carbon::now()->format('d/m/y h:i') ."\n"
                 . "ผู้ตรวจสอบ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
@@ -164,7 +164,7 @@ class ExpensesOrderController extends Controller
                 $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
                 $params = array(
                 "message"        => "เลขที่ ASE : " . $hd->pur_expenses_hd_docuno ."\n"
-                . "วันที่อนุมัติ : " . Carbon::now() ."\n"
+                . "วันที่อนุมัติ : " . Carbon::now()->format('d/m/y h:i') ."\n"
                 . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
                 . "หมายเหตุ : " . $request->approved_remark ."\n"
                 . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
@@ -215,14 +215,12 @@ class ExpensesOrderController extends Controller
         if(Auth::user()->id == 1 || Auth::user()->id == 9){
             $hd = DB::table('pur_expenses_hd')
             ->leftjoin('pur_expenses_status','pur_expenses_hd.pur_expenses_status_id','=','pur_expenses_status.pur_expenses_status_id')
-            ->where('pur_expenses_hd.pur_expenses_status_id','<>',2)
             ->whereBetween('pur_expenses_hd.pur_expenses_hd_date', [$datestart, $dateend])
             ->get();
         }else{
             $hd = DB::table('pur_expenses_hd')
             ->leftjoin('pur_expenses_status','pur_expenses_hd.pur_expenses_status_id','=','pur_expenses_status.pur_expenses_status_id')
             ->where('pur_expenses_hd.approved2_save',Auth::user()->name)
-            ->where('pur_expenses_hd.pur_expenses_status_id','<>',2)
             ->whereBetween('pur_expenses_hd.pur_expenses_hd_date', [$datestart, $dateend])
             ->get();
         }
@@ -236,14 +234,12 @@ class ExpensesOrderController extends Controller
         if(Auth::user()->id == 1 || Auth::user()->id == 9){
             $hd = DB::table('pur_expenses_hd')
             ->leftjoin('pur_expenses_status','pur_expenses_hd.pur_expenses_status_id','=','pur_expenses_status.pur_expenses_status_id')
-            ->where('pur_expenses_hd.pur_expenses_status_id','<>',2)
             ->whereBetween('pur_expenses_hd.pur_expenses_hd_date', [$datestart, $dateend])
             ->get();
         }else{
             $hd = DB::table('pur_expenses_hd')
             ->leftjoin('pur_expenses_status','pur_expenses_hd.pur_expenses_status_id','=','pur_expenses_status.pur_expenses_status_id')
             ->where('pur_expenses_hd.approved3_save',Auth::user()->name)
-            ->where('pur_expenses_hd.pur_expenses_status_id','<>',2)
             ->whereBetween('pur_expenses_hd.pur_expenses_hd_date', [$datestart, $dateend])
             ->get();
         }

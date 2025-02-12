@@ -61,7 +61,7 @@
                     <tr>
                         <td>{{ Carbon\Carbon::parse($item->pur_expenses_hd_date)->format('d/m/Y')}}</td>
                         <td>
-                            @if($item->pur_expenses_status_id == 1)
+                            @if($item->pur_expenses_status_id == 1 || $item->pur_expenses_status_id == 2)
                             <span class="badge bg-danger"> {{$item->pur_expenses_status_name}}</span>
                             @elseif($item->pur_expenses_status_id == 6)
                             <span class="badge bg-warning"> {{$item->pur_expenses_status_name}}</span>
