@@ -56,6 +56,8 @@ Route::resource('/wh-adjust' , App\Http\Controllers\WhAjustStockController::clas
 // STOCK RM //
 // Maintenance //
 Route::resource('/mt-checklist' , App\Http\Controllers\MaintenanceCheckList::class);
+Route::resource('/mt-docpdt' , App\Http\Controllers\MaintenanceDocpdt::class);
+Route::resource('/mt-docoff' , App\Http\Controllers\MaintenanceDocoff::class);
 // Maintenance //
 // REPORT //
 Route::get('/report-planningpd' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPd']);

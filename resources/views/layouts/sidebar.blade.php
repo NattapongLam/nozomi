@@ -73,17 +73,17 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="#" key="t-vertical">ตรวจเช็คประจำเดือน</a>
+                            <a href="{{route('mt-checklist.index')}}" key="t-vertical">ตรวจเช็คประจำเดือน</a>
                         </li>
                     </ul>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="#" key="t-vertical">แจ้งซ่อมเครื่องจักร</a>
+                            <a href="{{route('mt-docpdt.index')}}" key="t-vertical">แจ้งซ่อมเครื่องจักร</a>
                         </li>
                     </ul>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="#" key="t-vertical">แจ้งซ่อมบำรุง</a>
+                            <a href="{{route('mt-docoff.index')}}" key="t-vertical">แจ้งซ่อมบำรุง</a>
                         </li>
                     </ul>
                 </li>
