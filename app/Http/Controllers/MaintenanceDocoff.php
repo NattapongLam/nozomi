@@ -61,7 +61,12 @@ class MaintenanceDocoff extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = DB::table('mtn_maintenanceoffdoc')
+        ->leftjoin('mtn_maintenanceoffstatus','mtn_maintenanceoffdoc.mtn_maintenanceoffstatus_id','=','mtn_maintenanceoffstatus.mtn_maintenanceoffstatus_id')
+        ->leftjoin('emp_person','mtn_maintenanceoffdoc.person_at','=','emp_person.emp_person_code')
+        ->where('mtn_maintenanceoffdoc.mtn_maintenanceoffdoc_id',$id)
+        ->first();
+        return view('maintain.form-maintenancedocoff-edit', compact('hd'));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -60,7 +61,11 @@ class MaintenanceDocpdt extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = DB::table('mtn_maintenancedoc')
+        ->leftjoin('mtn_maintenancestatus','mtn_maintenancedoc.mtn_maintenancestatus_id','=','mtn_maintenancestatus.mtn_maintenancestatus_id')
+        ->where('mtn_maintenancedoc.mtn_maintenancedoc_id',$id)
+        ->first();
+        return view('maintain.form-maintenancedocpdt-edit', compact('hd'));
     }
 
     /**
@@ -72,7 +77,63 @@ class MaintenanceDocpdt extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $hd = DB::table('mtn_maintenancedoc')->where('mtn_maintenancedoc_id',$id)->first();
+            if($hd->mtn_maintenancestatus_id == 1){
+                $up = DB::table('mtn_maintenancedoc')
+                ->where('mtn_maintenancedoc_id',$id)
+                ->update([
+                    'mtn_maintenancestatus_id' => 3,
+                    'mtn_maintenancedoc_jobperson' => Auth::user()->name,
+                    'mtn_maintenancedoc_jobdate' => Carbon::now(),
+                    'job_at' => Carbon::now()
+                ]);
+            }
+            elseif($hd->mtn_maintenancestatus_id == 3){
+                $up = DB::table('mtn_maintenancedoc')
+                ->where('mtn_maintenancedoc_id',$id)
+                ->update([
+                    'mtn_maintenancestatus_id' => 4,
+                    'mtn_maintenancedoc_jobresultperson' => Auth::user()->name,
+                    'mtn_maintenancedoc_jobresultdate' => Carbon::now(),
+                    'mtn_maintenancedoc_check1' => $request->mtn_maintenancedoc_check1,
+                    'mtn_maintenancedoc_check2' => $request->mtn_maintenancedoc_check2,
+                    'mtn_maintenancedoc_check3' => $request->mtn_maintenancedoc_check3,
+                    'mtn_maintenancedoc_check4' => $request->mtn_maintenancedoc_check4,
+                    'mtn_maintenancedoc_check5' => $request->mtn_maintenancedoc_check5,
+                    'mtn_maintenancedoc_other' => $request->mtn_maintenancedoc_other,
+                    'mtn_maintenancedoc_jobremark' => $request->mtn_maintenancedoc_jobremark,
+                    'mtn_maintenancedoc_jobnote' => $request->mtn_maintenancedoc_jobnote
+                ]);
+            }
+            elseif($hd->mtn_maintenancestatus_id == 4){
+                $up = DB::table('mtn_maintenancedoc')
+                ->where('mtn_maintenancedoc_id',$id)
+                ->update([
+                    'mtn_maintenancestatus_id' => 5,
+                    'mtn_maintenancedoc_jobrecheckperson' => Auth::user()->name,
+                    'mtn_maintenancedoc_jobrecheckdate' => Carbon::now(),
+                    'recheck_at' => Carbon::now()
+                ]);
+            }
+            elseif($hd->mtn_maintenancestatus_id == 5){
+                $up = DB::table('mtn_maintenancedoc')
+                ->where('mtn_maintenancedoc_id',$id)
+                ->update([
+                    'mtn_maintenancestatus_id' => 6,
+                    'mtn_maintenancedoc_jobapprovedperson' => Auth::user()->name,
+                    'mtn_maintenancedoc_jobapproveddate' => Carbon::now(),
+                    'approved_at' => Carbon::now()
+                ]);
+            }
+            DB::commit();
+            return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
+        }catch(\Exception $e){
+            Log::error($e->getMessage());
+            dd($e->getMessage());
+            return redirect()->back()->with('error', 'เกิดข้อผิดพลาด');
+        }
     }
 
     /**
