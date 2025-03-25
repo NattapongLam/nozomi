@@ -189,8 +189,35 @@ class DashboardController extends Controller
                     $hd4 = collect();
                 }              
             }
+            $daysInMonth = Carbon::createFromDate($year, $month)->daysInMonth;
+            $data = [];
+            $labels = [];
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $labels[] = sprintf('%02d', $day); // เก็บวันที่ 01, 02, 03, ...
+            }
+            foreach ($hd2 as $item) {
+                $data[] = [
+                    'label' => "{$item->model}/{$item->product}",
+                    'data' => [
+                        $item->plan01, $item->plan02, $item->plan03, $item->plan04, 
+                        $item->plan05, $item->plan06, $item->plan07, $item->plan08, 
+                        $item->plan09, $item->plan10, $item->plan11, $item->plan12, 
+                        $item->plan13, $item->plan14, $item->plan15, $item->plan16, 
+                        $item->plan17, $item->plan18, $item->plan19, $item->plan20, 
+                        $item->plan21, $item->plan22, $item->plan23, $item->plan24, 
+                        $item->plan25, $item->plan26, $item->plan27, $item->plan28, 
+                        $item->plan29, $item->plan30, $item->plan31
+                    ],
+                    'borderColor' => sprintf('#%06X', mt_rand(0, 0xFFFFFF)), // สีสุ่ม
+                    'fill' => false
+                ];
+            }
+            $chartData = json_encode([
+                'labels' => $labels,
+                'datasets' => $data
+            ]);
         }                    
-        return view('report.form-planning-delivery', compact('hd1','hd2','hd3','hd4'));
+        return view('report.form-planning-delivery', compact('hd1','hd2','hd3','hd4','chartData'));
     }
     public function ReportPlanningPdDay(Request $request)
     {

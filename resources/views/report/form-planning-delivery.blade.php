@@ -77,7 +77,8 @@
     </form>
     <br>
         <h4 class="card-title">แผนจัดส่งประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h4>   
-        <div style="overflow-x:auto;">         
+        <div style="overflow-x:auto;">   
+            <canvas id="myChart"></canvas>      
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -129,8 +130,9 @@
                 </tbody>
             </table>
         </div>
-        <div style="overflow-x:auto;">      
         <h5>กำลังการผลิตประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h5>
+        <div style="overflow-x:auto;">      
+        <canvas id="pieChart"></canvas>
         <table class="table table-bordered">
            <thead>
             <tr>
@@ -432,8 +434,55 @@
            </tbody>
         </table>
         </div>
-        <div style="overflow-x:auto;">      
         <h5>แผนการผลิตประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h5>
+        @php
+    // สมมติว่า $hd4 เป็น Collection ของข้อมูลที่มีฟิลด์: pdt_process_hd_code, product, qty01, qty02, ... qty31
+    // กลุ่มข้อมูลตาม pdt_process_hd_code และ product
+    $grouped = $hd4->groupBy(function($item) {
+        return $item->pdt_process_hd_code . ' / ' . $item->product;
+    });
+
+    $labels = [];
+    $data = [];
+    // วนลูปแต่ละกลุ่มและคำนวณผลรวมของ qty ตั้งแต่ qty01 ถึง qty31
+    foreach ($grouped as $groupLabel => $items) {
+        $total = 0;
+        foreach ($items as $item) {
+            for ($day = 1; $day <= 31; $day++) {
+                $dayKey = 'qty' . sprintf('%02d', $day); // เช่น qty01, qty02,...
+                if (isset($item->$dayKey)) {
+                    $total += (float) $item->$dayKey;
+                }
+            }
+        }
+        $labels[] = $groupLabel;
+        $data[] = $total;
+    }
+
+    // สร้างชุดข้อมูลสำหรับ Chart.js โดยใช้ dataset เดียว
+    $chartDatas = json_encode([
+        'labels' => $labels,
+        'datasets' => [
+            [
+                'label' => 'Total Quantity (Day 1-31)',
+                'data' => $data,
+                // กำหนดสีพื้นหลังแบบสุ่มสำหรับแต่ละแท่ง
+                'backgroundColor' => array_map(function($i) {
+                    return sprintf('rgba(%d, %d, %d, 0.7)', rand(0,255), rand(0,255), rand(0,255));
+                }, range(1, count($labels))),
+                // กำหนดสีขอบแบบสุ่ม
+                'borderColor' => array_map(function($i) {
+                    return sprintf('rgba(%d, %d, %d, 1)', rand(0,255), rand(0,255), rand(0,255));
+                }, range(1, count($labels))),
+                'borderWidth' => 1,
+            ]
+        ]
+    ]);
+@endphp
+        <div style="overflow-x:auto;">      
+            <div style="width: 100%; max-width: 1600px; height: 500px; margin: auto;">
+                <canvas id="myCharts"></canvas>
+            </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -502,6 +551,93 @@
 </div>
 @endsection
 @push('scriptjs')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script>
+ document.addEventListener("DOMContentLoaded", function() {
+        var ctx = document.getElementById("myChart").getContext("2d");
+
+        var chartData = {!! $chartData !!}; // ดึงข้อมูลจาก Laravel
+
+        // กำหนด backgroundColor ให้ dataset แต่ละชุด
+        chartData.datasets.forEach((dataset, index) => {
+            dataset.backgroundColor = dataset.borderColor; // ใช้สีเดียวกับเส้น borderColor
+        });
+
+        var myChart = new Chart(ctx, {
+            type: 'bar', // เปลี่ยนจาก 'line' เป็น 'bar'
+            data: chartData,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        var ctx = document.getElementById("pieChart").getContext("2d");
+
+        var chartData = {
+            labels: {!! json_encode($hd3->pluck('pdt_process_hd_code')) !!}, // ชื่อ Line
+            datasets: [{
+                data: {!! json_encode($hd3->pluck('pdt_process_hd_qty')) !!}, // ค่า Max
+                backgroundColor: [
+                    "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", 
+                    "#FF9F40", "#C9CBCF", "#E7E9ED", "#74C476", "#A1D99B"
+                ]
+            }]
+        };
+
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: chartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+    var ctx = document.getElementById("myCharts").getContext("2d");
+    var chartDatas = {!! $chartDatas !!}; // ข้อมูล JSON ที่เตรียมไว้
+
+    var myCharts = new Chart(ctx, {
+        type: 'bar', // Bar Chart
+        data: chartDatas,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    formatter: function(value) {
+                        return value;
+                    },
+                    font: {
+                        weight: 'bold'
+                    },
+                    color: '#000' // สีของตัวเลข
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // ลงทะเบียน plugin
+    });
+});
 </script>
 @endpush
