@@ -40,6 +40,7 @@
         <div class="row">   
             <h3 class="card-title text-center">Line : L1 วันที่ {{ $datestart }} ถึง {{ $dateend }}</h3>
             <div style="overflow-x:auto;">
+                <canvas id="myChart1" width="400" height="200"></canvas>
                 <table id="tb_job1" class="table table-bordered nowrap w-100 text-center table-sm">
                     <thead>
                         <tr>
@@ -80,6 +81,7 @@
         <div class="row">   
             <h3 class="card-title text-center">Line : L2 วันที่ {{ $datestart }} ถึง {{ $dateend }}</h3>
             <div style="overflow-x:auto;">
+                <canvas id="myChart2" width="400" height="200"></canvas>
                 <table id="tb_job2" class="table table-bordered nowrap w-100 text-center table-sm">
                     <thead>
                         <tr>
@@ -120,6 +122,7 @@
         <div class="row">   
             <h3 class="card-title text-center">Line : L3 วันที่ {{ $datestart }} ถึง {{ $dateend }}</h3>
             <div style="overflow-x:auto;">
+                <canvas id="myChart3" width="400" height="200"></canvas>
                 <table id="tb_job3" class="table table-bordered nowrap w-100 text-center table-sm">
                     <thead>
                         <tr>
@@ -160,6 +163,7 @@
         <div class="row">   
             <h3 class="card-title text-center">Line : L4 วันที่ {{ $datestart }} ถึง {{ $dateend }}</h3>
             <div style="overflow-x:auto;">
+                <canvas id="myChart4" width="400" height="200"></canvas>
                 <table id="tb_job3" class="table table-bordered nowrap w-100 text-center table-sm">
                     <thead>
                         <tr>
@@ -203,6 +207,7 @@
 @endsection
 @push('scriptjs')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
 $(document).ready(function() {
     $('#tb_job1').DataTable({
@@ -255,6 +260,286 @@ $(document).ready(function() {
                 'excel',
         ]
     })
+});
+var data = @json($hd1); // ข้อมูลจาก server
+
+    // สร้าง labels จากชื่อ Model/Product
+    var labels = [];
+    @foreach ($hd1->groupBy('mpd') as $productName => $itemsByProduct)
+        labels.push('{{ $productName }}');
+    @endforeach
+
+    // สร้าง datasets สำหรับแต่ละ line
+    var datasets = [];
+    @foreach ($groupedByL1 as $line => $items)
+        var lineData = [];
+        @foreach ($hd1->groupBy('mpd') as $productName => $itemsByProduct)
+            @php
+                $purchase = $itemsByProduct->firstWhere('pdt_process_dt_name', $line);
+                $amount = $purchase ? $purchase->total : 0;
+            @endphp
+            lineData.push({{ $amount }});
+        @endforeach
+
+        datasets.push({
+            label: '{{ $line }}', // ชื่อของแต่ละ line
+            data: lineData, // ข้อมูลของแต่ละ line ตาม Model/Product
+            backgroundColor: getRandomColor(), // สุ่มสีสำหรับแต่ละชุดข้อมูล
+            borderColor: 'rgba(0, 0, 0, 0.1)',
+            borderWidth: 1
+        });
+    @endforeach
+
+    // ฟังก์ชันสุ่มสี
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    // สร้างกราฟ
+    var ctx = document.getElementById('myChart1').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar', // ประเภทกราฟ (เช่น 'bar', 'line' ฯลฯ)
+        data: {
+            labels: labels, // ใส่ labels (ชื่อ Model/Product)
+            datasets: datasets // ใส่ datasets ที่สร้างจากข้อมูลของแต่ละ line
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: true, // แสดงตัวเลข
+                    color: 'black',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    align: 'center',
+                    formatter: function(value) {
+                        return value.toLocaleString(); // แสดงตัวเลขในรูปแบบที่อ่านง่าย
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true // เริ่มต้นแกน Y ที่ 0
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // ใช้ plugin สำหรับแสดงตัวเลข
+    });
+    var data = @json($hd2); // ข้อมูลจาก server
+
+    // สร้าง labels จากชื่อ Model/Product
+    var labels = [];
+    @foreach ($hd2->groupBy('mpd') as $productName => $itemsByProduct)
+        labels.push('{{ $productName }}');
+    @endforeach
+
+    // สร้าง datasets สำหรับแต่ละ line
+    var datasets = [];
+    @foreach ($groupedByL2 as $line => $items)
+        var lineData = [];
+        @foreach ($hd2->groupBy('mpd') as $productName => $itemsByProduct)
+            @php
+                $purchase = $itemsByProduct->firstWhere('pdt_process_dt_name', $line);
+                $amount = $purchase ? $purchase->total : 0;
+            @endphp
+            lineData.push({{ $amount }});
+        @endforeach
+
+        datasets.push({
+            label: '{{ $line }}', // ชื่อของแต่ละ line
+            data: lineData, // ข้อมูลของแต่ละ line ตาม Model/Product
+            backgroundColor: getRandomColor(), // สุ่มสีสำหรับแต่ละชุดข้อมูล
+            borderColor: 'rgba(0, 0, 0, 0.1)',
+            borderWidth: 1
+        });
+    @endforeach
+
+    // ฟังก์ชันสุ่มสี
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    // สร้างกราฟ
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar', // ประเภทกราฟ (เช่น 'bar', 'line' ฯลฯ)
+        data: {
+            labels: labels, // ใส่ labels (ชื่อ Model/Product)
+            datasets: datasets // ใส่ datasets ที่สร้างจากข้อมูลของแต่ละ line
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: true, // แสดงตัวเลข
+                    color: 'black',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    align: 'center',
+                    formatter: function(value) {
+                        return value.toLocaleString(); // แสดงตัวเลขในรูปแบบที่อ่านง่าย
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true // เริ่มต้นแกน Y ที่ 0
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // ใช้ plugin สำหรับแสดงตัวเลข
+    });
+    var data = @json($hd3); // ข้อมูลจาก server
+
+// สร้าง labels จากชื่อ Model/Product
+var labels = [];
+@foreach ($hd3->groupBy('mpd') as $productName => $itemsByProduct)
+    labels.push('{{ $productName }}');
+@endforeach
+
+// สร้าง datasets สำหรับแต่ละ line
+var datasets = [];
+@foreach ($groupedByL3 as $line => $items)
+    var lineData = [];
+    @foreach ($hd3->groupBy('mpd') as $productName => $itemsByProduct)
+        @php
+            $purchase = $itemsByProduct->firstWhere('pdt_process_dt_name', $line);
+            $amount = $purchase ? $purchase->total : 0;
+        @endphp
+        lineData.push({{ $amount }});
+    @endforeach
+
+    datasets.push({
+        label: '{{ $line }}', // ชื่อของแต่ละ line
+        data: lineData, // ข้อมูลของแต่ละ line ตาม Model/Product
+        backgroundColor: getRandomColor(), // สุ่มสีสำหรับแต่ละชุดข้อมูล
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderWidth: 1
+    });
+@endforeach
+
+// ฟังก์ชันสุ่มสี
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// สร้างกราฟ
+var ctx = document.getElementById('myChart3').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar', // ประเภทกราฟ (เช่น 'bar', 'line' ฯลฯ)
+    data: {
+        labels: labels, // ใส่ labels (ชื่อ Model/Product)
+        datasets: datasets // ใส่ datasets ที่สร้างจากข้อมูลของแต่ละ line
+    },
+    options: {
+        plugins: {
+            datalabels: {
+                display: true, // แสดงตัวเลข
+                color: 'black',
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                align: 'center',
+                formatter: function(value) {
+                    return value.toLocaleString(); // แสดงตัวเลขในรูปแบบที่อ่านง่าย
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true // เริ่มต้นแกน Y ที่ 0
+            }
+        }
+    },
+    plugins: [ChartDataLabels] // ใช้ plugin สำหรับแสดงตัวเลข
+});
+var data = @json($hd4); // ข้อมูลจาก server
+
+// สร้าง labels จากชื่อ Model/Product
+var labels = [];
+@foreach ($hd4->groupBy('mpd') as $productName => $itemsByProduct)
+    labels.push('{{ $productName }}');
+@endforeach
+
+// สร้าง datasets สำหรับแต่ละ line
+var datasets = [];
+@foreach ($groupedByL4 as $line => $items)
+    var lineData = [];
+    @foreach ($hd4->groupBy('mpd') as $productName => $itemsByProduct)
+        @php
+            $purchase = $itemsByProduct->firstWhere('pdt_process_dt_name', $line);
+            $amount = $purchase ? $purchase->total : 0;
+        @endphp
+        lineData.push({{ $amount }});
+    @endforeach
+
+    datasets.push({
+        label: '{{ $line }}', // ชื่อของแต่ละ line
+        data: lineData, // ข้อมูลของแต่ละ line ตาม Model/Product
+        backgroundColor: getRandomColor(), // สุ่มสีสำหรับแต่ละชุดข้อมูล
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+        borderWidth: 1
+    });
+@endforeach
+
+// ฟังก์ชันสุ่มสี
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// สร้างกราฟ
+var ctx = document.getElementById('myChart4').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar', // ประเภทกราฟ (เช่น 'bar', 'line' ฯลฯ)
+    data: {
+        labels: labels, // ใส่ labels (ชื่อ Model/Product)
+        datasets: datasets // ใส่ datasets ที่สร้างจากข้อมูลของแต่ละ line
+    },
+    options: {
+        plugins: {
+            datalabels: {
+                display: true, // แสดงตัวเลข
+                color: 'black',
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                align: 'center',
+                formatter: function(value) {
+                    return value.toLocaleString(); // แสดงตัวเลขในรูปแบบที่อ่านง่าย
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true // เริ่มต้นแกน Y ที่ 0
+            }
+        }
+    },
+    plugins: [ChartDataLabels] // ใช้ plugin สำหรับแสดงตัวเลข
 });
 </script>
 @endpush

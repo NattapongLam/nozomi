@@ -66,6 +66,7 @@
         <div class="row">
             <h3 class="card-title text-center">Line : L1  เดือน : {{$year}}/{{$month}}</h3>    
             <div style="overflow-x:auto;">
+                <canvas id="myChart1" width="400" height="200"></canvas>
                 <table class="table table-bordered nowrap w-100 text-center">
                     <thead>
                         <tr>
@@ -93,7 +94,7 @@
                                     if (!isset($columnTotals[$line])) {
                                         $columnTotals[$line] = 0; 
                                     }
-                                        $columnTotals[$line] += $amount;
+                                        $columnTotals[$line] += $amount;                                       
                                 @endphp
                             <td>{{ number_format($amount, 2) }}</td>
                             @endforeach
@@ -114,6 +115,7 @@
         <div class="row">
             <h3 class="card-title text-center">Line : L2  เดือน : {{$year}}/{{$month}}</h3>    
             <div style="overflow-x:auto;">
+                <canvas id="myChart2" width="400" height="200"></canvas>
                 <table class="table table-bordered nowrap w-100 text-center">
                     <thead>
                         <tr>
@@ -162,6 +164,7 @@
         <div class="row">
             <h3 class="card-title text-center">Line : L3  เดือน : {{$year}}/{{$month}}</h3>    
             <div style="overflow-x:auto;">
+                <canvas id="myChart3" width="400" height="200"></canvas>
                 <table class="table table-bordered nowrap w-100 text-center">
                     <thead>
                         <tr>
@@ -210,6 +213,7 @@
         <div class="row">
             <h3 class="card-title text-center">Line : L4  เดือน : {{$year}}/{{$month}}</h3>    
             <div style="overflow-x:auto;">
+                <canvas id="myChart4" width="400" height="200"></canvas>
                 <table class="table table-bordered nowrap w-100 text-center">
                     <thead>
                         <tr>
@@ -261,6 +265,212 @@
 @endsection
 @push('scriptjs')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
+var products = @json(array_unique(array_column($groupedByL1['Plan'], 'product')));
+// สร้างยอดรวมสำหรับแต่ละ product และ jobtype
+var totals = {
+    'Plan': [],
+    'Actual': [],
+    'Final': []
+};
+products.forEach(function(product) {
+    // กรองข้อมูลที่มี 'product' ตรงกับที่ต้องการ และหายอดรวม
+    var planTotal = @json($groupedByL1['Plan']).filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0);
+    var actualTotal = @json($groupedByL1['Actual']).filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0);
+    var finalTotal = @json($groupedByL1['Final']).filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0);
+
+    totals['Plan'].push(planTotal.toFixed(2));
+    totals['Actual'].push(actualTotal.toFixed(2));
+    totals['Final'].push(finalTotal.toFixed(2));
+});
+var ctx = document.getElementById('myChart1').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: products,
+            datasets: [{
+                label: 'Plan',
+                data: totals['Plan'],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Actual',
+                data: totals['Actual'],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Final',
+                data: totals['Final'],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toFixed(2);  // แสดงทศนิยม 2 ตำแหน่ง
+                        }
+                    }
+                }
+            }
+        }
+    });
+var products = @json(array_unique(array_column($groupedByL2['Plan'], 'product')));
+// สร้างยอดรวมสำหรับแต่ละ product และ jobtype
+var totals = {
+    'Plan': [],
+    'Actual': [],
+    'Final': []
+};
+products.forEach(function(product) {
+    // กรองข้อมูลที่มี 'product' ตรงกับที่ต้องการ และหายอดรวม
+    var planTotal = @json($groupedByL2['Plan']).filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0);
+    var actualTotal = @json($groupedByL2['Actual']).filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0);
+    var finalTotal = @json($groupedByL2['Final']).filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0);
+
+    totals['Plan'].push(planTotal);
+    totals['Actual'].push(actualTotal);
+    totals['Final'].push(finalTotal);
+});
+var ctx = document.getElementById('myChart2').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: products,  // ชื่อของแต่ละ Product
+        datasets: [{
+            label: 'Plan',
+            data: totals['Plan'],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Actual',
+            data: totals['Actual'],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Final',
+            data: totals['Final'],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+var products = @json(array_unique(array_column($groupedByL3['Plan'], 'product')));
+// สร้างยอดรวมสำหรับแต่ละ product และ jobtype
+var totals = {
+    'Plan': [],
+    'Actual': [],
+    'Final': []
+};
+products.forEach(function(product) {
+    // กรองข้อมูลที่มี 'product' ตรงกับที่ต้องการ และหายอดรวม
+    var planTotal = @json($groupedByL3['Plan']).filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0);
+    var actualTotal = groupedByL3.Actual ? groupedByL3.Actual.filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0) : 0;
+    var finalTotal = groupedByL3.Final ? groupedByL3.Final.filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0) : 0;
+
+    totals['Plan'].push(planTotal);
+    totals['Actual'].push(actualTotal);
+    totals['Final'].push(finalTotal);
+});
+var ctx = document.getElementById('myChart3').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: products,  // ชื่อของแต่ละ Product
+        datasets: [{
+            label: 'Plan',
+            data: totals['Plan'],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Actual',
+            data: totals['Actual'],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Final',
+            data: totals['Final'],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+var products = @json(array_unique(array_column($groupedByL4['Plan'], 'product')));
+// สร้างยอดรวมสำหรับแต่ละ product และ jobtype
+var totals = {
+    'Plan': [],
+    'Actual': [],
+    'Final': []
+};
+products.forEach(function(product) {
+    // กรองข้อมูลที่มี 'product' ตรงกับที่ต้องการ และหายอดรวม
+    var planTotal = @json($groupedByL4['Plan']).filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0);
+    var actualTotal = groupedByL4.Actual ? groupedByL4.Actual.filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0) : 0;
+    var finalTotal = groupedByL4.Final ? groupedByL4.Final.filter(function(item) { return item.product === product; }).reduce(function(acc, curr) { return acc + parseFloat(curr.total); }, 0) : 0;
+
+    totals['Plan'].push(planTotal);
+    totals['Actual'].push(actualTotal);
+    totals['Final'].push(finalTotal);
+});
+var ctx = document.getElementById('myChart4').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: products,  // ชื่อของแต่ละ Product
+        datasets: [{
+            label: 'Plan',
+            data: totals['Plan'],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Actual',
+            data: totals['Actual'],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Final',
+            data: totals['Final'],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
 </script>
 @endpush

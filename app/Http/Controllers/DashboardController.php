@@ -94,7 +94,10 @@ class DashboardController extends Controller
         $hd = DB::table('vw_productresult_daily')
         ->where('date',$request->datestart)
         ->get();
-        return view('report.form-planning-production', compact('hd','datestart'));
+        $hdsum = DB::table('vw_productresult_daily_sum')
+        ->where('date',$request->datestart)
+        ->get();
+        return view('report.form-planning-production', compact('hd','datestart','hdsum'));
     }
     public function ReportPlanningPdMonth(Request $request)
     {
@@ -248,7 +251,7 @@ class DashboardController extends Controller
     public function ReportDeliveryDay(Request $request)
     {
         $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
-        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-7 day", strtotime($dateend)));
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-5 day", strtotime($dateend)));
         $hd = DB::table('vw_fgissuestock_report')
         ->whereBetween('date', [$datestart, $dateend])
         ->get();

@@ -436,49 +436,57 @@
         </div>
         <h5>แผนการผลิตประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h5>
         @php
-    // สมมติว่า $hd4 เป็น Collection ของข้อมูลที่มีฟิลด์: pdt_process_hd_code, product, qty01, qty02, ... qty31
-    // กลุ่มข้อมูลตาม pdt_process_hd_code และ product
-    $grouped = $hd4->groupBy(function($item) {
-        return $item->pdt_process_hd_code . ' / ' . $item->product;
-    });
+            // สมมติว่า $hd4 เป็น Collection ของข้อมูลที่มีฟิลด์: pdt_process_hd_code, product, qty01, qty02, ... qty31
+            // กลุ่มข้อมูลตาม pdt_process_hd_code และ product
+            $grouped = $hd4->groupBy(function($item) {
+                return $item->pdt_process_hd_code . ' / ' . $item->product;
+            });
 
-    $labels = [];
-    $data = [];
-    // วนลูปแต่ละกลุ่มและคำนวณผลรวมของ qty ตั้งแต่ qty01 ถึง qty31
-    foreach ($grouped as $groupLabel => $items) {
-        $total = 0;
-        foreach ($items as $item) {
-            for ($day = 1; $day <= 31; $day++) {
-                $dayKey = 'qty' . sprintf('%02d', $day); // เช่น qty01, qty02,...
-                if (isset($item->$dayKey)) {
-                    $total += (float) $item->$dayKey;
+            $labels = [];
+            $data = [];
+            
+            // วนลูปแต่ละกลุ่มและคำนวณผลรวมของ qty ตั้งแต่ qty01 ถึง qty31
+            foreach ($grouped as $groupLabel => $items) {
+                $total = 0;
+                foreach ($items as $item) {
+                    for ($day = 1; $day <= 31; $day++) {
+                        $dayKey = 'qty' . sprintf('%02d', $day); // เช่น qty01, qty02,...
+                        if (isset($item->$dayKey)) {
+                            $total += (float) $item->$dayKey;
+                        }
+                    }
+                }
+
+                // กรองค่า 0 ออก
+                if ($total > 0) {
+                    $labels[] = $groupLabel;
+                    $data[] = $total;
                 }
             }
-        }
-        $labels[] = $groupLabel;
-        $data[] = $total;
-    }
 
-    // สร้างชุดข้อมูลสำหรับ Chart.js โดยใช้ dataset เดียว
-    $chartDatas = json_encode([
-        'labels' => $labels,
-        'datasets' => [
-            [
-                'label' => 'Total Quantity (Day 1-31)',
-                'data' => $data,
-                // กำหนดสีพื้นหลังแบบสุ่มสำหรับแต่ละแท่ง
-                'backgroundColor' => array_map(function($i) {
-                    return sprintf('rgba(%d, %d, %d, 0.7)', rand(0,255), rand(0,255), rand(0,255));
-                }, range(1, count($labels))),
-                // กำหนดสีขอบแบบสุ่ม
-                'borderColor' => array_map(function($i) {
-                    return sprintf('rgba(%d, %d, %d, 1)', rand(0,255), rand(0,255), rand(0,255));
-                }, range(1, count($labels))),
-                'borderWidth' => 1,
-            ]
-        ]
-    ]);
-@endphp
+            // กำหนดสีพื้นหลังและขอบแบบสุ่ม
+            $backgroundColors = array_map(function() {
+                return sprintf('rgba(%d, %d, %d, 0.7)', rand(0,255), rand(0,255), rand(0,255));
+            }, range(1, count($labels)));
+
+            $borderColors = array_map(function() {
+                return sprintf('rgba(%d, %d, %d, 1)', rand(0,255), rand(0,255), rand(0,255));
+            }, range(1, count($labels)));
+
+            // สร้างชุดข้อมูลสำหรับ Chart.js โดยใช้ dataset เดียว
+            $chartDatas = json_encode([
+                'labels' => array_values($labels), // จัดเรียง index ใหม่
+                'datasets' => [
+                    [
+                        'label' => 'Total Quantity (Day 1-31)',
+                        'data' => array_values($data), // จัดเรียง index ใหม่
+                        'backgroundColor' => $backgroundColors,
+                        'borderColor' => $borderColors,
+                        'borderWidth' => 1,
+                    ]
+                ]
+            ]);
+        @endphp
         <div style="overflow-x:auto;">      
             <div style="width: 100%; max-width: 1600px; height: 500px; margin: auto;">
                 <canvas id="myCharts"></canvas>

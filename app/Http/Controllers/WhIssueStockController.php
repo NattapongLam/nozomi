@@ -182,7 +182,7 @@ class WhIssueStockController extends Controller
     public function ReportWarehouse(Request $request)
     {
         $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
-        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-3 month", strtotime($dateend)));
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-2 month", strtotime($dateend)));
         $hd = DB::table('vw_whissuestock_report')
         ->whereBetween('wh_issuestock_hd_date', [$datestart, $dateend])
         ->get();

@@ -39,6 +39,7 @@
         <hr>
         <div style="overflow-x:auto;">
             <h3 class="card-title text-center">รับเข้าสินค้าจากการผลิต</h3>
+            <canvas id="myChart1" width="400" height="200"></canvas>
             <table id="tb_job1" class="table table-bordered">
             <thead>
                 <tr>
@@ -52,6 +53,15 @@
                 @php
                     $totalAmount = 0;
                     $groupedMpd = $hd->groupBy('mpd');
+                    // คำนวณผลรวมตามวัน
+                    $dayTotals = [];
+                    foreach ($groupedByDay as $Days => $dayItems) {
+                        $totalForDay = 0;
+                        foreach ($groupedMpd as $MpdName => $items) {
+                            $totalForDay += $items->whereIn('fg_receiveproduct_hd_date', collect($dayItems)->pluck('fg_receiveproduct_hd_date'))->sum('fg_receiveproduct_dt_qty');
+                        }
+                        $dayTotals[$Days] = $totalForDay;
+                    }
                 @endphp
         
                 @foreach ($groupedMpd as $MpdName => $items)
@@ -71,6 +81,7 @@
         </div>
         <div style="overflow-x:auto;">
             <h3 class="card-title text-center">รับเข้า PU</h3>
+            <canvas id="myChart2" width="400" height="200"></canvas>
             <table id="tb_job2" class="table table-bordered">
             <thead>
                 <tr>
@@ -84,6 +95,15 @@
                 @php
                     $totalAmount = 0;
                     $groupedMpd = $hd1->groupBy('productcode');
+                    // คำนวณผลรวมตามวัน
+                    $dayTotals1 = [];
+                    foreach ($groupedByDay1 as $Days => $dayItems) {
+                        $totalForDay = 0;
+                        foreach ($groupedMpd as $MpdName => $items) {
+                            $totalForDay += $items->whereIn('wh_receivepu_hd_date', collect($dayItems)->pluck('wh_receivepu_hd_date'))->sum('wh_receivepu_dt_qty');
+                        }
+                        $dayTotals1[$Days] = $totalForDay;
+                    }
                 @endphp
         
                 @foreach ($groupedMpd as $MpdName => $items)
@@ -103,6 +123,7 @@
         </div>
         <div style="overflow-x:auto;">
             <h3 class="card-title text-center">รับเข้าสินค้า</h3>
+            <canvas id="myChart3" width="400" height="200"></canvas>
             <table id="tb_job2" class="table table-bordered">
             <thead>
                 <tr>
@@ -116,6 +137,15 @@
                 @php
                     $totalAmount = 0;
                     $groupedMpd = $hd2->groupBy('pd_product_name1');
+                    // คำนวณผลรวมตามวัน
+                    $dayTotals2 = [];
+                    foreach ($groupedByDay2 as $Days => $dayItems) {
+                        $totalForDay = 0;
+                        foreach ($groupedMpd as $MpdName => $items) {
+                            $totalForDay += $items->whereIn('wh_receiveproduct_hd_date', collect($dayItems)->pluck('wh_receiveproduct_hd_date'))->sum('wh_receiveproduct_dt_qty');
+                        }
+                        $dayTotals2[$Days] = $totalForDay;
+                    }
                 @endphp
         
                 @foreach ($groupedMpd as $MpdName => $items)
@@ -138,6 +168,8 @@
 </div>
 @endsection
 @push('scriptjs')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
 $(document).ready(function() {
     $('#tb_job1').DataTable({
@@ -165,5 +197,131 @@ $(document).ready(function() {
     "order": [[ 0, "asc" ]],        
     })
 });
+ // ดึงข้อมูลจาก Blade ที่คำนวณแล้ว
+ var dayTotals = @json($dayTotals); // ผลรวมของ fg_receiveproduct_dt_qty ตามวัน
+    var days = Object.keys(dayTotals); // ดึงวันที่ทั้งหมด
+    var totals = Object.values(dayTotals); // ดึงผลรวมตามวัน
+
+    // สร้างกราฟ
+    var ctx = document.getElementById('myChart1').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar', // ประเภทกราฟ (bar หรือ line)
+        data: {
+            labels: days, // ใส่ labels (วันที่)
+            datasets: [{
+                label: 'Total Quantity by Day', // ชื่อชุดข้อมูล
+                data: totals, // ผลรวมตามวัน
+                backgroundColor: 'rgba(54, 162, 235, 0.2)', // สีของแท่งกราฟ
+                borderColor: 'rgba(54, 162, 235, 1)', // สีของขอบแท่ง
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: true, // แสดงตัวเลข
+                    color: 'black',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    align: 'center',
+                    formatter: function(value) {
+                        return value.toLocaleString(); // แสดงตัวเลขในรูปแบบที่อ่านง่าย
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true // เริ่มต้นแกน Y ที่ 0
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // ใช้ plugin สำหรับแสดงตัวเลข
+    });
+     // ดึงข้อมูลจาก Blade ที่คำนวณแล้ว
+    var dayTotals1 = @json($dayTotals1); // ผลรวมของ fg_receiveproduct_dt_qty ตามวัน
+    var days1 = Object.keys(dayTotals1); // ดึงวันที่ทั้งหมด
+    var totals1 = Object.values(dayTotals1); // ดึงผลรวมตามวัน
+
+    // สร้างกราฟ
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar', // ประเภทกราฟ (bar หรือ line)
+        data: {
+            labels: days1, // ใส่ labels (วันที่)
+            datasets: [{
+                label: 'Total Quantity by Day', // ชื่อชุดข้อมูล
+                data: totals1, // ผลรวมตามวัน
+                backgroundColor: 'rgba(54, 162, 235, 0.2)', // สีของแท่งกราฟ
+                borderColor: 'rgba(54, 162, 235, 1)', // สีของขอบแท่ง
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: true, // แสดงตัวเลข
+                    color: 'black',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    align: 'center',
+                    formatter: function(value) {
+                        return value.toLocaleString(); // แสดงตัวเลขในรูปแบบที่อ่านง่าย
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true // เริ่มต้นแกน Y ที่ 0
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // ใช้ plugin สำหรับแสดงตัวเลข
+    });
+     // ดึงข้อมูลจาก Blade ที่คำนวณแล้ว
+     var dayTotals2 = @json($dayTotals2); // ผลรวมของ fg_receiveproduct_dt_qty ตามวัน
+    var days2 = Object.keys(dayTotals2); // ดึงวันที่ทั้งหมด
+    var totals2 = Object.values(dayTotals2); // ดึงผลรวมตามวัน
+
+    // สร้างกราฟ
+    var ctx = document.getElementById('myChart3').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar', // ประเภทกราฟ (bar หรือ line)
+        data: {
+            labels: days2, // ใส่ labels (วันที่)
+            datasets: [{
+                label: 'Total Quantity by Day', // ชื่อชุดข้อมูล
+                data: totals2, // ผลรวมตามวัน
+                backgroundColor: 'rgba(54, 162, 235, 0.2)', // สีของแท่งกราฟ
+                borderColor: 'rgba(54, 162, 235, 1)', // สีของขอบแท่ง
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: true, // แสดงตัวเลข
+                    color: 'black',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    align: 'center',
+                    formatter: function(value) {
+                        return value.toLocaleString(); // แสดงตัวเลขในรูปแบบที่อ่านง่าย
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true // เริ่มต้นแกน Y ที่ 0
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // ใช้ plugin สำหรับแสดงตัวเลข
+    });
 </script>
 @endpush

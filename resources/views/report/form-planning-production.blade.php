@@ -32,6 +32,25 @@
         </form>
         <br>
         <div style="overflow-x:auto;">
+           {{-- <table class="table">
+            <thead>
+                <tr>
+                    <th>Line/Process</th>
+                    <th>Day</th>
+                    <th>OT</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($hdsum as $item)
+                <tr>
+                    <td>{{$item->process}}</td>
+                    <td>{{number_format($item->qty,0)}}</td>               
+                    <td>{{number_format($item->qtyot,0)}}</td>
+                </tr>
+            @endforeach
+            </tbody>
+           </table> --}}
+           <canvas id="myChart" width="400" height="200"></canvas>
             <table id="tb_job" class="table table-bordered nowrap w-100 text-center">
                 <thead>
                     <tr>
@@ -71,6 +90,8 @@
 </div>
 @endsection
 @push('scriptjs')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
 $(document).ready(function() {
     $('#tb_job').DataTable({
@@ -85,5 +106,61 @@ $(document).ready(function() {
     "order": [[ 0, "asc" ]],        
     })
 });
+var data = @json($hdsum); // ข้อมูลจาก server จะถูกแปลงเป็น JSON
+    
+    var labels = data.map(function(item) {
+        return item.process; // เอาค่า 'process' มาใช้เป็น label
+    });
+
+    var qtyData = data.map(function(item) {
+        return item.qty; // เอาค่า 'qty' มาใช้เป็นข้อมูลของกราฟ
+    });
+
+    var qtyotData = data.map(function(item) {
+        return item.qtyot; // เอาค่า 'qtyot' มาใช้เป็นข้อมูลของกราฟ
+    });
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar', // ประเภทของกราฟที่ต้องการ (เช่น 'line', 'bar', 'pie' ฯลฯ)
+        data: {
+            labels: labels, // labels ของกราฟ
+            datasets: [{
+                label: 'Day', // ชื่อ Dataset 1
+                data: qtyData,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }, {
+                label: 'OT', // ชื่อ Dataset 2
+                data: qtyotData,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: true, // ให้แสดงตัวเลข
+                    color: 'black', // สีตัวเลข
+                    font: {
+                        weight: 'bold', // ความหนาของฟอนต์
+                        size: 14 // ขนาดฟอนต์
+                    },
+                    align: 'center', // การจัดตำแหน่งตัวเลข
+                    formatter: function(value) {
+                        return value.toLocaleString(); // แสดงตัวเลขในรูปแบบที่อ่านง่าย (เช่น 1,000)
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // ใช้ plugin datalabels
+    });
 </script>
 @endpush

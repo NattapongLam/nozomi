@@ -38,6 +38,7 @@
         </form>
         <br>
         <div style="overflow-x:auto;">
+        <canvas id="myChart" width="400" height="200"></canvas>
            <table id="tb_job" class="table table-bordered">
             <thead>
                 <tr>
@@ -73,6 +74,8 @@
 </div>
 @endsection
 @push('scriptjs')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
 $(document).ready(function() {
     $('#tb_job').DataTable({
@@ -86,6 +89,74 @@ $(document).ready(function() {
     ],
     "order": [[ 0, "asc" ]],        
     })
+});
+var data = @json($groupedMpd); // ข้อมูลจาก server
+
+var labels = []; // วันทั้งหมด
+@foreach ($groupedByDay as $Days => $dayItems)
+    labels.push('{{ $Days }}'); // สร้าง labels สำหรับกราฟ
+@endforeach
+
+// กำหนดข้อมูลที่จะใช้ในการสร้างกราฟ
+var datasets = [];
+@foreach ($groupedMpd as $MpdName => $items)
+    var qtyData = [];
+    @foreach ($groupedByDay as $Days => $dayItems)
+        @php
+            $dayTotal = $items->whereIn('date', collect($dayItems)->pluck('date'))->sum('qty');
+        @endphp
+        qtyData.push({{ $dayTotal }});
+    @endforeach
+
+    datasets.push({
+        label: '{{ $MpdName }}', // ชื่อแต่ละชุดข้อมูล
+        data: qtyData, // ข้อมูลของกราฟ (qty ตามวัน)
+        backgroundColor: getRandomColor(), // กำหนดสีที่สุ่ม
+        borderColor: 'rgba(0, 0, 0, 0.1)', // สีขอบ
+        borderWidth: 1
+    });
+@endforeach
+
+// ฟังก์ชันเพื่อสุ่มสีให้กับแต่ละกราฟ
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// สร้างกราฟ
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar', // ประเภทกราฟ (bar หรือ line)
+    data: {
+        labels: labels, // ใส่ labels
+        datasets: datasets // ใส่ datasets ที่สร้างจากข้อมูล
+    },
+    options: {
+        plugins: {
+            datalabels: {
+                display: true, // ให้แสดงตัวเลข
+                color: 'black',
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                align: 'center',
+                formatter: function(value) {
+                    return value.toLocaleString(); // แสดงตัวเลขแบบมีคอมม่า
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    },
+    plugins: [ChartDataLabels] // ใช้ plugin สำหรับแสดงตัวเลข
 });
 </script>
 @endpush
