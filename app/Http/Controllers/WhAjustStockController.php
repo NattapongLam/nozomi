@@ -119,20 +119,20 @@ class WhAjustStockController extends Controller
             ->leftjoin('wh_adjuststock_status','wh_adjuststock_hd.wh_adjuststock_status_id','=','wh_adjuststock_status.wh_adjuststock_status_id')
             ->where('wh_adjuststock_hd.wh_adjuststock_hd_id',$id)
             ->first();
-            define('LINE_API', "https://notify-api.line.me/api/notify");
-            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            $params = array(
-            "message"        => "เลขที่ปรับปรุงสินค้า : " . $hd->wh_adjuststock_hd_docuno ."\n"
-            . "วันที่ดำเนินการ : " . Carbon::now()->format('d/m/y h:i') ."\n"
-            . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
-            . "หมายเหตุ : " . $request->approved_remark ."\n"
-            . "สถานะ : " . $hd->wh_adjuststock_status_name ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            "stickerPkg"     => 8522, //stickerPackageId
-            "stickerId"      => 16581281, //stickerId
-            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            );
-            $res = $this->notify_message($params, $token);
+            // define('LINE_API', "https://notify-api.line.me/api/notify");
+            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            // $params = array(
+            // "message"        => "เลขที่ปรับปรุงสินค้า : " . $hd->wh_adjuststock_hd_docuno ."\n"
+            // . "วันที่ดำเนินการ : " . Carbon::now()->format('d/m/y h:i') ."\n"
+            // . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
+            // . "หมายเหตุ : " . $request->approved_remark ."\n"
+            // . "สถานะ : " . $hd->wh_adjuststock_status_name ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            // "stickerPkg"     => 8522, //stickerPackageId
+            // "stickerId"      => 16581281, //stickerId
+            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            // );
+            // $res = $this->notify_message($params, $token);
             return redirect()->route('dashboard')->with('success', 'บันทึกข้อมูลเรียบร้อย');      
         }catch(\Exception $e){
             Log::error($e->getMessage());
@@ -152,28 +152,28 @@ class WhAjustStockController extends Controller
         //
     }
 
-    function notify_message($params, $token)
-    {
-        $queryData = array(
-            'message'          => $params["message"],
-            'stickerPackageId' => $params["stickerPkg"],
-            'stickerId'        => $params["stickerId"],
-            // 'imageThumbnail'   => $params["imageThumbnail"],
-            // 'imageFullsize'    => $params["imageFullsize"],
-        );
-        $queryData = http_build_query($queryData, '', '&');
-        $headerOptions = array(
-            'http' => array(
-                'method'  => 'POST',
-                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
-                    . "Authorization: Bearer " . $token . "\r\n"
-                    . "Content-Length: " . strlen($queryData) . "\r\n",
-                'content' => $queryData,
-            ),
-        );
-        $context = stream_context_create($headerOptions);
-        $result = file_get_contents(LINE_API, FALSE, $context);
-        $res = json_decode($result);
-        return $res;
-    }
+    // function notify_message($params, $token)
+    // {
+    //     $queryData = array(
+    //         'message'          => $params["message"],
+    //         'stickerPackageId' => $params["stickerPkg"],
+    //         'stickerId'        => $params["stickerId"],
+    //         // 'imageThumbnail'   => $params["imageThumbnail"],
+    //         // 'imageFullsize'    => $params["imageFullsize"],
+    //     );
+    //     $queryData = http_build_query($queryData, '', '&');
+    //     $headerOptions = array(
+    //         'http' => array(
+    //             'method'  => 'POST',
+    //             'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
+    //                 . "Authorization: Bearer " . $token . "\r\n"
+    //                 . "Content-Length: " . strlen($queryData) . "\r\n",
+    //             'content' => $queryData,
+    //         ),
+    //     );
+    //     $context = stream_context_create($headerOptions);
+    //     $result = file_get_contents(LINE_API, FALSE, $context);
+    //     $res = json_decode($result);
+    //     return $res;
+    // }
 }

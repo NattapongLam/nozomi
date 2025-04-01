@@ -112,21 +112,21 @@ class PurchaseRequestController extends Controller
                 'pur_purchaserequest_status_id' => $request->approved_status
             ]);
             DB::commit();
-            define('LINE_API', "https://notify-api.line.me/api/notify");
-            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            $params = array(
-            "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            . "วันที่ดำเนินการ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
-            . "หมายเหตุ : " . $request->approved_remark ."\n"
-            . "แผนก : " . $hd->emp_department_name ."\n"
-            . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            "stickerPkg"     => 8522, //stickerPackageId
-            "stickerId"      => 16581281, //stickerId
-            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            );
-            $res = $this->notify_message($params, $token);
+            // define('LINE_API', "https://notify-api.line.me/api/notify");
+            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            // $params = array(
+            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
+            // . "วันที่ดำเนินการ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
+            // . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
+            // . "หมายเหตุ : " . $request->approved_remark ."\n"
+            // . "แผนก : " . $hd->emp_department_name ."\n"
+            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            // "stickerPkg"     => 8522, //stickerPackageId
+            // "stickerId"      => 16581281, //stickerId
+            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            // );
+            // $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }
         elseif ($hd->pur_purchaserequest_status_id == 5) {
@@ -139,21 +139,21 @@ class PurchaseRequestController extends Controller
                 'pur_purchaserequest_status_id' => $request->approved_status
             ]);
             DB::commit();
-            define('LINE_API', "https://notify-api.line.me/api/notify");
-            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            $params = array(
-            "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            . "วันที่ตรวจสอบ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            . "ผู้ตรวจสอบ : " . Auth::user()->name ."\n"
-            . "หมายเหตุ : " . $request->approved_remark ."\n"
-            . "แผนก : " . $hd->emp_department_name ."\n"
-            . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            "stickerPkg"     => 8522, //stickerPackageId
-            "stickerId"      => 16581281, //stickerId
-            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            );
-            $res = $this->notify_message($params, $token);
+            // define('LINE_API', "https://notify-api.line.me/api/notify");
+            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            // $params = array(
+            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
+            // . "วันที่ตรวจสอบ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
+            // . "ผู้ตรวจสอบ : " . Auth::user()->name ."\n"
+            // . "หมายเหตุ : " . $request->approved_remark ."\n"
+            // . "แผนก : " . $hd->emp_department_name ."\n"
+            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            // "stickerPkg"     => 8522, //stickerPackageId
+            // "stickerId"      => 16581281, //stickerId
+            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            // );
+            // $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }
         elseif ($hd->pur_purchaserequest_status_id == 6) {
@@ -167,21 +167,21 @@ class PurchaseRequestController extends Controller
                 'check_approved4' =>  $request->check_approved4 ?? false,
             ]);
             DB::commit();
-            define('LINE_API', "https://notify-api.line.me/api/notify");
-            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            $params = array(
-            "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            . "วันที่อนุมัติ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
-            . "หมายเหตุ : " . $request->approved_remark ."\n"
-            . "แผนก : " . $hd->emp_department_name ."\n"
-            . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            "stickerPkg"     => 8522, //stickerPackageId
-            "stickerId"      => 16581281, //stickerId
-            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            );
-            $res = $this->notify_message($params, $token);
+            // define('LINE_API', "https://notify-api.line.me/api/notify");
+            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            // $params = array(
+            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
+            // . "วันที่อนุมัติ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
+            // . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
+            // . "หมายเหตุ : " . $request->approved_remark ."\n"
+            // . "แผนก : " . $hd->emp_department_name ."\n"
+            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            // "stickerPkg"     => 8522, //stickerPackageId
+            // "stickerId"      => 16581281, //stickerId
+            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            // );
+            // $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         } 
         elseif ($hd->pur_purchaserequest_status_id == 7) {
@@ -195,21 +195,21 @@ class PurchaseRequestController extends Controller
                 'pur_purchaserequest_status_id' => $request->approved_status,
             ]);
             DB::commit();
-            define('LINE_API', "https://notify-api.line.me/api/notify");
-            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            $params = array(
-            "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            . "วันที่รับทราบ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            . "ผู้รับทราบ : " . Auth::user()->name ."\n"
-            . "หมายเหตุ : " . $request->approved_remark ."\n"
-            . "แผนก : " . $hd->emp_department_name ."\n"
-            . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            "stickerPkg"     => 8522, //stickerPackageId
-            "stickerId"      => 16581281, //stickerId
-            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            );
-            $res = $this->notify_message($params, $token);
+            // define('LINE_API', "https://notify-api.line.me/api/notify");
+            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            // $params = array(
+            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
+            // . "วันที่รับทราบ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
+            // . "ผู้รับทราบ : " . Auth::user()->name ."\n"
+            // . "หมายเหตุ : " . $request->approved_remark ."\n"
+            // . "แผนก : " . $hd->emp_department_name ."\n"
+            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            // "stickerPkg"     => 8522, //stickerPackageId
+            // "stickerId"      => 16581281, //stickerId
+            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            // );
+            // $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         } 
         elseif ($hd->pur_purchaserequest_status_id == 3) 
@@ -220,22 +220,22 @@ class PurchaseRequestController extends Controller
                 'pur_purchaserequest_status_id' => $request->approved_status,
             ]);
             DB::commit();
-            define('LINE_API', "https://notify-api.line.me/api/notify");
-            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            $params = array(
-            "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            . "วันที่ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
-            . "หมายเหตุ : " . $request->approved_remark ."\n"
-            . "แผนก : " . $hd->emp_department_name ."\n"
-            . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n"
-            . "สถานะ : ส่งกลับแก้ไข", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            "stickerPkg"     => 8522, //stickerPackageId
-            "stickerId"      => 16581281, //stickerId
-            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            );
-            $res = $this->notify_message($params, $token);
+            // define('LINE_API', "https://notify-api.line.me/api/notify");
+            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            // $params = array(
+            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
+            // . "วันที่ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
+            // . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
+            // . "หมายเหตุ : " . $request->approved_remark ."\n"
+            // . "แผนก : " . $hd->emp_department_name ."\n"
+            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n"
+            // . "สถานะ : ส่งกลับแก้ไข", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            // "stickerPkg"     => 8522, //stickerPackageId
+            // "stickerId"      => 16581281, //stickerId
+            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            // );
+            // $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }   
         elseif ($hd->pur_purchaserequest_status_id == 4) 
@@ -246,22 +246,22 @@ class PurchaseRequestController extends Controller
                 'pur_purchaserequest_status_id' => $request->approved_status,
             ]);
             DB::commit();
-            define('LINE_API', "https://notify-api.line.me/api/notify");
-            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            $params = array(
-            "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            . "วันที่ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
-            . "หมายเหตุ : " . $request->approved_remark ."\n"
-            . "แผนก : " . $hd->emp_department_name ."\n"
-            . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n"
-            . "สถานะ : ไม่อนุมัติ", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            "stickerPkg"     => 8522, //stickerPackageId
-            "stickerId"      => 16581281, //stickerId
-            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            );
-            $res = $this->notify_message($params, $token);
+            // define('LINE_API', "https://notify-api.line.me/api/notify");
+            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            // $params = array(
+            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
+            // . "วันที่ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
+            // . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
+            // . "หมายเหตุ : " . $request->approved_remark ."\n"
+            // . "แผนก : " . $hd->emp_department_name ."\n"
+            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n"
+            // . "สถานะ : ไม่อนุมัติ", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            // "stickerPkg"     => 8522, //stickerPackageId
+            // "stickerId"      => 16581281, //stickerId
+            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            // );
+            // $res = $this->notify_message($params, $token);
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }             
         }catch(\Exception $e){
@@ -333,30 +333,30 @@ class PurchaseRequestController extends Controller
         return view('purchaserequest.form-purchaserequest-app3', compact('hd','dateend','datestart'));
     }
 
-    function notify_message($params, $token)
-    {
-        $queryData = array(
-            'message'          => $params["message"],
-            'stickerPackageId' => $params["stickerPkg"],
-            'stickerId'        => $params["stickerId"],
-            // 'imageThumbnail'   => $params["imageThumbnail"],
-            // 'imageFullsize'    => $params["imageFullsize"],
-        );
-        $queryData = http_build_query($queryData, '', '&');
-        $headerOptions = array(
-            'http' => array(
-                'method'  => 'POST',
-                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
-                    . "Authorization: Bearer " . $token . "\r\n"
-                    . "Content-Length: " . strlen($queryData) . "\r\n",
-                'content' => $queryData,
-            ),
-        );
-        $context = stream_context_create($headerOptions);
-        $result = file_get_contents(LINE_API, FALSE, $context);
-        $res = json_decode($result);
-        return $res;
-    }
+    // function notify_message($params, $token)
+    // {
+    //     $queryData = array(
+    //         'message'          => $params["message"],
+    //         'stickerPackageId' => $params["stickerPkg"],
+    //         'stickerId'        => $params["stickerId"],
+    //         // 'imageThumbnail'   => $params["imageThumbnail"],
+    //         // 'imageFullsize'    => $params["imageFullsize"],
+    //     );
+    //     $queryData = http_build_query($queryData, '', '&');
+    //     $headerOptions = array(
+    //         'http' => array(
+    //             'method'  => 'POST',
+    //             'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
+    //                 . "Authorization: Bearer " . $token . "\r\n"
+    //                 . "Content-Length: " . strlen($queryData) . "\r\n",
+    //             'content' => $queryData,
+    //         ),
+    //     );
+    //     $context = stream_context_create($headerOptions);
+    //     $result = file_get_contents(LINE_API, FALSE, $context);
+    //     $res = json_decode($result);
+    //     return $res;
+    // }
     public function getDataPr(Request $request)
     {
         $id = $request->refid;
@@ -376,20 +376,20 @@ class PurchaseRequestController extends Controller
         $id = $request->refid;
         try {
             $hd = DB::table('pur_purchaserequest_hd')->where('pur_purchaserequest_hd_id',$id)->first();
-            define('LINE_API', "https://notify-api.line.me/api/notify");
-            $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            $params = array(
-            "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            . "วันที่ยกเลิก : " . Carbon::now()->format('d/m/y h:i') ."\n"
-            . "ผู้ยกเลิก : " . Auth::user()->name ."\n"
-            . "แผนก : " . $hd->emp_department_name ."\n"
-            . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            "stickerPkg"     => 8522, //stickerPackageId
-            "stickerId"      => 16581281, //stickerId
-            // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            );
-            $res = $this->notify_message($params, $token);
+            // define('LINE_API', "https://notify-api.line.me/api/notify");
+            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
+            // $params = array(
+            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
+            // . "วันที่ยกเลิก : " . Carbon::now()->format('d/m/y h:i') ."\n"
+            // . "ผู้ยกเลิก : " . Auth::user()->name ."\n"
+            // . "แผนก : " . $hd->emp_department_name ."\n"
+            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+            // "stickerPkg"     => 8522, //stickerPackageId
+            // "stickerId"      => 16581281, //stickerId
+            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
+            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
+            // );
+            // $res = $this->notify_message($params, $token);
             DB::beginTransaction();
             $update_hd = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id', $id)
