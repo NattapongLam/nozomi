@@ -91,8 +91,8 @@ class DashboardController extends Controller
     public function ReportPlanningPd(Request $request)
     {
         $datestart = $request->datestart ? date("Y-m-d", strtotime($request->datestart . ' -1 day')) : date("Y-m-d", strtotime('-1 day'));
-        $hd = DB::table('vw_productresult_daily')
-        ->where('date',$request->datestart)
+        $hd = DB::table('vw_productresult_daily_time')
+        ->where('vw_productresult_daily_time.date',$request->datestart)
         ->get();
         $hdsum = DB::table('vw_productresult_daily_sum')
         ->where('date',$request->datestart)
@@ -172,6 +172,7 @@ class DashboardController extends Controller
                 $hd1 = DB::table('pdt_plandelivery_hd')
                 ->where('pdt_plandelivery_hd_year',$year)
                 ->where('pdt_plandelivery_hd_month',$month)
+                ->where('pdt_plandelivery_hd_type','PDT1')
                 ->first();
                 if ($hd1) {
                     $hd2 = DB::table('pdt_plandelivery_dt')
@@ -277,5 +278,46 @@ class DashboardController extends Controller
         $groupedByDay2 = $hd2->groupBy('wh_receiveproduct_hd_date')->toArray();
         return view('report.form-receive-report', compact('dateend','datestart','hd','groupedByDay','hd1','groupedByDay1','hd2','groupedByDay2'));
 
+    }
+    public function ReportPlanningDl2(Request $request)
+    {
+        if($request->years){
+            $year = $request->years;    
+        }else{
+            $year = Carbon::now()->year;    
+        }
+        if($request->months){
+            $month = $request->months;      
+        }else{
+            $month = Carbon::now()->month;      
+        } 
+        if($year){
+            if($month){
+                $hd1 = DB::table('pdt_plandelivery_hd')
+                ->where('pdt_plandelivery_hd_year',$year)
+                ->where('pdt_plandelivery_hd_month',$month)
+                ->where('pdt_plandelivery_hd_type','PDT2')
+                ->first();
+                if ($hd1) {
+                    $hd2 = DB::table('pdt_plandelivery_dt')
+                    ->where('pdt_plandelivery_hd_id', $hd1->pdt_plandelivery_hd_id)
+                    ->get();
+                    $hd3 = DB::table('pdt2_planprocess')
+                    ->where('pdt2_planprocess_year',$year)
+                    ->where('pdt2_planprocess_month',$month)
+                    ->get();
+                    $hd4 = DB::table('pdt2_planproduction')
+                    ->where('pdt2_planproduction_year',$year)
+                    ->where('pdt2_planproduction_month',$month)
+                    ->orderBy('pdt2_planproduction_model','asc')
+                    ->get();
+                } else {
+                    $hd2 = collect();      
+                    $hd3 = collect();
+                    $hd4 = collect();             
+                }              
+            }
+        }                    
+        return view('report.form-planning-delivery2', compact('hd1','hd2','hd3','hd4'));
     }
 }

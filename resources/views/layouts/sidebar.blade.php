@@ -91,9 +91,15 @@
                 <li>
                 <a href="{{ url('/report-planningdl') }}">
                     <i class="bx bx-calendar"></i>
-                    <span key="t-users">แผนรวม</span>
+                    <span key="t-users">แผนรวม (โรง 1)</span>
                 </a>
                 </li> 
+                <li>
+                    <a href="{{ url('/report-planningdl2') }}">
+                        <i class="bx bx-calendar"></i>
+                        <span key="t-users">แผนรวม (โรง 2)</span>
+                    </a>
+                    </li> 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-calendar"></i>

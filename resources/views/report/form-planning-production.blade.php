@@ -67,7 +67,18 @@
                         <tr>
                             <td>{{$item->pdt_productresult_hd_line}}</td>
                             <td>{{$item->pdt_process_dt_name}}</td>
-                            <td>{{$item->emp_person_fullname}}</td>
+                            <td>
+                                {{$item->emp_person_fullname}}<br>
+                                @if($item->TimeIN)
+                                    @if ($item->TimeOut)
+                                    {{ date('H:i', strtotime($item->TimeIN)) }} - {{ date('H:i', strtotime($item->TimeOut)) }}
+                                    @else
+                                    {{$item->Day_Memo}}
+                                    @endif
+                                @else
+                                    {{$item->Day_Memo}}
+                                @endif
+                            </td>
                             <td>{{number_format($item->emp_person_target,0)}}</td>
                             @if ($item->qty < $item->emp_person_target)
                                 <td style="color: red">

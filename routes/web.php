@@ -62,6 +62,7 @@ Route::resource('/mt-docoff' , App\Http\Controllers\MaintenanceDocoff::class);
 // REPORT //
 Route::get('/report-planningpd' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPd']);
 Route::get('/report-planningdl' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningDl']);
+Route::get('/report-planningdl2' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningDl2']);
 Route::get('/report-planningpdmonth' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdMonth']);
 Route::get('/report-planningpdyear' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdYear']);
 Route::get('/report-planningpdday' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdDay']);
