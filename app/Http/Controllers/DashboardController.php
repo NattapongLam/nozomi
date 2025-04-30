@@ -93,6 +93,7 @@ class DashboardController extends Controller
         $datestart = $request->datestart ? date("Y-m-d", strtotime($request->datestart . ' -1 day')) : date("Y-m-d", strtotime('-1 day'));
         $hd = DB::table('vw_productresult_daily_time')
         ->where('vw_productresult_daily_time.date',$request->datestart)
+        ->whereIn('pdt_productresult_hd_line',['L1','L2','L3','L4'])
         ->get();
         $hdsum = DB::table('vw_productresult_daily_sum')
         ->where('date',$request->datestart)
@@ -319,5 +320,85 @@ class DashboardController extends Controller
             }
         }                    
         return view('report.form-planning-delivery2', compact('hd1','hd2','hd3','hd4'));
+    }
+    public function ReportPlanningPd2(Request $request)
+    {
+        $datestart = $request->datestart ? date("Y-m-d", strtotime($request->datestart . ' -1 day')) : date("Y-m-d", strtotime('-1 day'));
+        $hd = DB::table('vw_productresult_daily_time')
+        ->where('vw_productresult_daily_time.date',$request->datestart)
+        ->whereNotIn('pdt_productresult_hd_line',['L1','L2','L3','L4'])
+        ->get();
+        $hdsum = DB::table('vw_productresult_daily_sum')
+        ->where('date',$request->datestart)
+        ->get();
+        return view('report.form-planning-production2', compact('hd','datestart','hdsum'));
+    }
+    public function ReportPlanningPdDay2(Request $request)
+    {
+        $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-7 day", strtotime($dateend)));
+        $hd1 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Skin')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL1 = $hd1->groupBy('pdt_process_dt_name')->toArray();
+        $hd2 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Door console 640A ')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL2 = $hd2->groupBy('pdt_process_dt_name')->toArray();
+        $hd3 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Hood - Door S/A')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL3 = $hd3->groupBy('pdt_process_dt_name')->toArray();
+        $hd4 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Door console 230B,384D')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL4 = $hd4->groupBy('pdt_process_dt_name')->toArray();
+        $hd5 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Garnish console')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL5 = $hd5->groupBy('pdt_process_dt_name')->toArray();
+        $hd6 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Shifting hole 230B')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL6 = $hd6->groupBy('pdt_process_dt_name')->toArray();
+        $hd7 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Brake 230B/350B')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL7 = $hd7->groupBy('pdt_process_dt_name')->toArray();
+        $hd8 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Tonneua')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL8 = $hd8->groupBy('pdt_process_dt_name')->toArray();
+        $hd9 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Mirage')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL9 = $hd9->groupBy('pdt_process_dt_name')->toArray();
+        $hd10 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Brake 640')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL10 = $hd10->groupBy('pdt_process_dt_name')->toArray();
+        $hd11 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Shifting hole D92A')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL11 = $hd11->groupBy('pdt_process_dt_name')->toArray();
+        $hd12 = DB::table('vw_productresult_dailymodel')
+        ->where('pdt_productresult_hd_line','Shifting hole 650A')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        $groupedByL12 = $hd12->groupBy('pdt_process_dt_name')->toArray();
+        return view('report.form-planning-productionday2', compact('dateend','datestart','hd1','groupedByL1','hd2','groupedByL2','hd3','groupedByL3'
+        ,'hd4','groupedByL4','hd5','groupedByL5','hd6','groupedByL6','hd7','groupedByL7','hd8','groupedByL8','hd9','groupedByL9','hd10','groupedByL10'
+        ,'hd11','groupedByL11','hd12','groupedByL12'));
     }
 }

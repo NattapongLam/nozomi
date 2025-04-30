@@ -61,11 +61,13 @@ Route::resource('/mt-docoff' , App\Http\Controllers\MaintenanceDocoff::class);
 // Maintenance //
 // REPORT //
 Route::get('/report-planningpd' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPd']);
+Route::get('/report-planningpd2' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPd2']);
 Route::get('/report-planningdl' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningDl']);
 Route::get('/report-planningdl2' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningDl2']);
 Route::get('/report-planningpdmonth' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdMonth']);
 Route::get('/report-planningpdyear' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdYear']);
 Route::get('/report-planningpdday' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdDay']);
+Route::get('/report-planningpdday2' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdDay2']);
 Route::get('/report-deliveryday' , [App\Http\Controllers\DashboardController::class , 'ReportDeliveryDay']);
 Route::get('/report-receiveday' , [App\Http\Controllers\DashboardController::class , 'ReportReceiveDay']);
 // REPORT //

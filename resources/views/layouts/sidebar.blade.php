@@ -89,22 +89,18 @@
                 </li>
                 <li class="menu-title" key="t-apps">Report</li>   
                 <li>
-                <a href="{{ url('/report-planningdl') }}">
-                    <i class="bx bx-calendar"></i>
-                    <span key="t-users">แผนรวม (โรง 1)</span>
-                </a>
-                </li> 
-                <li>
-                    <a href="{{ url('/report-planningdl2') }}">
-                        <i class="bx bx-calendar"></i>
-                        <span key="t-users">แผนรวม (โรง 2)</span>
-                    </a>
-                    </li> 
-                <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-calendar"></i>
-                        <span key="t-layouts">รายงานผลิต</span>
+                        <span key="t-layouts">รายงานผลิต (โรง 1)</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{ url('/report-planningdl') }}">
+                                <i class="bx bx-calendar"></i>
+                                <span key="t-users">แผนรวม</span>
+                            </a>
+                            </li> 
+                    </ul>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
                             <a href="{{url('/report-planningpd')}}" key="t-vertical">เป้าผลิตประจำวัน</a>
@@ -123,6 +119,40 @@
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
                             <a href="{{url('/report-planningpdyear')}}" key="t-vertical">ผลผลิตประจำปี</a>
+                        </li>
+                    </ul>
+                </li>   
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-calendar"></i>
+                        <span key="t-layouts">รายงานผลิต (โรง 2)</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{ url('/report-planningdl2') }}">
+                                <i class="bx bx-calendar"></i>
+                                <span key="t-users">แผนรวม</span>
+                            </a>
+                            </li> 
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('/report-planningpd2')}}" key="t-vertical">เป้าผลิตประจำวัน</a>
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('/report-planningpdday2')}}" key="t-vertical">ผลผลิตประจำวัน</a>
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="#" key="t-vertical">ผลผลิตประจำเดือน</a>
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="#" key="t-vertical">ผลผลิตประจำปี</a>
                         </li>
                     </ul>
                 </li>   
@@ -167,7 +197,28 @@
                             <a href="{{url('/report-warehouse')}}" key="t-vertical">การเบิก</a>                           
                         </li>
                     </ul>
-                </li>                                             
+                </li>       
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-calendar"></i>
+                        <span key="t-layouts">รายงานซ่อมบำรุง</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="#" key="t-vertical">ประจำวัน</a>
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="#" key="t-vertical">ประจำเดือน</a>                           
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="#" key="t-vertical">ประจำปี</a>                           
+                        </li>
+                    </ul>
+                </li>                                         
                 <li class="menu-title" key="t-pages">Setting</li>   
                 <li>
                     <a href="{{route('profiles.index')}}">
