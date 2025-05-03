@@ -26,9 +26,15 @@ class MaintenanceDocoff extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        
+        $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-7 day", strtotime($dateend)));
+        $hd = DB::table('vw_maintenancedoc_all')
+        ->whereBetween('mtn_maintenancedoc_date', [$datestart, $dateend])
+        ->get();
+        return view('maintain.report-maintenancemonth', compact('hd','datestart','dateend'));
     }
 
     /**

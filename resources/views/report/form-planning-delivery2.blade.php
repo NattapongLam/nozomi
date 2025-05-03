@@ -76,422 +76,424 @@
         </div>
     </form>
     <br>
-        <h4 class="card-title">แผนจัดส่งประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h4>   
-        <div style="overflow-x:auto;">      
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Model/Product</th>
-                        @for ($day = 1; $day <= $daysInMonth; $day++)
-                         <th>
-                             {{ date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $day)) }} {{ sprintf('%02d', $day) }}
-                         </th>
-                        @endfor
-                    </tr>
-                </thead>
-                <tbody>
-                   @foreach ($hd2 as $item)
-                       <tr>
-                        <td> {{$item->product}}</td>
-                        <td> {{number_format($item->plan01,0)}}</td>
-                        <td> {{number_format($item->plan02,0)}}</td>
-                        <td> {{number_format($item->plan03,0)}}</td>
-                        <td> {{number_format($item->plan04,0)}}</td>
-                        <td> {{number_format($item->plan05,0)}}</td>
-                        <td> {{number_format($item->plan06,0)}}</td>
-                        <td> {{number_format($item->plan07,0)}}</td>
-                        <td> {{number_format($item->plan08,0)}}</td>
-                        <td> {{number_format($item->plan09,0)}}</td>
-                        <td> {{number_format($item->plan10,0)}}</td>
-                        <td> {{number_format($item->plan11,0)}}</td>
-                        <td> {{number_format($item->plan12,0)}}</td>
-                        <td> {{number_format($item->plan13,0)}}</td>
-                        <td> {{number_format($item->plan14,0)}}</td>
-                        <td> {{number_format($item->plan15,0)}}</td>
-                        <td> {{number_format($item->plan16,0)}}</td>
-                        <td> {{number_format($item->plan17,0)}}</td>
-                        <td> {{number_format($item->plan18,0)}}</td>
-                        <td> {{number_format($item->plan19,0)}}</td>
-                        <td> {{number_format($item->plan20,0)}}</td>
-                        <td> {{number_format($item->plan21,0)}}</td>
-                        <td> {{number_format($item->plan22,0)}}</td>
-                        <td> {{number_format($item->plan23,0)}}</td>
-                        <td> {{number_format($item->plan24,0)}}</td>
-                        <td> {{number_format($item->plan25,0)}}</td>
-                        <td> {{number_format($item->plan26,0)}}</td>
-                        <td> {{number_format($item->plan27,0)}}</td>
-                        <td> {{number_format($item->plan28,0)}}</td>
-                        <td> {{number_format($item->plan29,0)}}</td>
-                        <td> {{number_format($item->plan30,0)}}</td>
-                        <td> {{number_format($item->plan31,0)}}</td>
-                       </tr>
-                   @endforeach
-                </tbody>
-            </table>
-        </div>
-        <h5>กำลังการผลิตประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h5>
-        <div style="overflow-x:auto;">      
+    @if ($hd1)
+    <h4 class="card-title">แผนจัดส่งประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h4>   
+    <div style="overflow-x:auto;">      
         <table class="table table-bordered">
-           <thead>
-            <tr>
-                <th>Process</th>
-                <th>Man Power</th>
-                <th>Max</th>
-                @for ($day = 1; $day <= $daysInMonth; $day++)
-                <th>
-                    {{ date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $day)) }} {{ sprintf('%02d', $day) }}
-                </th>
-                @endfor
-            </tr>
-           </thead>
-           <tbody>
-            @foreach ($hd3 as $item)
+            <thead>
                 <tr>
-                    <td>{{$item->pdt2_planprocess_process}} ({{$item->pdt2_planprocess_leader}})</td>
-                    <td>{{number_format($item->pdt2_planprocess_empqty,0)}}</td>
-                    <td>{{number_format($item->pdt2_planprocess_max,0)}}</td>
-                    @if ($item->pdt2_planprocess_qty01 > 0)
-                        <td style="background-color: #FAE0D8">
-                            OT : {{number_format($item->pdt2_planprocess_qty01,2)}}
-                        </td>
-                    @else
-                        <td style="background-color: #D0F4DE">
-                            OT : {{number_format($item->pdt2_planprocess_qty01,2)}}
-                        </td>
-                    @endif          
-                    @if ($item->pdt2_planprocess_qty02 > 0)
-                        <td style="background-color: #FAE0D8">
-                            OT : {{number_format($item->pdt2_planprocess_qty02,2)}}
-                        </td>
-                    @else
-                        <td style="background-color: #D0F4DE">
-                            OT : {{number_format($item->pdt2_planprocess_qty02,2)}}
-                        </td>
-                    @endif          
-                    @if ($item->pdt2_planprocess_qty03 > 0)
-                        <td style="background-color: #FAE0D8">
-                            OT : {{number_format($item->pdt2_planprocess_qty03,2)}}
-                        </td>
-                    @else
-                        <td style="background-color: #D0F4DE">
-                            OT : {{number_format($item->pdt2_planprocess_qty03,2)}}
-                        </td>
-                    @endif     
-                    @if ($item->pdt2_planprocess_qty04 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty04,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty04,2)}}
-                    </td>
-                    @endif         
-                    @if ($item->pdt2_planprocess_qty05 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty05,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty05,2)}}
-                    </td>
-                    @endif    
-                    @if ($item->pdt2_planprocess_qty06 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty06,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty06,2)}}
-                    </td>
-                    @endif    
-                    @if ($item->pdt2_planprocess_qty07 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty07,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty07,2)}}
-                    </td>
-                    @endif   
-                    @if ($item->pdt2_planprocess_qty08 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty08 ,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty08,2)}}
-                    </td>
-                    @endif   
-                    @if ($item->pdt2_planprocess_qty09 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty09,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty09,0)}}
-                    </td>
-                    @endif  
-                    @if ($item->pdt2_planprocess_qty10 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty10,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty10,2)}}
-                    </td>
-                    @endif  
-                    @if ($item->pdt2_planprocess_qty11 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty11,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty11,2)}}
-                    </td>
-                    @endif  
-                    @if ($item->pdt2_planprocess_qty12 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty12,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty12,2)}}
-                    </td>
-                    @endif  
-                    @if ($item->pdt2_planprocess_qty13 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty13,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty13,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty14 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty14,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty14,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty15 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty15,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty15,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty16 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty16,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty16,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty17 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty17,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty17,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty18 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty18,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty18,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty19 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty19,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty19,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty20 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty20,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty20,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty21 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty21,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty21,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty22 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty22,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty22,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty23 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty23,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty23,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty24 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty24,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty24,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty25 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty25,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty25,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty26 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty26,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty26,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty27 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty27,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty27,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty28 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty28,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty28,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty29 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty29,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty29,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty30 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty30,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty30,2)}}
-                    </td>
-                    @endif
-                    @if ($item->pdt2_planprocess_qty31 > 0)
-                    <td style="background-color: #FAE0D8">
-                        OT : {{number_format($item->pdt2_planprocess_qty31,2)}}
-                    </td>
-                    @else
-                    <td style="background-color: #D0F4DE">
-                        OT : {{number_format($item->pdt2_planprocess_qty31,2)}}
-                    </td>
-                    @endif
+                    <th>Model/Product</th>
+                    @for ($day = 1; $day <= $daysInMonth; $day++)
+                     <th>
+                         {{ date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $day)) }} {{ sprintf('%02d', $day) }}
+                     </th>
+                    @endfor
                 </tr>
-            @endforeach
-           </tbody>
+            </thead>
+            <tbody>
+               @foreach ($hd2 as $item)
+                   <tr>
+                    <td> {{$item->product}}</td>
+                    <td> {{number_format($item->plan01,0)}}</td>
+                    <td> {{number_format($item->plan02,0)}}</td>
+                    <td> {{number_format($item->plan03,0)}}</td>
+                    <td> {{number_format($item->plan04,0)}}</td>
+                    <td> {{number_format($item->plan05,0)}}</td>
+                    <td> {{number_format($item->plan06,0)}}</td>
+                    <td> {{number_format($item->plan07,0)}}</td>
+                    <td> {{number_format($item->plan08,0)}}</td>
+                    <td> {{number_format($item->plan09,0)}}</td>
+                    <td> {{number_format($item->plan10,0)}}</td>
+                    <td> {{number_format($item->plan11,0)}}</td>
+                    <td> {{number_format($item->plan12,0)}}</td>
+                    <td> {{number_format($item->plan13,0)}}</td>
+                    <td> {{number_format($item->plan14,0)}}</td>
+                    <td> {{number_format($item->plan15,0)}}</td>
+                    <td> {{number_format($item->plan16,0)}}</td>
+                    <td> {{number_format($item->plan17,0)}}</td>
+                    <td> {{number_format($item->plan18,0)}}</td>
+                    <td> {{number_format($item->plan19,0)}}</td>
+                    <td> {{number_format($item->plan20,0)}}</td>
+                    <td> {{number_format($item->plan21,0)}}</td>
+                    <td> {{number_format($item->plan22,0)}}</td>
+                    <td> {{number_format($item->plan23,0)}}</td>
+                    <td> {{number_format($item->plan24,0)}}</td>
+                    <td> {{number_format($item->plan25,0)}}</td>
+                    <td> {{number_format($item->plan26,0)}}</td>
+                    <td> {{number_format($item->plan27,0)}}</td>
+                    <td> {{number_format($item->plan28,0)}}</td>
+                    <td> {{number_format($item->plan29,0)}}</td>
+                    <td> {{number_format($item->plan30,0)}}</td>
+                    <td> {{number_format($item->plan31,0)}}</td>
+                   </tr>
+               @endforeach
+            </tbody>
         </table>
-        </div>
-        <h5>แผนการผลิตประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h5>
-        <div style="overflow-x:auto;">  
-            <table class="table table-bordered">
-                <thead>
+    </div>
+    <h5>กำลังการผลิตประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h5>
+    <div style="overflow-x:auto;">      
+    <table class="table table-bordered">
+       <thead>
+        <tr>
+            <th>Process</th>
+            <th>Man Power</th>
+            <th>Max</th>
+            @for ($day = 1; $day <= $daysInMonth; $day++)
+            <th>
+                {{ date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $day)) }} {{ sprintf('%02d', $day) }}
+            </th>
+            @endfor
+        </tr>
+       </thead>
+       <tbody>
+        @foreach ($hd3 as $item)
+            <tr>
+                <td>{{$item->pdt2_planprocess_process}} ({{$item->pdt2_planprocess_leader}})</td>
+                <td>{{number_format($item->pdt2_planprocess_empqty,0)}}</td>
+                <td>{{number_format($item->pdt2_planprocess_max,0)}}</td>
+                @if ($item->pdt2_planprocess_qty01 > 0)
+                    <td style="background-color: #FAE0D8">
+                        OT : {{number_format($item->pdt2_planprocess_qty01,2)}}
+                    </td>
+                @else
+                    <td style="background-color: #D0F4DE">
+                        OT : {{number_format($item->pdt2_planprocess_qty01,2)}}
+                    </td>
+                @endif          
+                @if ($item->pdt2_planprocess_qty02 > 0)
+                    <td style="background-color: #FAE0D8">
+                        OT : {{number_format($item->pdt2_planprocess_qty02,2)}}
+                    </td>
+                @else
+                    <td style="background-color: #D0F4DE">
+                        OT : {{number_format($item->pdt2_planprocess_qty02,2)}}
+                    </td>
+                @endif          
+                @if ($item->pdt2_planprocess_qty03 > 0)
+                    <td style="background-color: #FAE0D8">
+                        OT : {{number_format($item->pdt2_planprocess_qty03,2)}}
+                    </td>
+                @else
+                    <td style="background-color: #D0F4DE">
+                        OT : {{number_format($item->pdt2_planprocess_qty03,2)}}
+                    </td>
+                @endif     
+                @if ($item->pdt2_planprocess_qty04 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty04,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty04,2)}}
+                </td>
+                @endif         
+                @if ($item->pdt2_planprocess_qty05 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty05,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty05,2)}}
+                </td>
+                @endif    
+                @if ($item->pdt2_planprocess_qty06 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty06,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty06,2)}}
+                </td>
+                @endif    
+                @if ($item->pdt2_planprocess_qty07 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty07,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty07,2)}}
+                </td>
+                @endif   
+                @if ($item->pdt2_planprocess_qty08 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty08 ,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty08,2)}}
+                </td>
+                @endif   
+                @if ($item->pdt2_planprocess_qty09 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty09,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty09,0)}}
+                </td>
+                @endif  
+                @if ($item->pdt2_planprocess_qty10 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty10,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty10,2)}}
+                </td>
+                @endif  
+                @if ($item->pdt2_planprocess_qty11 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty11,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty11,2)}}
+                </td>
+                @endif  
+                @if ($item->pdt2_planprocess_qty12 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty12,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty12,2)}}
+                </td>
+                @endif  
+                @if ($item->pdt2_planprocess_qty13 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty13,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty13,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty14 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty14,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty14,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty15 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty15,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty15,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty16 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty16,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty16,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty17 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty17,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty17,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty18 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty18,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty18,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty19 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty19,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty19,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty20 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty20,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty20,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty21 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty21,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty21,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty22 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty22,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty22,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty23 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty23,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty23,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty24 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty24,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty24,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty25 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty25,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty25,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty26 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty26,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty26,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty27 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty27,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty27,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty28 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty28,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty28,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty29 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty29,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty29,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty30 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty30,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty30,2)}}
+                </td>
+                @endif
+                @if ($item->pdt2_planprocess_qty31 > 0)
+                <td style="background-color: #FAE0D8">
+                    OT : {{number_format($item->pdt2_planprocess_qty31,2)}}
+                </td>
+                @else
+                <td style="background-color: #D0F4DE">
+                    OT : {{number_format($item->pdt2_planprocess_qty31,2)}}
+                </td>
+                @endif
+            </tr>
+        @endforeach
+       </tbody>
+    </table>
+    </div>
+    <h5>แผนการผลิตประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h5>
+    <div style="overflow-x:auto;">  
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Model/Product</th>
+                    <th>Line</th>
+                    @for ($day = 1; $day <= $daysInMonth; $day++)
+                        <th>
+                            {{ date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $day)) }} {{ sprintf('%02d', $day) }}
+                        </th>
+                    @endfor
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($hd4 as $item)
                     <tr>
-                        <th>Model/Product</th>
-                        <th>Line</th>
-                        @for ($day = 1; $day <= $daysInMonth; $day++)
-                            <th>
-                                {{ date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $day)) }} {{ sprintf('%02d', $day) }}
-                            </th>
-                        @endfor
+                        <td>{{$item->pdt2_planproduction_model}}/{{$item->pdt2_planproduction_partname}}</td>
+                        <td>
+                            {{$item->pdt2_planproduction_process}}<br>
+                            ({{$item->pdt2_planproduction_type}})
+                        </td>
+                        <td>{{number_format($item->pdt2_planproduction_qty01,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty02,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty03,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty04,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty05,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty06,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty07,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty08,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty09,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty10,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty11,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty12,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty13,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty14,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty15,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty16,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty17,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty18,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty19,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty20,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty21,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty22,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty23,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty24,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty25,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty26,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty27,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty28,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty29,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty30,0)}}</td>
+                        <td>{{number_format($item->pdt2_planproduction_qty31,0)}}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($hd4 as $item)
-                        <tr>
-                            <td>{{$item->pdt2_planproduction_model}}/{{$item->pdt2_planproduction_partname}}</td>
-                            <td>
-                                {{$item->pdt2_planproduction_process}}<br>
-                                ({{$item->pdt2_planproduction_type}})
-                            </td>
-                            <td>{{number_format($item->pdt2_planproduction_qty01,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty02,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty03,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty04,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty05,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty06,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty07,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty08,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty09,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty10,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty11,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty12,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty13,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty14,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty15,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty16,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty17,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty18,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty19,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty20,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty21,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty22,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty23,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty24,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty25,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty26,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty27,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty28,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty29,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty30,0)}}</td>
-                            <td>{{number_format($item->pdt2_planproduction_qty31,0)}}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>    
-        </div>
+                @endforeach
+            </tbody>
+        </table>    
+    </div>
+    @endif       
     </div>
 </div>
 @endsection

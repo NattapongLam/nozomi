@@ -71,6 +71,30 @@
 </div>
 <div class="card">
     <div class="card-body">
+        <h3 class="card-title">สำหรับผู้อนุมัติซ่อม</h3>
+        <div class="row">
+            <div class="col-3">
+                @if ($hd->approved_jobsave)
+                ผู้อนุมัติซ่อม : {{$hd->approved_jobsave}}  
+                @else
+                ผู้อนุมัติซ่อม : {{auth()->user()->name}} 
+                @endif
+                
+            </div>
+            <div class="col-3">
+                วันที่ : {{ \Carbon\Carbon::parse($hd->approved_jobdate)->format('d/m/Y') }}
+            </div>
+            <div class="col-3">
+                @if ($hd->mtn_maintenancestatus_id == 3)
+                <button type="submit" class="btn btn-primary waves-effect waves-light">อนุมัติ</button>    
+                @endif
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
         <h3 class="card-title"> สรุปผลรายงาน</h3>
         <div class="row">
             <div class="col-3">
@@ -118,8 +142,8 @@
                 หมายเหตุ : <input type="text" class="form-control" value="{{$hd->mtn_maintenancedoc_jobnote}}" name="mtn_maintenancedoc_jobnote">
             </div>
             <div class="col-3">
-                @if ($hd->mtn_maintenancestatus_id == 3)
-                <button type="submit" class="btn btn-primary waves-effect waves-light">รับงาน</button>    
+                @if ($hd->mtn_maintenancestatus_id == 7)
+                <button type="submit" class="btn btn-primary waves-effect waves-light">บันทึก</button>    
                 @endif
             </div>
             <div class="col-3"></div>

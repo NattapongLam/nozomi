@@ -94,6 +94,15 @@ class MaintenanceDocpdt extends Controller
                 $up = DB::table('mtn_maintenancedoc')
                 ->where('mtn_maintenancedoc_id',$id)
                 ->update([
+                    'mtn_maintenancestatus_id' => 7,
+                    'approved_jobdate' => Carbon::now(),
+                    'approved_jobsave' => Auth::user()->name,
+                ]);
+            }
+            elseif($hd->mtn_maintenancestatus_id == 7){
+                $up = DB::table('mtn_maintenancedoc')
+                ->where('mtn_maintenancedoc_id',$id)
+                ->update([
                     'mtn_maintenancestatus_id' => 4,
                     'mtn_maintenancedoc_jobresultperson' => Auth::user()->name,
                     'mtn_maintenancedoc_jobresultdate' => Carbon::now(),
@@ -106,7 +115,7 @@ class MaintenanceDocpdt extends Controller
                     'mtn_maintenancedoc_jobremark' => $request->mtn_maintenancedoc_jobremark,
                     'mtn_maintenancedoc_jobnote' => $request->mtn_maintenancedoc_jobnote
                 ]);
-            }
+            }           
             elseif($hd->mtn_maintenancestatus_id == 4){
                 $up = DB::table('mtn_maintenancedoc')
                 ->where('mtn_maintenancedoc_id',$id)

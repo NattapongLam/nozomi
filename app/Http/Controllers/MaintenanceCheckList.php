@@ -28,7 +28,11 @@ class MaintenanceCheckList extends Controller
      */
     public function create()
     {
-        //
+        $hd = DB::table('mtn_machinery')
+        ->leftjoin('mtn_machinerygroup','mtn_machinery.mtn_machinerygroup_id','=','mtn_machinerygroup.mtn_machinerygroup_id')
+        ->where('mtn_machinery.flag',true)
+        ->get();      
+        return view('maintain.report-maintenancelist', compact('hd'));
     }
 
     /**
@@ -50,7 +54,13 @@ class MaintenanceCheckList extends Controller
      */
     public function show($id)
     {
-        //
+        $hd = DB::table('mtn_machinery')
+        ->leftjoin('mtn_machinerygroup','mtn_machinery.mtn_machinerygroup_id','=','mtn_machinerygroup.mtn_machinerygroup_id')
+        ->where('mtn_machinery.flag',true)
+        ->where('mtn_machinery_id',$id)
+        ->first(); 
+        $docs = DB::table('vw_maintenancedoc')->where('mtn_machinery_code',$hd->mtn_machinery_code)->get();
+        return view('maintain.report-maintenancedocs', compact('hd','docs'));
     }
 
     /**

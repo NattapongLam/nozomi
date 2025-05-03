@@ -76,6 +76,7 @@
         </div>
     </form>
     <br>
+        @if ($hd1)
         <h4 class="card-title">แผนจัดส่งประจำเดือน {{$hd1->pdt_plandelivery_hd_month}}/{{$hd1->pdt_plandelivery_hd_year}}</h4>   
         <div style="overflow-x:auto;">   
             <canvas id="myChart"></canvas>      
@@ -555,6 +556,7 @@
             </tbody>
         </table>
     </div>
+        @endif
 </div>
 </div>
 @endsection

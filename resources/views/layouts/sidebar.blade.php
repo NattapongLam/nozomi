@@ -147,12 +147,12 @@
                     </ul>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="#" key="t-vertical">ผลผลิตประจำเดือน</a>
+                            <a href="{{url('/report-planningpdmonth2')}}" key="t-vertical">ผลผลิตประจำเดือน</a>
                         </li>
                     </ul>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="#" key="t-vertical">ผลผลิตประจำปี</a>
+                            <a href="{{url('/report-planningpdyear2')}}" key="t-vertical">ผลผลิตประจำปี</a>
                         </li>
                     </ul>
                 </li>   
@@ -205,17 +205,12 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="#" key="t-vertical">ประจำวัน</a>
+                            <a href="{{route('mt-checklist.create')}}" key="t-vertical">ทะเบียนเครื่องจักร</a>
                         </li>
                     </ul>
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
-                            <a href="#" key="t-vertical">ประจำเดือน</a>                           
-                        </li>
-                    </ul>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li>
-                            <a href="#" key="t-vertical">ประจำปี</a>                           
+                            <a href="{{route('mt-docoff.create')}}" key="t-vertical">รายงานการซ่อม</a>                           
                         </li>
                     </ul>
                 </li>                                         

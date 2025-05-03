@@ -7,9 +7,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class ExpensesOrderController extends Controller
 {
+    private function notifyTelegram($message, $token, $chatId)
+    {
+        $queryData = [
+            'chat_id' => $chatId,
+            'text' => $message,
+            'parse_mode' => 'HTML'
+        ];
+        $url = "https://api.telegram.org/bot{$token}/sendMessage";
+        $response = file_get_contents($url . "?" . http_build_query($queryData));
+        return json_decode($response);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -131,19 +143,15 @@ class ExpensesOrderController extends Controller
                     'pur_expenses_status_id' => $request->approved_status
                 ]);
                 DB::commit();
-                // define('LINE_API', "https://notify-api.line.me/api/notify");
-                // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-                // $params = array(
-                // "message"        => "เลขที่ ASE : " . $hd->pur_expenses_hd_docuno ."\n"
-                // . "วันที่ตรวจสอบ : " . Carbon::now()->format('d/m/y h:i') ."\n"
-                // . "ผู้ตรวจสอบ : " . Auth::user()->name ."\n"
-                // . "หมายเหตุ : " . $request->approved_remark ."\n"
-                // . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
-                // . "ผู้ขอสั่งซื้อ : " . $hd->pur_expenses_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-                // "stickerPkg"     => 8522, //stickerPackageId
-                // "stickerId"      => 16581281, //stickerId
-                // );
-                // $res = $this->notify_message($params, $token);
+                $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                $message = "📢 เลขที่ ASE" . $hd->pur_purchaseorder_hd_docuno  ."\n"
+                    . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
+                    . "🔹 ผู้จำหน่าย  : ". $hd->vd_vendor_fullname . "\n"
+                    . "📅 วันที่ตรวจสอบ : " . Carbon::now()->format('d/m/y H:i') . "\n"
+                    . "👤 ผู้ตรวจสอบ : " . Auth::user()->name;    
+                // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                $this->notifyTelegram($message, $token, $chatId);   
                 return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
             elseif ($hd->pur_expenses_status_id == 6) {
@@ -156,19 +164,15 @@ class ExpensesOrderController extends Controller
                     'pur_expenses_status_id' => $request->approved_status
                 ]);
                 DB::commit();
-                // define('LINE_API', "https://notify-api.line.me/api/notify");
-                // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-                // $params = array(
-                // "message"        => "เลขที่ ASE : " . $hd->pur_expenses_hd_docuno ."\n"
-                // . "วันที่อนุมัติ : " . Carbon::now()->format('d/m/y h:i') ."\n"
-                // . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
-                // . "หมายเหตุ : " . $request->approved_remark ."\n"
-                // . "ผู้จำหน่าย : " . $hd->vd_vendor_fullname ."\n"
-                // . "ผู้ขอสั่งซื้อ : " . $hd->pur_expenses_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-                // "stickerPkg"     => 8522, //stickerPackageId
-                // "stickerId"      => 16581281, //stickerId
-                // );
-                // $res = $this->notify_message($params, $token);
+                $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                $message = "📢 เลขที่ PO" . $hd->pur_purchaseorder_hd_docuno  ."\n"
+                    . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
+                    . "🔹 ผู้จำหน่าย  : ". $hd->vd_vendor_fullname . "\n"
+                    . "📅 วันที่อนุมัติ : " . Carbon::now()->format('d/m/y H:i') . "\n"
+                    . "👤 ผู้อนุมัติ : " . Auth::user()->name;    
+                // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                $this->notifyTelegram($message, $token, $chatId);   
                 return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
             }
             else{

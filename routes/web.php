@@ -65,7 +65,9 @@ Route::get('/report-planningpd2' , [App\Http\Controllers\DashboardController::cl
 Route::get('/report-planningdl' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningDl']);
 Route::get('/report-planningdl2' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningDl2']);
 Route::get('/report-planningpdmonth' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdMonth']);
+Route::get('/report-planningpdmonth2' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdMonth2']);
 Route::get('/report-planningpdyear' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdYear']);
+Route::get('/report-planningpdyear2' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdYear2']);
 Route::get('/report-planningpdday' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdDay']);
 Route::get('/report-planningpdday2' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdDay2']);
 Route::get('/report-deliveryday' , [App\Http\Controllers\DashboardController::class , 'ReportDeliveryDay']);

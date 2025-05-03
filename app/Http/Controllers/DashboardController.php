@@ -401,4 +401,40 @@ class DashboardController extends Controller
         ,'hd4','groupedByL4','hd5','groupedByL5','hd6','groupedByL6','hd7','groupedByL7','hd8','groupedByL8','hd9','groupedByL9','hd10','groupedByL10'
         ,'hd11','groupedByL11','hd12','groupedByL12'));
     }
+    public function ReportPlanningPdMonth2(Request $request)
+    {
+        if($request->years){
+            $year = $request->years;    
+        }else{
+            $year = Carbon::now()->year;    
+        }
+        if($request->months){
+            $month = $request->months;      
+        }else{
+            $month = Carbon::now()->month;      
+        } 
+        $hd1 = DB::table('vw_productionresult_2')
+        ->where('pdt_productresult_hd_year',$year)
+        ->where('pdt_productresult_hd_month',$month)
+        ->get();
+        return view('report.form-planning-productionmonth2', compact('year','month','hd1'));
+    }
+    public function ReportPlanningPdYear2(Request $request)
+    {
+        if($request->years){
+            $year = $request->years;    
+        }else{
+            $year = Carbon::now()->year;    
+        }
+        // if($request->months){
+        //     $month = $request->months;      
+        // }else{
+        //     $month = Carbon::now()->month;      
+        // } 
+        $hd = DB::table('vw_reportproduct_process_yearv21')
+                // ->where('pdt_productresult_hd_month',$month)
+                ->where('pdt_productresult_hd_year',$year)
+                ->get();
+        return view('report.form-planning-productionyear2', compact('year','hd'));
+    }
 }

@@ -7,9 +7,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class PurchaseRequestController extends Controller
 {
+    private function notifyTelegram($message, $token, $chatId)
+    {
+        $queryData = [
+            'chat_id' => $chatId,
+            'text' => $message,
+            'parse_mode' => 'HTML'
+        ];
+        $url = "https://api.telegram.org/bot{$token}/sendMessage";
+        $response = file_get_contents($url . "?" . http_build_query($queryData));
+        return json_decode($response);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -139,21 +151,14 @@ class PurchaseRequestController extends Controller
                 'pur_purchaserequest_status_id' => $request->approved_status
             ]);
             DB::commit();
-            // define('LINE_API', "https://notify-api.line.me/api/notify");
-            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            // $params = array(
-            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            // . "วันที่ตรวจสอบ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            // . "ผู้ตรวจสอบ : " . Auth::user()->name ."\n"
-            // . "หมายเหตุ : " . $request->approved_remark ."\n"
-            // . "แผนก : " . $hd->emp_department_name ."\n"
-            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            // "stickerPkg"     => 8522, //stickerPackageId
-            // "stickerId"      => 16581281, //stickerId
-            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            // );
-            // $res = $this->notify_message($params, $token);
+            $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+            $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+                . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
+                . "📅 วันที่ตรวจสอบ : " . Carbon::now()->format('d/m/y H:i') . "\n"
+                . "👤 ผู้ตรวจสอบ : " . Auth::user()->name;    
+            // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+            $this->notifyTelegram($message, $token, $chatId);    
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }
         elseif ($hd->pur_purchaserequest_status_id == 6) {
@@ -167,21 +172,14 @@ class PurchaseRequestController extends Controller
                 'check_approved4' =>  $request->check_approved4 ?? false,
             ]);
             DB::commit();
-            // define('LINE_API', "https://notify-api.line.me/api/notify");
-            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            // $params = array(
-            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            // . "วันที่อนุมัติ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            // . "ผู้อนุมัติ : " . Auth::user()->name ."\n"
-            // . "หมายเหตุ : " . $request->approved_remark ."\n"
-            // . "แผนก : " . $hd->emp_department_name ."\n"
-            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            // "stickerPkg"     => 8522, //stickerPackageId
-            // "stickerId"      => 16581281, //stickerId
-            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            // );
-            // $res = $this->notify_message($params, $token);
+            $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+            $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+                . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
+                . "📅 วันที่อนุมัติ : " . Carbon::now()->format('d/m/y H:i') . "\n"
+                . "👤 ผู้อนุมัติ : " . Auth::user()->name;    
+            // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+            $this->notifyTelegram($message, $token, $chatId);    
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         } 
         elseif ($hd->pur_purchaserequest_status_id == 7) {
@@ -195,21 +193,14 @@ class PurchaseRequestController extends Controller
                 'pur_purchaserequest_status_id' => $request->approved_status,
             ]);
             DB::commit();
-            // define('LINE_API', "https://notify-api.line.me/api/notify");
-            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            // $params = array(
-            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            // . "วันที่รับทราบ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            // . "ผู้รับทราบ : " . Auth::user()->name ."\n"
-            // . "หมายเหตุ : " . $request->approved_remark ."\n"
-            // . "แผนก : " . $hd->emp_department_name ."\n"
-            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            // "stickerPkg"     => 8522, //stickerPackageId
-            // "stickerId"      => 16581281, //stickerId
-            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            // );
-            // $res = $this->notify_message($params, $token);
+            $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+            $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+                . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
+                . "📅 วันที่อนุมัติ : " . Carbon::now()->format('d/m/y H:i') . "\n"
+                . "👤 ผู้อนุมัติ : " . Auth::user()->name;    
+            // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+            $this->notifyTelegram($message, $token, $chatId);    
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         } 
         elseif ($hd->pur_purchaserequest_status_id == 3) 
@@ -220,22 +211,14 @@ class PurchaseRequestController extends Controller
                 'pur_purchaserequest_status_id' => $request->approved_status,
             ]);
             DB::commit();
-            // define('LINE_API', "https://notify-api.line.me/api/notify");
-            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            // $params = array(
-            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            // . "วันที่ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            // . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
-            // . "หมายเหตุ : " . $request->approved_remark ."\n"
-            // . "แผนก : " . $hd->emp_department_name ."\n"
-            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n"
-            // . "สถานะ : ส่งกลับแก้ไข", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            // "stickerPkg"     => 8522, //stickerPackageId
-            // "stickerId"      => 16581281, //stickerId
-            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            // );
-            // $res = $this->notify_message($params, $token);
+            $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+            $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+                . "🔹 ส่งกลับแก้ไข ". "\n"
+                . "📅 วันที่บันทึก : " . Carbon::now()->format('d/m/y H:i') . "\n"
+                . "👤 ผู้บันทึก : " . Auth::user()->name;    
+            // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+            $this->notifyTelegram($message, $token, $chatId);  
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }   
         elseif ($hd->pur_purchaserequest_status_id == 4) 
@@ -246,22 +229,14 @@ class PurchaseRequestController extends Controller
                 'pur_purchaserequest_status_id' => $request->approved_status,
             ]);
             DB::commit();
-            // define('LINE_API', "https://notify-api.line.me/api/notify");
-            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            // $params = array(
-            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            // . "วันที่ : " .  Carbon::now()->format('d/m/y h:i') ."\n"
-            // . "ผู้ดำเนินการ : " . Auth::user()->name ."\n"
-            // . "หมายเหตุ : " . $request->approved_remark ."\n"
-            // . "แผนก : " . $hd->emp_department_name ."\n"
-            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n"
-            // . "สถานะ : ไม่อนุมัติ", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            // "stickerPkg"     => 8522, //stickerPackageId
-            // "stickerId"      => 16581281, //stickerId
-            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            // );
-            // $res = $this->notify_message($params, $token);
+            $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+            $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+                . "🔹 ไม่อนุมัติ ". "\n"
+                . "📅 วันที่บันทึก : " . Carbon::now()->format('d/m/y H:i') . "\n"
+                . "👤 ผู้บันทึก : " . Auth::user()->name;    
+            // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+            $this->notifyTelegram($message, $token, $chatId);  
             return redirect()->back()->withInput()->with('success', 'เพิ่มข้อมูลสำเร็จ ' . Carbon::now());
         }             
         }catch(\Exception $e){
@@ -376,20 +351,14 @@ class PurchaseRequestController extends Controller
         $id = $request->refid;
         try {
             $hd = DB::table('pur_purchaserequest_hd')->where('pur_purchaserequest_hd_id',$id)->first();
-            // define('LINE_API', "https://notify-api.line.me/api/notify");
-            // $token = "lRCvoL28V8jKeggZvPBEYP0qISUZgrRdOkJybKAzAGB";
-            // $params = array(
-            // "message"        => "เลขที่ PR : " . $hd->pur_purchaserequest_hd_docuno ."\n"
-            // . "วันที่ยกเลิก : " . Carbon::now()->format('d/m/y h:i') ."\n"
-            // . "ผู้ยกเลิก : " . Auth::user()->name ."\n"
-            // . "แผนก : " . $hd->emp_department_name ."\n"
-            // . "ผู้ขอสั่งซื้อ : " . $hd->pur_purchaserequest_hd_save ."\n", //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-            // "stickerPkg"     => 8522, //stickerPackageId
-            // "stickerId"      => 16581281, //stickerId
-            // // "imageThumbnail" => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", // max size 240x240px JPEG
-            // // "imageFullsize"  => "https://c1.staticflickr.com/9/8220/8292155879_bd917986b4_m.jpg", //max size 1024x1024px JPEG
-            // );
-            // $res = $this->notify_message($params, $token);
+            $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+            $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+                . "🔹 ยกเลิก ". "\n"
+                . "📅 วันที่บันทึก : " . Carbon::now()->format('d/m/y H:i') . "\n"
+                . "👤 ผู้บันทึก : " . Auth::user()->name;    
+            // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+            $this->notifyTelegram($message, $token, $chatId); 
             DB::beginTransaction();
             $update_hd = DB::table('pur_purchaserequest_hd')
             ->where('pur_purchaserequest_hd_id', $id)
