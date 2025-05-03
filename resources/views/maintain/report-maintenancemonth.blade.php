@@ -57,7 +57,7 @@
                       <tr>
                         <td>{{$item->mtn_maintenancestatus_name}}</td>
                         <td>{{$item->mtn_maintenancedoc_type}}</td>
-                        <td>{{ Carbon\Carbon::parse($item->mtn_maintenancedoc_datetime)->format('d/m/Y H:i')}}</td>
+                        <td>{{ Carbon\Carbon::parse($item->mtn_maintenancedoc_datetime)->format('d/m/Y H:i')}} ({{$item->mtn_maintenancedoc_docuno}})</td>
                         <td>{{$item->mtn_machinery_name}}</td>
                         <td>{{$item->emp_department_name}}</td>
                         <td>{{$item->mtn_maintenancedoc_location}}</td>
