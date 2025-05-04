@@ -121,6 +121,16 @@
                             <a href="{{url('/report-planningpdyear')}}" key="t-vertical">ผลผลิตประจำปี</a>
                         </li>
                     </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('/report-qcday')}}" key="t-vertical">ตรวจผลผลิตประจำวัน</a>
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('/report-qclossday')}}" key="t-vertical">ของเสียประจำวัน</a>
+                        </li>
+                    </ul>
                 </li>   
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -153,6 +163,16 @@
                     <ul class="sub-menu" aria-expanded="true">
                         <li>
                             <a href="{{url('/report-planningpdyear2')}}" key="t-vertical">ผลผลิตประจำปี</a>
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('/report-qcday2')}}" key="t-vertical">ตรวจผลผลิตประจำวัน</a>
+                        </li>
+                    </ul>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li>
+                            <a href="{{url('/report-qclossday2')}}" key="t-vertical">ของเสียประจำวัน</a>
                         </li>
                     </ul>
                 </li>   

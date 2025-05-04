@@ -437,4 +437,40 @@ class DashboardController extends Controller
                 ->get();
         return view('report.form-planning-productionyear2', compact('year','hd'));
     }
+    public function ReportQcDay(Request $request)
+    {
+        $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-7 day", strtotime($dateend)));
+        $hd = DB::table('vw_pdt_productqc_list')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        return view('report.form-production-qcday', compact('dateend','datestart','hd'));
+    }
+    public function ReportQcDay2(Request $request)
+    {
+        $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-7 day", strtotime($dateend)));
+        $hd = DB::table('vw_pdt_productqc_list2')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        return view('report.form-production-qcday', compact('dateend','datestart','hd'));
+    }
+    public function ReportQcLossDay(Request $request)
+    {
+        $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-7 day", strtotime($dateend)));
+        $hd = DB::table('vw_pdt_productqc_loss')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        return view('report.form-production-qclossday', compact('dateend','datestart','hd'));
+    }
+    public function ReportQcLossDay2(Request $request)
+    {
+        $dateend = $request->dateend ? $request->dateend : date("Y-m-d");
+        $datestart = $request->datestart ? $request->datestart : date("Y-m-d", strtotime("-7 day", strtotime($dateend)));
+        $hd = DB::table('vw_pdt_productqc_loss2')
+        ->whereBetween('date', [$datestart, $dateend])
+        ->get();
+        return view('report.form-production-qclossday', compact('dateend','datestart','hd'));
+    }
 }

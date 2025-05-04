@@ -72,5 +72,9 @@ Route::get('/report-planningpdday' , [App\Http\Controllers\DashboardController::
 Route::get('/report-planningpdday2' , [App\Http\Controllers\DashboardController::class , 'ReportPlanningPdDay2']);
 Route::get('/report-deliveryday' , [App\Http\Controllers\DashboardController::class , 'ReportDeliveryDay']);
 Route::get('/report-receiveday' , [App\Http\Controllers\DashboardController::class , 'ReportReceiveDay']);
+Route::get('/report-qcday' , [App\Http\Controllers\DashboardController::class , 'ReportQcDay']);
+Route::get('/report-qcday2' , [App\Http\Controllers\DashboardController::class , 'ReportQcDay2']);
+Route::get('/report-qclossday' , [App\Http\Controllers\DashboardController::class , 'ReportQcLossDay']);
+Route::get('/report-qclossday2' , [App\Http\Controllers\DashboardController::class , 'ReportQcLossDay2']);
 // REPORT //
 

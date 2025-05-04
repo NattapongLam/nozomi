@@ -20,7 +20,7 @@
             @csrf
         <div class="row">           
             <div class="col-12 col-md-3">
-                <h3 class="card-title">รายงานการซ่อม</h3>
+                <h3 class="card-title">ของเสียประจำวัน</h3>
             </div>
             <div class="col-12 col-md-3">
                 วันที่ :<input type="date" class="form-control" id="datestart" name="datestart" value="{{ $datestart }}">
@@ -40,39 +40,27 @@
         <table id="tb_job" class="table table-bordered dt-responsive nowrap w-100 text-center">
             <thead>
                 <tr>  
-                    <th>วัน - เวลา</th>     
-                    <th>สถานะ</th>     
-                    <th>ประเภท</th>                                       
-                    <th>เครื่องจักร</th>      
-                    <th>แผนก</th>        
-                    <th>สถานที่</th>
-                    <th>ผู้แจ้ง</th>
-                    <th>ปัญหา</th>
-                    <th>ผู้ดำเนินการ</th>
-                    <th>รายละเอียด</th>
+                    <th>วันที่</th>     
+                    <th>Line</th>     
+                    <th>ปัญหา</th>                                       
+                    <th>ผู้ตรวจ</th> 
+                    <th>จำนวน</th>        
                 </tr>
             </thead>
             <tbody>       
                   @foreach ($hd as $item)
                       <tr>
                         <td>
-                            {{ Carbon\Carbon::parse($item->mtn_maintenancedoc_datetime)->format('d/m/Y H:i')}}<br>
-                             ({{$item->mtn_maintenancedoc_docuno}})
+                            {{ Carbon\Carbon::parse($item->date)->format('d/m/Y')}}
                         </td>
-                        <td>{{$item->mtn_maintenancestatus_name}}</td>
-                        <td>{{$item->mtn_maintenancedoc_type}}</td>                        
-                        <td>{{$item->mtn_machinery_name}}</td>
-                        <td>{{$item->emp_department_name}}</td>
-                        <td>{{$item->mtn_maintenancedoc_location}}</td>
-                        <td>{{$item->mtn_maintenancedoc_person}}</td>
-                        <td>{{$item->mtn_maintenancedoc_remark}}</td>
-                        <td>{{$item->mtn_maintenancedoc_jobresultperson}}</td>                      
+                        <td>{{$item->line}}</td>
+                        <td>{{$item->ms_problem_name}}</td>                        
                         <td>
-                            @if ($item->mtn_maintenancedoc_jobremark)
-                            {{$item->mtn_maintenancedoc_jobremark}}<br>
-                            ({{Carbon\Carbon::parse($item->mtn_maintenancedoc_jobresultdate)->format('d/m/Y')}}) 
-                            @endif                            
+                            {{$item->pdt_productqc_hd_save}}
                         </td>
+                        <td>
+                            ปกติ : {{$item->pdt_productqc_note_qty}} / OT : {{$item->pdt_productqc_note_qtyot}}
+                        </td>                       
                       </tr>
                   @endforeach
             </tbody>
