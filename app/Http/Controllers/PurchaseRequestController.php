@@ -153,7 +153,7 @@ class PurchaseRequestController extends Controller
             DB::commit();
             $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
-            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+            $message = "📢 เลขที่ " . $hd->pur_purchaserequest_hd_docuno  ."\n"
                 . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
                 . "📅 วันที่ตรวจสอบ : " . Carbon::now()->format('d/m/y H:i') . "\n"
                 . "👤 ผู้ตรวจสอบ : " . Auth::user()->name;    
@@ -174,7 +174,7 @@ class PurchaseRequestController extends Controller
             DB::commit();
             $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
-            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+            $message = "📢 เลขที่ " . $hd->pur_purchaserequest_hd_docuno  ."\n"
                 . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
                 . "📅 วันที่อนุมัติ : " . Carbon::now()->format('d/m/y H:i') . "\n"
                 . "👤 ผู้อนุมัติ : " . Auth::user()->name;    
@@ -195,7 +195,7 @@ class PurchaseRequestController extends Controller
             DB::commit();
             $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
-            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+            $message = "📢 เลขที่ " . $hd->pur_purchaserequest_hd_docuno  ."\n"
                 . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
                 . "📅 วันที่อนุมัติ : " . Carbon::now()->format('d/m/y H:i') . "\n"
                 . "👤 ผู้อนุมัติ : " . Auth::user()->name;    
@@ -213,7 +213,7 @@ class PurchaseRequestController extends Controller
             DB::commit();
             $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
-            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+            $message = "📢 เลขที่ " . $hd->pur_purchaserequest_hd_docuno  ."\n"
                 . "🔹 ส่งกลับแก้ไข ". "\n"
                 . "📅 วันที่บันทึก : " . Carbon::now()->format('d/m/y H:i') . "\n"
                 . "👤 ผู้บันทึก : " . Auth::user()->name;    
@@ -231,7 +231,7 @@ class PurchaseRequestController extends Controller
             DB::commit();
             $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
-            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+            $message = "📢 เลขที่ " . $hd->pur_purchaserequest_hd_docuno  ."\n"
                 . "🔹 ไม่อนุมัติ ". "\n"
                 . "📅 วันที่บันทึก : " . Carbon::now()->format('d/m/y H:i') . "\n"
                 . "👤 ผู้บันทึก : " . Auth::user()->name;    
@@ -353,7 +353,7 @@ class PurchaseRequestController extends Controller
             $hd = DB::table('pur_purchaserequest_hd')->where('pur_purchaserequest_hd_id',$id)->first();
             $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
-            $message = "📢 เลขที่ PR" . $hd->pur_purchaserequest_hd_docuno  ."\n"
+            $message = "📢 เลขที่ " . $hd->pur_purchaserequest_hd_docuno  ."\n"
                 . "🔹 ยกเลิก ". "\n"
                 . "📅 วันที่บันทึก : " . Carbon::now()->format('d/m/y H:i') . "\n"
                 . "👤 ผู้บันทึก : " . Auth::user()->name;    

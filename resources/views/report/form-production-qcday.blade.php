@@ -37,6 +37,7 @@
         </div>
         </form>
         <br>    
+        <canvas id="jobBarChart" width="100%" height="40"></canvas>
         <table id="tb_job" class="table table-bordered dt-responsive nowrap w-100 text-center">
             <thead>
                 <tr>  
@@ -71,9 +72,24 @@
         </table>
     </div>
 </div>
+@php
+$grouped = $hd->groupBy(function($item) {
+    return \Carbon\Carbon::parse($item->date)->format('d/m/Y');
+});
+$labels = [];
+$normalSum = [];
+$otSum = [];
+
+foreach ($grouped as $date => $items) {
+    $labels[] = $date;
+    $normalSum[] = $items->sum('pdt_productqc_dt_loss');
+    $otSum[] = $items->sum('pdt_productqc_dt_lossot');
+}
+@endphp
 </div>
 @endsection
 @push('scriptjs')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 $(document).ready(function() {
     $('#tb_job').DataTable({
@@ -88,5 +104,96 @@ $(document).ready(function() {
         ]
     })
 });
+const labels = {!! json_encode($labels) !!};
+const normalQty = {!! json_encode($normalSum) !!};
+const otQty = {!! json_encode($otSum) !!};
+const data = {
+    labels: labels,
+    datasets: [
+        {
+            label: 'จำนวนปกติ',
+            data: normalQty,
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        },
+        {
+            label: 'จำนวน OT',
+            data: otQty,
+            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }
+    ]
+};
+
+const config = {
+    type: 'bar',
+    data: data,
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: {
+                mode: 'index',
+                intersect: false
+            },
+            legend: {
+                position: 'top'
+            },
+            // ✅ Plugin แสดงค่ารวมบนแท่ง
+            datalabels: {
+                display: false // ไม่แสดงค่าทั่วไป
+            },
+            sumLabel: {
+                // Custom Plugin จะใส่ไว้ด้านล่าง
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'จำนวนส่งงาน'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'วันที่'
+                }
+            }
+        }
+    },
+    plugins: [
+        {
+            id: 'sumLabel',
+            afterDatasetsDraw(chart) {
+                const {ctx, chartArea: {top}, data} = chart;
+
+                chart.data.labels.forEach((_, i) => {
+                    const sum = chart.data.datasets.reduce((acc, dataset) => {
+                        return acc + (dataset.data[i] || 0);
+                    }, 0);
+
+                    const meta = chart.getDatasetMeta(0);
+                    const xPos = meta.data[i].x;
+                    const yPos = meta.data[i].y;
+
+                    ctx.save();
+                    ctx.fillStyle = 'black';
+                    ctx.font = 'bold 12px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(sum, xPos, yPos - 10); // แสดงผลรวมด้านบน
+                    ctx.restore();
+                });
+            }
+        }
+    ]
+};
+
+const jobBarChart = new Chart(
+    document.getElementById('jobBarChart'),
+    config
+);
 </script>
 @endpush

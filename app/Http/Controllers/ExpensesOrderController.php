@@ -145,7 +145,7 @@ class ExpensesOrderController extends Controller
                 DB::commit();
                 $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
-                $message = "📢 เลขที่ ASE" . $hd->pur_purchaseorder_hd_docuno  ."\n"
+                $message = "📢 เลขที่ " . $hd->pur_purchaseorder_hd_docuno  ."\n"
                     . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
                     . "🔹 ผู้จำหน่าย  : ". $hd->vd_vendor_fullname . "\n"
                     . "📅 วันที่ตรวจสอบ : " . Carbon::now()->format('d/m/y H:i') . "\n"
@@ -166,7 +166,7 @@ class ExpensesOrderController extends Controller
                 DB::commit();
                 $token = "7681986758:AAEB-BCtW1Yw-F30bMYeX-Hhlt36a9SIvgQ";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4779044927";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
-                $message = "📢 เลขที่ PO" . $hd->pur_purchaseorder_hd_docuno  ."\n"
+                $message = "📢 เลขที่ " . $hd->pur_purchaseorder_hd_docuno  ."\n"
                     . "🔹 หมายเหตุ  : ". $request->approved_remark . "\n"
                     . "🔹 ผู้จำหน่าย  : ". $hd->vd_vendor_fullname . "\n"
                     . "📅 วันที่อนุมัติ : " . Carbon::now()->format('d/m/y H:i') . "\n"

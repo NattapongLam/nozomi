@@ -37,6 +37,7 @@
         </div>
         </form>
         <br>    
+        <canvas id="problemLineChart" width="100%" height="40"></canvas>
         <table id="tb_job" class="table table-bordered dt-responsive nowrap w-100 text-center">
             <thead>
                 <tr>  
@@ -67,6 +68,20 @@
         </table>
     </div>
 </div>
+@php
+$grouped = $hd->groupBy(function($item) {
+    return \Carbon\Carbon::parse($item->date)->format('d/m/Y');
+});
+$labels = [];
+$normalSum = [];
+$otSum = [];
+
+foreach ($grouped as $date => $items) {
+    $labels[] = $date;
+    $normalSum[] = $items->sum('pdt_productqc_note_qty');
+    $otSum[] = $items->sum('pdt_productqc_note_qtyot');
+}
+@endphp
 </div>
 @endsection
 @push('scriptjs')
@@ -84,5 +99,68 @@ $(document).ready(function() {
         ]
     })
 });
+const labels = {!! json_encode($labels) !!};
+const normalQty = {!! json_encode($normalSum) !!};
+const otQty = {!! json_encode($otSum) !!};
+
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'จำนวนปัญหา (ปกติ)',
+                data: normalQty,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.3)',
+                tension: 0.3,
+                fill: true
+            },
+            {
+                label: 'จำนวนปัญหา (OT)',
+                data: otQty,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.3)',
+                tension: 0.3,
+                fill: true
+            }
+        ]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'แนวโน้มจำนวนปัญหาตามวันที่'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'จำนวนปัญหา'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'วันที่'
+                    }
+                }
+            }
+        }
+    };
+
+    new Chart(
+        document.getElementById('problemLineChart'),
+        config
+    );
 </script>
 @endpush
