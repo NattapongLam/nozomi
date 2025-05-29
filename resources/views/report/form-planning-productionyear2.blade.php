@@ -63,6 +63,7 @@
         </div>
         </form>
         <div class="row"> 
+            <canvas id="summaryBarChart" width="400" height="200"></canvas>
             <div style="overflow-x:auto;">
                 <table id="tb_job" class="table table-bordered nowrap w-100 text-center">
                     <thead>
@@ -93,6 +94,12 @@
     </div>
 </div>
 </div>
+@php
+    $sumDelivery = $hd->sum('DeliveryQty');
+    $sumPlan     = $hd->sum('PlanQty');
+    $sumForcast  = $hd->sum('ForcastQty');
+    $sumFinal    = $hd->sum('FinalQty');
+@endphp
 @endsection
 @push('scriptjs')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -109,6 +116,52 @@ $(document).ready(function() {
     ],
     "order": [[ 0, "desc" ]],        
     })
+});
+$(document).ready(function() {
+    const labels = ['Delivery', 'Plan', 'Forcast', 'Final'];
+    const data = [
+        {{ $sumDelivery }},
+        {{ $sumPlan }},
+        {{ $sumForcast }},
+        {{ $sumFinal }}
+    ];
+    const ctx = document.getElementById('summaryBarChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'ยอดรวมรวมทั้งหมด',
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
 });
 </script>
 @endpush

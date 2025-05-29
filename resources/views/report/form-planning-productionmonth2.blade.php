@@ -75,59 +75,167 @@
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);  // จำนวนวันในเดือนปัจจุบัน
         ?>
         <div class="row">
+            <h3 class="card-title text-center">Line : Brake 230B/350B  เดือน : {{$year}}/{{$month}}</h3>
+            <canvas id="barChart1" width="400" height="200"></canvas>    
             <div style="overflow-x:auto;">   
-                <table class="table table-bordered">              
+                <table class="table table-bordered" id="tb_job1">              
                     <thead>
-                        <tr>
-                            <th>Line</th>
-                            <th>Listno</th>
+                        <tr>                    
                             <th>Process</th>
                             <th>Model/Product</th>
-                            @for ($day = 1; $day <= $daysInMonth; $day++)
-                                <th>
-                                    {{ date('D', strtotime($currentYear . '-' . $currentMonth . '-' . $day)) }} {{ sprintf('%02d', $day) }}
-                                </th>
-                            @endfor
+                            <th>QTY</th>
                         </tr>
                     </thead>     
                     <tbody>
                         @foreach ($hd1 as $item)
-                            <tr>
-                                <td>{{$item->pdt_productresult_hd_line}}</td>
-                                <td>{{$item->pdt_process_dt_listno}}</td>
-                                <td>{{$item->pdt_process_dt_name}}</td>
+                            <tr>                        
+                                <td>{{$item->pdt_process_dt_listno}}.{{$item->pdt_process_dt_name}}</td>
                                 <td>{{$item->model}}/{{$item->product}}</td>
-                                <td> {{number_format($item->qty01,0)}}</td>
-                                <td> {{number_format($item->qty02,0)}}</td>
-                                <td> {{number_format($item->qty03,0)}}</td>
-                                <td> {{number_format($item->qty04,0)}}</td>
-                                <td> {{number_format($item->qty05,0)}}</td>
-                                <td> {{number_format($item->qty06,0)}}</td>
-                                <td> {{number_format($item->qty07,0)}}</td>
-                                <td> {{number_format($item->qty08,0)}}</td>
-                                <td> {{number_format($item->qty09,0)}}</td>
-                                <td> {{number_format($item->qty10,0)}}</td>
-                                <td> {{number_format($item->qty11,0)}}</td>
-                                <td> {{number_format($item->qty12,0)}}</td>
-                                <td> {{number_format($item->qty13,0)}}</td>
-                                <td> {{number_format($item->qty14,0)}}</td>
-                                <td> {{number_format($item->qty15,0)}}</td>
-                                <td> {{number_format($item->qty16,0)}}</td>
-                                <td> {{number_format($item->qty17,0)}}</td>
-                                <td> {{number_format($item->qty18,0)}}</td>
-                                <td> {{number_format($item->qty19,0)}}</td>
-                                <td> {{number_format($item->qty20,0)}}</td>
-                                <td> {{number_format($item->qty21,0)}}</td>
-                                <td> {{number_format($item->qty22,0)}}</td>
-                                <td> {{number_format($item->qty23,0)}}</td>
-                                <td> {{number_format($item->qty24,0)}}</td>
-                                <td> {{number_format($item->qty25,0)}}</td>
-                                <td> {{number_format($item->qty26,0)}}</td>
-                                <td> {{number_format($item->qty27,0)}}</td>
-                                <td> {{number_format($item->qty28,0)}}</td>
-                                <td> {{number_format($item->qty29,0)}}</td>
-                                <td> {{number_format($item->qty30,0)}}</td>
-                                <td> {{number_format($item->qty31,0)}}</td>
+                                <td> {{number_format($item->total,0)}}</td>                              
+                            </tr>
+                        @endforeach
+                    </tbody>           
+                </table>
+            </div>
+        </div>
+         <div class="row">
+            <h3 class="card-title text-center">Line : Brake 640  เดือน : {{$year}}/{{$month}}</h3>
+            <canvas id="barChart2" width="400" height="200"></canvas>    
+            <div style="overflow-x:auto;">   
+                <table class="table table-bordered" id="tb_job2">              
+                    <thead>
+                        <tr>                    
+                            <th>Process</th>
+                            <th>Model/Product</th>
+                            <th>QTY</th>
+                        </tr>
+                    </thead>     
+                    <tbody>
+                        @foreach ($hd2 as $item)
+                            <tr>                        
+                                <td>{{$item->pdt_process_dt_listno}}.{{$item->pdt_process_dt_name}}</td>
+                                <td>{{$item->model}}/{{$item->product}}</td>
+                                <td> {{number_format($item->total,0)}}</td>                              
+                            </tr>
+                        @endforeach
+                    </tbody>           
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <h3 class="card-title text-center">Line : Door console 230B,384D  เดือน : {{$year}}/{{$month}}</h3>
+            <canvas id="barChart3" width="400" height="200"></canvas>    
+            <div style="overflow-x:auto;">   
+                <table class="table table-bordered" id="tb_job3">              
+                    <thead>
+                        <tr>                    
+                            <th>Process</th>
+                            <th>Model/Product</th>
+                            <th>QTY</th>
+                        </tr>
+                    </thead>     
+                    <tbody>
+                        @foreach ($hd3 as $item)
+                            <tr>                        
+                                <td>{{$item->pdt_process_dt_listno}}.{{$item->pdt_process_dt_name}}</td>
+                                <td>{{$item->model}}/{{$item->product}}</td>
+                                <td> {{number_format($item->total,0)}}</td>                              
+                            </tr>
+                        @endforeach
+                    </tbody>           
+                </table>
+            </div>
+        </div>
+         <div class="row">
+            <h3 class="card-title text-center">Line : Door console 640A   เดือน : {{$year}}/{{$month}}</h3>
+            <canvas id="barChart4" width="400" height="200"></canvas>    
+            <div style="overflow-x:auto;">   
+                <table class="table table-bordered" id="tb_job4">              
+                    <thead>
+                        <tr>                    
+                            <th>Process</th>
+                            <th>Model/Product</th>
+                            <th>QTY</th>
+                        </tr>
+                    </thead>     
+                    <tbody>
+                        @foreach ($hd4 as $item)
+                            <tr>                        
+                                <td>{{$item->pdt_process_dt_listno}}.{{$item->pdt_process_dt_name}}</td>
+                                <td>{{$item->model}}/{{$item->product}}</td>
+                                <td> {{number_format($item->total,0)}}</td>                              
+                            </tr>
+                        @endforeach
+                    </tbody>           
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <h3 class="card-title text-center">Line : Garnish console   เดือน : {{$year}}/{{$month}}</h3>
+            <canvas id="barChart5" width="400" height="200"></canvas>    
+            <div style="overflow-x:auto;">   
+                <table class="table table-bordered" id="tb_job5">              
+                    <thead>
+                        <tr>                    
+                            <th>Process</th>
+                            <th>Model/Product</th>
+                            <th>QTY</th>
+                        </tr>
+                    </thead>     
+                    <tbody>
+                        @foreach ($hd5 as $item)
+                            <tr>                        
+                                <td>{{$item->pdt_process_dt_listno}}.{{$item->pdt_process_dt_name}}</td>
+                                <td>{{$item->model}}/{{$item->product}}</td>
+                                <td> {{number_format($item->total,0)}}</td>                              
+                            </tr>
+                        @endforeach
+                    </tbody>           
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <h3 class="card-title text-center">Line : Hood - Door S/A   เดือน : {{$year}}/{{$month}}</h3>
+            <canvas id="barChart6" width="400" height="200"></canvas>    
+            <div style="overflow-x:auto;">   
+                <table class="table table-bordered" id="tb_job6">              
+                    <thead>
+                        <tr>                    
+                            <th>Process</th>
+                            <th>Model/Product</th>
+                            <th>QTY</th>
+                        </tr>
+                    </thead>     
+                    <tbody>
+                        @foreach ($hd6 as $item)
+                            <tr>                        
+                                <td>{{$item->pdt_process_dt_listno}}.{{$item->pdt_process_dt_name}}</td>
+                                <td>{{$item->model}}/{{$item->product}}</td>
+                                <td> {{number_format($item->total,0)}}</td>                              
+                            </tr>
+                        @endforeach
+                    </tbody>           
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <h3 class="card-title text-center">Line : Shifting hole D92A   เดือน : {{$year}}/{{$month}}</h3>
+            <canvas id="barChart7" width="400" height="200"></canvas>    
+            <div style="overflow-x:auto;">   
+                <table class="table table-bordered" id="tb_job7">              
+                    <thead>
+                        <tr>                    
+                            <th>Process</th>
+                            <th>Model/Product</th>
+                            <th>QTY</th>
+                        </tr>
+                    </thead>     
+                    <tbody>
+                        @foreach ($hd6 as $item)
+                            <tr>                        
+                                <td>{{$item->pdt_process_dt_listno}}.{{$item->pdt_process_dt_name}}</td>
+                                <td>{{$item->model}}/{{$item->product}}</td>
+                                <td> {{number_format($item->total,0)}}</td>                              
                             </tr>
                         @endforeach
                     </tbody>           
@@ -137,10 +245,439 @@
     </div>
     </div>
 </div>
+@php
+    $grouped1 = $hd1->groupBy(function($item) {
+        return $item->pdt_process_dt_listno . '.' . $item->pdt_process_dt_name;
+    })->map(function($items) {
+        return $items->sum('total');
+    });
+    $grouped2 = $hd2->groupBy(function($item) {
+        return $item->pdt_process_dt_listno . '.' . $item->pdt_process_dt_name;
+    })->map(function($items) {
+        return $items->sum('total');
+    });
+    $grouped3 = $hd3->groupBy(function($item) {
+        return $item->pdt_process_dt_listno . '.' . $item->pdt_process_dt_name;
+    })->map(function($items) {
+        return $items->sum('total');
+    });
+    $grouped4 = $hd4->groupBy(function($item) {
+        return $item->pdt_process_dt_listno . '.' . $item->pdt_process_dt_name;
+    })->map(function($items) {
+        return $items->sum('total');
+    });
+    $grouped5 = $hd5->groupBy(function($item) {
+        return $item->pdt_process_dt_listno . '.' . $item->pdt_process_dt_name;
+    })->map(function($items) {
+        return $items->sum('total');
+    });
+    $grouped6 = $hd6->groupBy(function($item) {
+        return $item->pdt_process_dt_listno . '.' . $item->pdt_process_dt_name;
+    })->map(function($items) {
+        return $items->sum('total');
+    });
+    $grouped7 = $hd7->groupBy(function($item) {
+        return $item->pdt_process_dt_listno . '.' . $item->pdt_process_dt_name;
+    })->map(function($items) {
+        return $items->sum('total');
+    });
+@endphp
 @endsection
 @push('scriptjs')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
+$(document).ready(function() {
+    $('#tb_job1').DataTable({
+        "pageLength": 10,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+            dom: 'Bfrtip',
+            buttons: [
+                'excel',
+        ]
+    })
+});
+$(document).ready(function() {
+const labels = @json($grouped1->keys());
+const data = @json($grouped1->values());
+const ctx = document.getElementById('barChart1').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'ยอดรวมจำนวนตาม Process',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: '#000',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: function(value) {
+                    return value.toLocaleString(); // คอมม่าแยกหลักพัน
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+});
+$(document).ready(function() {
+    $('#tb_job2').DataTable({
+        "pageLength": 10,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+            dom: 'Bfrtip',
+            buttons: [
+                'excel',
+        ]
+    })
+});
+$(document).ready(function() {
+const labels = @json($grouped2->keys());
+const data = @json($grouped2->values());
+const ctx = document.getElementById('barChart2').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'ยอดรวมจำนวนตาม Process',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: '#000',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: function(value) {
+                    return value.toLocaleString(); // คอมม่าแยกหลักพัน
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+});
+$(document).ready(function() {
+    $('#tb_job3').DataTable({
+        "pageLength": 10,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+            dom: 'Bfrtip',
+            buttons: [
+                'excel',
+        ]
+    })
+});
+$(document).ready(function() {
+const labels = @json($grouped3->keys());
+const data = @json($grouped3->values());
+const ctx = document.getElementById('barChart3').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'ยอดรวมจำนวนตาม Process',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: '#000',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: function(value) {
+                    return value.toLocaleString(); // คอมม่าแยกหลักพัน
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+});
+$(document).ready(function() {
+    $('#tb_job4').DataTable({
+        "pageLength": 10,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+            dom: 'Bfrtip',
+            buttons: [
+                'excel',
+        ]
+    })
+});
+$(document).ready(function() {
+const labels = @json($grouped4->keys());
+const data = @json($grouped4->values());
+const ctx = document.getElementById('barChart4').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'ยอดรวมจำนวนตาม Process',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: '#000',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: function(value) {
+                    return value.toLocaleString(); // คอมม่าแยกหลักพัน
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+});
+$(document).ready(function() {
+    $('#tb_job5').DataTable({
+        "pageLength": 10,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+            dom: 'Bfrtip',
+            buttons: [
+                'excel',
+        ]
+    })
+});
+$(document).ready(function() {
+const labels = @json($grouped5->keys());
+const data = @json($grouped5->values());
+const ctx = document.getElementById('barChart5').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'ยอดรวมจำนวนตาม Process',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: '#000',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: function(value) {
+                    return value.toLocaleString(); // คอมม่าแยกหลักพัน
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+});
+$(document).ready(function() {
+    $('#tb_job6').DataTable({
+        "pageLength": 10,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+            dom: 'Bfrtip',
+            buttons: [
+                'excel',
+        ]
+    })
+});
+$(document).ready(function() {
+const labels = @json($grouped6->keys());
+const data = @json($grouped6->values());
+const ctx = document.getElementById('barChart6').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'ยอดรวมจำนวนตาม Process',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: '#000',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: function(value) {
+                    return value.toLocaleString(); // คอมม่าแยกหลักพัน
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+});
+$(document).ready(function() {
+    $('#tb_job7').DataTable({
+        "pageLength": 10,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+            dom: 'Bfrtip',
+            buttons: [
+                'excel',
+        ]
+    })
+});
+$(document).ready(function() {
+const labels = @json($grouped7->keys());
+const data = @json($grouped7->values());
+const ctx = document.getElementById('barChart7').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'ยอดรวมจำนวนตาม Process',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            datalabels: {
+                anchor: 'end',
+                align: 'top',
+                color: '#000',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: function(value) {
+                    return value.toLocaleString(); // คอมม่าแยกหลักพัน
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+});
 </script>
 @endpush

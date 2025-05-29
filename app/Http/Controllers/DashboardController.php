@@ -97,6 +97,7 @@ class DashboardController extends Controller
         ->get();
         $hdsum = DB::table('vw_productresult_daily_sum')
         ->where('date',$request->datestart)
+        ->whereIn('pdt_productresult_hd_line',['L1','L2','L3','L4'])
         ->get();
         return view('report.form-planning-production', compact('hd','datestart','hdsum'));
     }
@@ -310,6 +311,7 @@ class DashboardController extends Controller
                     $hd4 = DB::table('pdt2_planproduction')
                     ->where('pdt2_planproduction_year',$year)
                     ->where('pdt2_planproduction_month',$month)
+                    ->where('pdt2_planproduction_line','LINE')
                     ->orderBy('pdt2_planproduction_model','asc')
                     ->get();
                 } else {
@@ -330,6 +332,7 @@ class DashboardController extends Controller
         ->get();
         $hdsum = DB::table('vw_productresult_daily_sum')
         ->where('date',$request->datestart)
+        ->whereNotIn('pdt_productresult_hd_line',['L1','L2','L3','L4'])
         ->get();
         return view('report.form-planning-production2', compact('hd','datestart','hdsum'));
     }
@@ -413,11 +416,49 @@ class DashboardController extends Controller
         }else{
             $month = Carbon::now()->month;      
         } 
-        $hd1 = DB::table('vw_productionresult_2')
+        $hd1 = DB::table('vw_productionresult_2sum')
         ->where('pdt_productresult_hd_year',$year)
         ->where('pdt_productresult_hd_month',$month)
+        ->where('pdt_productresult_hd_line','Brake 230B/350B')
+        ->orderBy('pdt_process_dt_listno','asc')
         ->get();
-        return view('report.form-planning-productionmonth2', compact('year','month','hd1'));
+        $hd2 = DB::table('vw_productionresult_2sum')
+        ->where('pdt_productresult_hd_year',$year)
+        ->where('pdt_productresult_hd_month',$month)
+        ->where('pdt_productresult_hd_line','Brake 640')
+        ->orderBy('pdt_process_dt_listno','asc')
+        ->get();
+        $hd3 = DB::table('vw_productionresult_2sum')
+        ->where('pdt_productresult_hd_year',$year)
+        ->where('pdt_productresult_hd_month',$month)
+        ->where('pdt_productresult_hd_line','Door console 230B,384D')
+        ->orderBy('pdt_process_dt_listno','asc')
+        ->get();
+        $hd4 = DB::table('vw_productionresult_2sum')
+        ->where('pdt_productresult_hd_year',$year)
+        ->where('pdt_productresult_hd_month',$month)
+        ->where('pdt_productresult_hd_line','Door console 640A ')
+        ->orderBy('pdt_process_dt_listno','asc')
+        ->get();
+        $hd5 = DB::table('vw_productionresult_2sum')
+        ->where('pdt_productresult_hd_year',$year)
+        ->where('pdt_productresult_hd_month',$month)
+        ->where('pdt_productresult_hd_line','Garnish console')
+        ->orderBy('pdt_process_dt_listno','asc')
+        ->get();
+        $hd6 = DB::table('vw_productionresult_2sum')
+        ->where('pdt_productresult_hd_year',$year)
+        ->where('pdt_productresult_hd_month',$month)
+        ->where('pdt_productresult_hd_line','Hood - Door S/A')
+        ->orderBy('pdt_process_dt_listno','asc')
+        ->get();
+        $hd7 = DB::table('vw_productionresult_2sum')
+        ->where('pdt_productresult_hd_year',$year)
+        ->where('pdt_productresult_hd_month',$month)
+        ->where('pdt_productresult_hd_line','Shifting hole D92A')
+        ->orderBy('pdt_process_dt_listno','asc')
+        ->get();
+        return view('report.form-planning-productionmonth2', compact('year','month','hd1','hd2','hd3','hd4','hd5','hd6','hd7'));
     }
     public function ReportPlanningPdYear2(Request $request)
     {
