@@ -26,14 +26,45 @@
                                     <h5>รหัสเครื่อง : {{$hd->mtn_machinery_code}}</h5>
                                 </div>
                                 <div class="col-6">
-                                     <h5>ชื่อเครื่อง : {{$hd->mtn_machinery_name}}</h5>
+                                    <h5>ชื่อเครื่อง : {{$hd->mtn_machinery_name}}</h5>
                                 </div>
                                 <div class="col-6">
-                                     <h5>Serial : {{$hd->mtn_machinery_serial}}</h5>
+                                    <h5>Serial : {{$hd->mtn_machinery_serial}}</h5>
                                 </div>
                                 <div class="col-6">
-                                     <h5>วันที่ซื้อ : {{$hd->mtn_machinery_date}}</h5>
+                                    <h5>วันที่ซื้อ : {{$hd->mtn_machinery_date}}</h5>
                                 </div>
+                                <div class="col-6">
+                                    <h5>วันที่ตรวจเช็คล่าสุด : {{$hd->mtn_machinery_dateold}}</h5>
+                                </div>
+                                <div class="col-6">
+                                    <h5>วันที่ตรวจเช็คครั้งต่อไป : {{$hd->mtn_machinery_datenow}}</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h5>ประวัติการซ่อม</h5>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>สถานะ</th>
+                                            <th>วัน - เวลา</th>
+                                            <th>เลขที่</th>
+                                            <th>แผนก</th>
+                                            <th>รายละเอียดปัญหา</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($dt as $item)
+                                            <tr>
+                                                <td>{{$item->mtn_maintenancestatus_name}}</td>
+                                                <td>{{$item->mtn_maintenancedoc_datetime}}</td>
+                                                <td>{{$item->mtn_maintenancedoc_docuno}}</td>
+                                                <td>{{$item->emp_department_name}}</td>
+                                                <td>{{$item->mtn_maintenancedoc_remark}}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
