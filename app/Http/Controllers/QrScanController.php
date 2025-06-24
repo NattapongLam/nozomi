@@ -14,7 +14,7 @@ class QrScanController extends Controller
         ->first();
         $dt = DB::table('vw_maintenancedoc')
         ->where('mtn_machinery_code',$id)
-        ->first();
+        ->get();
         return view('qrscan.maintenance-list',compact('hd','dt'));
     }
 }
