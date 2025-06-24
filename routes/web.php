@@ -77,4 +77,7 @@ Route::get('/report-qcday2' , [App\Http\Controllers\DashboardController::class ,
 Route::get('/report-qclossday' , [App\Http\Controllers\DashboardController::class , 'ReportQcLossDay']);
 Route::get('/report-qclossday2' , [App\Http\Controllers\DashboardController::class , 'ReportQcLossDay2']);
 // REPORT //
+// QR SCAN //
+Route::get('/maintenance/{id}' , [App\Http\Controllers\QrScanController::class , 'MaintenanceList']);
+// QR SCAN //
 
