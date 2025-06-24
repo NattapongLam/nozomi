@@ -32,13 +32,13 @@
                                     <h5>Serial : {{$hd->mtn_machinery_serial}}</h5>
                                 </div>
                                 <div class="col-6">
-                                    <h5>วันที่ซื้อ : {{$hd->mtn_machinery_date}}</h5>
+                                    <h5>วันที่ซื้อ : {{\Carbon\Carbon::parse($hd->mtn_machinery_date)->format('d/m/Y')}}</h5>
                                 </div>
                                 <div class="col-6">
-                                    <h5>วันที่ตรวจเช็คล่าสุด : {{$hd->mtn_machinery_dateold}}</h5>
+                                    <h5>วันที่ตรวจเช็คล่าสุด : {{\Carbon\Carbon::parse($hd->mtn_machinery_dateold)->format('d/m/Y')}}</h5>
                                 </div>
                                 <div class="col-6">
-                                    <h5>วันที่ตรวจเช็คครั้งต่อไป : {{$hd->mtn_machinery_datenow}}</h5>
+                                    <h5>วันที่ตรวจเช็คครั้งต่อไป : {{\Carbon\Carbon::parse($hd->mtn_machinery_datenow)->format('d/m/Y')}}</h5>
                                 </div>
                             </div>
                             <div class="row">
@@ -57,7 +57,7 @@
                                         @foreach ($dt as $item)
                                             <tr>
                                                 <td>{{$item->mtn_maintenancestatus_name}}</td>
-                                                <td>{{$item->mtn_maintenancedoc_datetime}}</td>
+                                                <td>{{\Carbon\Carbon::parse($item->mtn_maintenancedoc_datetime)->format('d/m/Y H:i')}}</td>
                                                 <td>{{$item->mtn_maintenancedoc_docuno}}</td>
                                                 <td>{{$item->emp_department_name}}</td>
                                                 <td>{{$item->mtn_maintenancedoc_remark}}</td>
